@@ -7,15 +7,50 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		153DA7949C57BE363BBA3DE5 /* Pods_AM_Site_Solutions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F01DF36E6A785CEE80368637 /* Pods_AM_Site_Solutions.framework */; };
+		F63957262C878F4A00069BA7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957252C878F4A00069BA7 /* LoginViewController.swift */; };
+		F63957282C8791D600069BA7 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957272C8791D600069BA7 /* MainTabBarController.swift */; };
+		F639572A2C8791FC00069BA7 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957292C8791FC00069BA7 /* SettingsViewController.swift */; };
+		F639572C2C879DFF00069BA7 /* OperatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F639572B2C879DFF00069BA7 /* OperatorViewController.swift */; };
+		F639572E2C87A03A00069BA7 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F639572D2C87A03A00069BA7 /* FormViewController.swift */; };
+		F63957302C87A05D00069BA7 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F639572F2C87A05D00069BA7 /* CustomButton.swift */; };
+		F63957322C87A08400069BA7 /* InputQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957312C87A08400069BA7 /* InputQuestionView.swift */; };
+		F63957342C87A0A400069BA7 /* OkNotOkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957332C87A0A400069BA7 /* OkNotOkView.swift */; };
+		F63957362C87A0CB00069BA7 /* CustomRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957352C87A0CB00069BA7 /* CustomRadioButton.swift */; };
+		F639573F2C8843B700069BA7 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F639573E2C8843B700069BA7 /* CustomTextField.swift */; };
+		F63957412C88442000069BA7 /* CustomPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957402C88442000069BA7 /* CustomPickerView.swift */; };
+		F63957432C88465A00069BA7 /* CreateNewUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957422C88465A00069BA7 /* CreateNewUserViewController.swift */; };
+		F63957452C885C0E00069BA7 /* ManageUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957442C885C0D00069BA7 /* ManageUsersViewController.swift */; };
 		F69AAA272C87844D0082A14E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA262C87844D0082A14E /* AppDelegate.swift */; };
 		F69AAA292C87844D0082A14E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA282C87844D0082A14E /* SceneDelegate.swift */; };
 		F69AAA2B2C87844D0082A14E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA2A2C87844D0082A14E /* ViewController.swift */; };
 		F69AAA2E2C87844D0082A14E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F69AAA2D2C87844D0082A14E /* Base */; };
 		F69AAA302C87844F0082A14E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F69AAA2F2C87844F0082A14E /* Assets.xcassets */; };
 		F69AAA332C87844F0082A14E /* Base in Resources */ = {isa = PBXBuildFile; fileRef = F69AAA322C87844F0082A14E /* Base */; };
+		F69AAA3B2C8784D20082A14E /* OperatorVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3A2C8784D20082A14E /* OperatorVC.swift */; };
+		F69AAA3D2C8785010082A14E /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3C2C8785010082A14E /* Form.swift */; };
+		F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3E2C8785550082A14E /* FormCell.swift */; };
+		F69AAA412C8785930082A14E /* ColourScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA402C8785930082A14E /* ColourScheme.swift */; };
+		F69AAA432C8788720082A14E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F69AAA422C8788720082A14E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0F0ABECAD868B264395CADAD /* Pods-AM Site Solutions.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AM Site Solutions.release.xcconfig"; path = "Target Support Files/Pods-AM Site Solutions/Pods-AM Site Solutions.release.xcconfig"; sourceTree = "<group>"; };
+		40D7F270E495494D5B34B825 /* Pods-AM Site Solutions.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AM Site Solutions.debug.xcconfig"; path = "Target Support Files/Pods-AM Site Solutions/Pods-AM Site Solutions.debug.xcconfig"; sourceTree = "<group>"; };
+		F01DF36E6A785CEE80368637 /* Pods_AM_Site_Solutions.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AM_Site_Solutions.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F63957252C878F4A00069BA7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		F63957272C8791D600069BA7 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		F63957292C8791FC00069BA7 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		F639572B2C879DFF00069BA7 /* OperatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorViewController.swift; sourceTree = "<group>"; };
+		F639572D2C87A03A00069BA7 /* FormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		F639572F2C87A05D00069BA7 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		F63957312C87A08400069BA7 /* InputQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputQuestionView.swift; sourceTree = "<group>"; };
+		F63957332C87A0A400069BA7 /* OkNotOkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OkNotOkView.swift; sourceTree = "<group>"; };
+		F63957352C87A0CB00069BA7 /* CustomRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRadioButton.swift; sourceTree = "<group>"; };
+		F639573E2C8843B700069BA7 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		F63957402C88442000069BA7 /* CustomPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerView.swift; sourceTree = "<group>"; };
+		F63957422C88465A00069BA7 /* CreateNewUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewUserViewController.swift; sourceTree = "<group>"; };
+		F63957442C885C0D00069BA7 /* ManageUsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageUsersViewController.swift; sourceTree = "<group>"; };
 		F69AAA232C87844D0082A14E /* AM Site Solutions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AM Site Solutions.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F69AAA262C87844D0082A14E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F69AAA282C87844D0082A14E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +59,11 @@
 		F69AAA2F2C87844F0082A14E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F69AAA322C87844F0082A14E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F69AAA342C87844F0082A14E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F69AAA3A2C8784D20082A14E /* OperatorVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperatorVC.swift; sourceTree = "<group>"; };
+		F69AAA3C2C8785010082A14E /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
+		F69AAA3E2C8785550082A14E /* FormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCell.swift; sourceTree = "<group>"; };
+		F69AAA402C8785930082A14E /* ColourScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourScheme.swift; sourceTree = "<group>"; };
+		F69AAA422C8788720082A14E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +71,75 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				153DA7949C57BE363BBA3DE5 /* Pods_AM_Site_Solutions.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8DE939F8EEACD4A6710769DD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				40D7F270E495494D5B34B825 /* Pods-AM Site Solutions.debug.xcconfig */,
+				0F0ABECAD868B264395CADAD /* Pods-AM Site Solutions.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		A2640587D56D6A76B18A557D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F01DF36E6A785CEE80368637 /* Pods_AM_Site_Solutions.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F63957372C883FED00069BA7 /* Main View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F63957252C878F4A00069BA7 /* LoginViewController.swift */,
+				F63957422C88465A00069BA7 /* CreateNewUserViewController.swift */,
+				F639572B2C879DFF00069BA7 /* OperatorViewController.swift */,
+				F639572D2C87A03A00069BA7 /* FormViewController.swift */,
+				F63957272C8791D600069BA7 /* MainTabBarController.swift */,
+				F63957292C8791FC00069BA7 /* SettingsViewController.swift */,
+				F63957442C885C0D00069BA7 /* ManageUsersViewController.swift */,
+			);
+			path = "Main View Controllers";
+			sourceTree = "<group>";
+		};
+		F63957382C88402A00069BA7 /* Form Related Code */ = {
+			isa = PBXGroup;
+			children = (
+				F63957352C87A0CB00069BA7 /* CustomRadioButton.swift */,
+				F63957332C87A0A400069BA7 /* OkNotOkView.swift */,
+				F63957312C87A08400069BA7 /* InputQuestionView.swift */,
+				F69AAA3E2C8785550082A14E /* FormCell.swift */,
+				F69AAA3C2C8785010082A14E /* Form.swift */,
+			);
+			path = "Form Related Code";
+			sourceTree = "<group>";
+		};
+		F63957392C88406500069BA7 /* Utilities and Reusables */ = {
+			isa = PBXGroup;
+			children = (
+				F69AAA402C8785930082A14E /* ColourScheme.swift */,
+				F639572F2C87A05D00069BA7 /* CustomButton.swift */,
+				F639573E2C8843B700069BA7 /* CustomTextField.swift */,
+				F63957402C88442000069BA7 /* CustomPickerView.swift */,
+			);
+			name = "Utilities and Reusables";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		F69AAA1A2C87844C0082A14E = {
 			isa = PBXGroup;
 			children = (
 				F69AAA252C87844D0082A14E /* AM Site Solutions */,
 				F69AAA242C87844D0082A14E /* Products */,
+				8DE939F8EEACD4A6710769DD /* Pods */,
+				A2640587D56D6A76B18A557D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -56,13 +154,18 @@
 		F69AAA252C87844D0082A14E /* AM Site Solutions */ = {
 			isa = PBXGroup;
 			children = (
+				F63957372C883FED00069BA7 /* Main View Controllers */,
+				F63957382C88402A00069BA7 /* Form Related Code */,
+				F63957392C88406500069BA7 /* Utilities and Reusables */,
 				F69AAA262C87844D0082A14E /* AppDelegate.swift */,
+				F69AAA3A2C8784D20082A14E /* OperatorVC.swift */,
 				F69AAA282C87844D0082A14E /* SceneDelegate.swift */,
 				F69AAA2A2C87844D0082A14E /* ViewController.swift */,
 				F69AAA2C2C87844D0082A14E /* Main.storyboard */,
 				F69AAA2F2C87844F0082A14E /* Assets.xcassets */,
 				F69AAA312C87844F0082A14E /* LaunchScreen.storyboard */,
 				F69AAA342C87844F0082A14E /* Info.plist */,
+				F69AAA422C8788720082A14E /* GoogleService-Info.plist */,
 			);
 			path = "AM Site Solutions";
 			sourceTree = "<group>";
@@ -74,9 +177,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F69AAA372C87844F0082A14E /* Build configuration list for PBXNativeTarget "AM Site Solutions" */;
 			buildPhases = (
+				7DB4482C1DE474A63EF8A7F1 /* [CP] Check Pods Manifest.lock */,
 				F69AAA1F2C87844D0082A14E /* Sources */,
 				F69AAA202C87844D0082A14E /* Frameworks */,
 				F69AAA212C87844D0082A14E /* Resources */,
+				7BAB7275B26736CAA02B8A2E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,6 +231,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F69AAA302C87844F0082A14E /* Assets.xcassets in Resources */,
+				F69AAA432C8788720082A14E /* GoogleService-Info.plist in Resources */,
 				F69AAA332C87844F0082A14E /* Base in Resources */,
 				F69AAA2E2C87844D0082A14E /* Base in Resources */,
 			);
@@ -133,13 +239,72 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		7BAB7275B26736CAA02B8A2E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AM Site Solutions/Pods-AM Site Solutions-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AM Site Solutions/Pods-AM Site Solutions-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AM Site Solutions/Pods-AM Site Solutions-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7DB4482C1DE474A63EF8A7F1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AM Site Solutions-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F69AAA1F2C87844D0082A14E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F63957452C885C0E00069BA7 /* ManageUsersViewController.swift in Sources */,
+				F63957302C87A05D00069BA7 /* CustomButton.swift in Sources */,
+				F69AAA3B2C8784D20082A14E /* OperatorVC.swift in Sources */,
+				F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */,
+				F63957342C87A0A400069BA7 /* OkNotOkView.swift in Sources */,
+				F63957322C87A08400069BA7 /* InputQuestionView.swift in Sources */,
+				F63957282C8791D600069BA7 /* MainTabBarController.swift in Sources */,
+				F639572A2C8791FC00069BA7 /* SettingsViewController.swift in Sources */,
 				F69AAA2B2C87844D0082A14E /* ViewController.swift in Sources */,
+				F639573F2C8843B700069BA7 /* CustomTextField.swift in Sources */,
+				F63957362C87A0CB00069BA7 /* CustomRadioButton.swift in Sources */,
+				F639572C2C879DFF00069BA7 /* OperatorViewController.swift in Sources */,
+				F639572E2C87A03A00069BA7 /* FormViewController.swift in Sources */,
+				F69AAA3D2C8785010082A14E /* Form.swift in Sources */,
+				F63957432C88465A00069BA7 /* CreateNewUserViewController.swift in Sources */,
+				F63957262C878F4A00069BA7 /* LoginViewController.swift in Sources */,
 				F69AAA272C87844D0082A14E /* AppDelegate.swift in Sources */,
+				F63957412C88442000069BA7 /* CustomPickerView.swift in Sources */,
+				F69AAA412C8785930082A14E /* ColourScheme.swift in Sources */,
 				F69AAA292C87844D0082A14E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,19 +452,24 @@
 		};
 		F69AAA382C87844F0082A14E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 40D7F270E495494D5B34B825 /* Pods-AM Site Solutions.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L6NR8J48K3;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "AM Site Solutions/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "AM Site Solutions";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,19 +485,24 @@
 		};
 		F69AAA392C87844F0082A14E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F0ABECAD868B264395CADAD /* Pods-AM Site Solutions.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L6NR8J48K3;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "AM Site Solutions/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "AM Site Solutions";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
