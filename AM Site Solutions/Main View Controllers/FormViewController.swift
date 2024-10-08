@@ -14,9 +14,11 @@ import CoreLocation
 import Photos
 
 
-class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate {
     
     let storageRef = Storage.storage().reference()
+    
+    private var instructionLabel: UILabel?
     
     var scrollView: UIScrollView!
     var contentView: UIView!
@@ -61,7 +63,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
         submitButton.addTarget(self, action: #selector(submitForm), for: .touchUpInside)
         addPhotoButton.addTarget(self, action: #selector(addPhotoTapped), for: .touchUpInside)
-        
+               
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -143,15 +145,48 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         // Add your questions to the stack view
         addQuestionsToStackView()
     }
-    
+        
     func setupPhotoContainer() {
+        // Create a new vertical stack to contain the label and the photo container
+        let photoStackContainer = UIStackView()
+        photoStackContainer.axis = .vertical
+        photoStackContainer.spacing = 8
+        photoStackContainer.alignment = .leading
+        photoStackContainer.distribution = .fill
+
+        // Create a label for the instruction text
+        instructionLabel = UILabel()
+        instructionLabel?.text = "Tap on a photo to delete."
+        instructionLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+        instructionLabel?.textColor = .gray
+        instructionLabel?.textAlignment = .left
+        instructionLabel?.isHidden = true  // Initially hidden
+
+        // Add the instruction label to the photo stack container
+        if let instructionLabel = instructionLabel {
+            photoStackContainer.addArrangedSubview(instructionLabel)
+        }
+
+        // Setup the photo container as before
         photoContainer = UIStackView()
         photoContainer.axis = .vertical
         photoContainer.spacing = 8
         photoContainer.alignment = .leading
         photoContainer.distribution = .fillEqually
         photoContainer.isHidden = true // Initially hidden until photos are added
-        formStackView.addArrangedSubview(photoContainer)
+
+        // Add the photo container to the photo stack container
+        photoStackContainer.addArrangedSubview(photoContainer)
+
+        // Add the photoStackContainer to the formStackView
+        formStackView.addArrangedSubview(photoStackContainer)
+    }
+    
+    // Call this function whenever a photo is added or removed
+    func updatePhotoContainerVisibility(hasPhotos: Bool) {
+        // Show the instruction label only if there are photos
+        instructionLabel?.isHidden = !hasPhotos
+        photoContainer.isHidden = !hasPhotos
     }
 
     
@@ -178,24 +213,52 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
     
     func addQuestionsToStackView() {
         // Iterate through your questions and add them to the stack view
+        print("allQuestions: \(allQuestions)")
         for question in allQuestions {
             let questionView = createQuestionView(for: question)
             formStackView.addArrangedSubview(questionView)
         }
     }
     
+//    func createQuestionView(for question: FormQuestion) -> UIView {
+//        switch question.type {
+//        case .input:
+//            let inputQuestionView = InputQuestionView()
+//            inputQuestionView.question = question
+//            return inputQuestionView
+//        case .okNotOkNa:
+//            let okNotOkView = OkNotOkView()
+//            okNotOkView.question = question
+//            return okNotOkView
+//        }
+//    }
+    
     func createQuestionView(for question: FormQuestion) -> UIView {
         switch question.type {
         case .input:
             let inputQuestionView = InputQuestionView()
             inputQuestionView.question = question
+            
+            if question.id == "additional2" {
+                // Set keyboard to number pad
+                inputQuestionView.inputTextField.keyboardType = .numberPad
+            } else if question.id == "additional1" {
+                // Ensure uppercase behavior and delegate set
+                inputQuestionView.inputTextField.autocapitalizationType = .allCharacters
+                inputQuestionView.inputTextField.delegate = inputQuestionView
+            }
+            
             return inputQuestionView
+            
         case .okNotOkNa:
             let okNotOkView = OkNotOkView()
             okNotOkView.question = question
             return okNotOkView
         }
     }
+
+
+
         
     
     func setupDismissKeyboardGesture() {
@@ -208,24 +271,6 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         view.endEditing(true)
     }
 
-//    func setupTableView() {
-//        tableView = UITableView(frame: .zero, style: .plain)
-//        tableView.delegate = self
-//        tableView.dataSource = self
-//        tableView.separatorStyle = .none
-//        tableView.register(QuestionCell.self, forCellReuseIdentifier: "QuestionCell")
-//        tableView.register(InputQuestionCell.self, forCellReuseIdentifier: "InputQuestionCell")
-//        view.addSubview(tableView)
-//
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-//
-//        NSLayoutConstraint.activate([
-//            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-//            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -100) // Space for buttons
-//        ])
-//    }
 
     func setupSubmitButton() {
         submitButton = CustomButton()
@@ -276,9 +321,9 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         let initialQuestions = [
             FormQuestion(id: "additional1", text: "Plant No / Reg No:", type: .input),
             FormQuestion(id: "additional2", text: "Operation Hours on Clock", type: .input),
-            FormQuestion(id: "additional3", text: "Fire Extinguisher in Place?", type: .input),
-            FormQuestion(id: "additional4", text: "Location / Site", type: .input),
-            FormQuestion(id: "additional5", text: "Others", type: .input)
+//            FormQuestion(id: "additional3", text: "Fire Extinguisher in Place?", type: .input),
+            FormQuestion(id: "additional3", text: "Location / Site", type: .input),
+//            FormQuestion(id: "additional5", text: "Others", type: .input)
         ]
 
         // Append initial questions to allQuestions
@@ -369,26 +414,6 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         }
     }
     
-//    func addPhoto(uri: URL) {
-//        photoUris.append(uri)
-//        if photoUris.count >= allowedPhotos {
-//            // Disable add photo button if photo limit is reached
-//        }
-//        photoContainer.isHidden = false
-//
-//        let imageView = UIImageView()
-//        imageView.contentMode = .scaleAspectFill
-//        imageView.clipsToBounds = true
-//        imageView.load(url: uri)
-//        imageView.isUserInteractionEnabled = true
-//        imageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-//        imageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-//
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(removePhoto(_:)))
-//        imageView.addGestureRecognizer(tapGesture)
-//
-//        photoContainer.addArrangedSubview(imageView)
-//    }
     
     func addPhoto(uri: URL) {
         photoUris.append(uri)
@@ -424,16 +449,11 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             photoContainer.addArrangedSubview(newRow)
             newRow.addArrangedSubview(imageView)
         }
+        
+        updatePhotoContainerVisibility(hasPhotos: true)
     }
 
     
-//    @objc func removePhoto(_ sender: UITapGestureRecognizer) {
-//        if let imageView = sender.view as? UIImageView, let index = photoContainer.arrangedSubviews.firstIndex(of: imageView) {
-//            photoUris.remove(at: index)
-//            photoContainer.removeArrangedSubview(imageView)
-//            imageView.removeFromSuperview()
-//        }
-//    }
     
     @objc func removePhoto(_ sender: UITapGestureRecognizer) {
         guard let imageView = sender.view as? UIImageView else { return }
@@ -454,6 +474,9 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             if photoUris.isEmpty {
                 photoContainer.isHidden = true
             }
+            
+            // Update visibility based on the remaining photos
+            updatePhotoContainerVisibility(hasPhotos: photoContainer.arrangedSubviews.count > 0)
         }
     }
 
@@ -578,72 +601,45 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         present(alert, animated: true, completion: nil)
     }
 
-//    func updateLocationField(with location: String) {
-//        // Log the location being set
-////        print("Updating location field with: \(location)")
-//
-//        // Check if "additional4" is present in allQuestions
-//        if let index = allQuestions.firstIndex(where: { $0.id == "additional4" }) {
-//            let question = allQuestions[index]
-//
-//            // Log details about the question
-////            print("Found question with id 'additional4':")
-////            print("  Text: \(question.text)")
-////            print("  Type: \(question.type)")
-//
-//            // Update the answers dictionary
-//            answers["additional4"] = [
-//                "type": "input",
-//                "answer": location
-//            ]
-//
-//            // Log the current state of the answers dictionary
-//            if let answer = answers["additional4"] {
-////                print("Updated answer for 'additional4':")
-////                print("  Type: \(answer["type"] ?? "nil")")
-////                print("  Answer: \(answer["answer"] ?? "nil")")
-//            } else {
-////                print("No answer found for 'additional4' after update.")
-//            }
-//
-//            // Ensure the table view cell is updated
-//            let indexPath = IndexPath(row: index, section: 0)
-//            tableView.reloadRows(at: [indexPath], with: .automatic)
-//
-//            // Log whether the cell was found and updated
-//            if let cell = tableView.cellForRow(at: indexPath) as? InputQuestionCell {
-////                print("Updating InputQuestionCell with new location.")
-//                cell.inputTextView.text = location
-//            } else {
-////                print("InputQuestionCell for 'additional4' not found or not visible.")
-//            }
-//        } else {
-////            print("'additional4' question not found in allQuestions.")
-//        }
-//    }
     
     func updateLocationField(with location: String) {
         // Check if "additional4" is present in allQuestions
-        if let index = allQuestions.firstIndex(where: { $0.id == "additional4" }) {
+        if let index = allQuestions.firstIndex(where: { $0.id == "additional3" }) {
             // Update the question in allQuestions
             allQuestions[index].answer = location
 
             // Find the corresponding view in the stack view
             if let inputQuestionView = formStackView.arrangedSubviews[index] as? InputQuestionView {
-                inputQuestionView.inputTextView.text = location
+                inputQuestionView.inputTextField.text = location
             }
         }
     }
 
     
+//    func startSavingData() {
+//        spinner.startAnimating()
+//        view.isUserInteractionEnabled = false  // Disable user interaction
+//    }
+    
     func startSavingData() {
         spinner.startAnimating()
         view.isUserInteractionEnabled = false  // Disable user interaction
+        
+        // Disable navigation bar interactions to prevent back navigation
+        self.navigationController?.navigationBar.isUserInteractionEnabled = false
     }
+    
+//    func stopSavingData() {
+//        spinner.stopAnimating()
+//        view.isUserInteractionEnabled = true  // Re-enable user interaction
+//    }
     
     func stopSavingData() {
         spinner.stopAnimating()
         view.isUserInteractionEnabled = true  // Re-enable user interaction
+        
+        // Re-enable navigation bar interactions
+        self.navigationController?.navigationBar.isUserInteractionEnabled = true
     }
     
     @objc func submitForm() {
@@ -658,37 +654,13 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
 
 
-//    @objc func submitForm() {
-//        guard allQuestionsAnswered() else {
-//            showAlert(title: "Incomplete Form", message: "Please answer all questions before submitting.")
-//            return
-//        }
-//
-//        saveFormData()
-//    }
-
-//    func allQuestionsAnswered() -> Bool {
-//        for (index, question) in form?.questions.enumerated() ?? [].enumerated() {
-//            let indexPath = IndexPath(row: index, section: 0)
-//            if let cell = tableView.cellForRow(at: indexPath) as? QuestionCell, question.type == .okNotOkNa {
-//                if !(cell.okButton.isSelected || cell.notOkButton.isSelected || cell.naButton.isSelected) {
-//                    return false
-//                }
-//            } else if let cell = tableView.cellForRow(at: indexPath) as? InputQuestionCell, question.type == .input {
-//                if cell.inputTextView.text.isEmpty {
-//                    return false
-//                }
-//            }
-//        }
-//        return true
-//    }
     
     func allQuestionsAnswered() -> Bool {
         for (index, question) in allQuestions.enumerated() {
             let view = formStackView.arrangedSubviews[index]
 
             if let inputQuestionView = view as? InputQuestionView, question.type == .input {
-                if inputQuestionView.inputTextView.text.isEmpty {
+                if inputQuestionView.inputTextField.text?.isEmpty ?? true {
                     return false
                 }
             } else if let okNotOkView = view as? OkNotOkView, question.type == .okNotOkNa {
@@ -700,27 +672,6 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         return true
     }
 
-
-    
-//    func gatherAnswers() -> [String: Any] {
-//        var answers: [String: Any] = [:]
-//
-//        for question in allQuestions {
-//            var answer: [String: Any] = ["type": question.type.rawValue]
-//
-//            if question.type == .okNotOkNa {
-//                answer["answer"] = question.answer ?? ""
-//                answer["comment"] = question.comment ?? ""
-//            } else if question.type == .input {
-//                answer["answer"] = question.answer ?? ""
-//            }
-//
-//            answers[question.id] = answer
-//        }
-//
-//        print("All answers gathered: \(answers)")
-//        return answers
-//    }
 
     
     func gatherAnswers() -> [String: Any] {
@@ -754,7 +705,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             if question.id.starts(with: "additional") {
                 key = question.id
             } else {
-                key = "q\(firebaseQuestionCounter)"
+                key = "id\(firebaseQuestionCounter)"
                 firebaseQuestionCounter += 1
             }
 
@@ -768,13 +719,13 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
     }
 
 
-
-
-
+    
     func sanitizeFirebaseKey(_ key: String) -> String {
-        let invalidCharacters: Set<Character> = [".", "#", "$", "[", "]"]
-        return key.filter { !invalidCharacters.contains($0) }
+        let invalidCharacters: Set<Character> = [".", "#", "$", "[", "]", "/"] // Include '/' in invalid characters
+        return key.map { invalidCharacters.contains($0) ? "-" : String($0) }.joined()
     }
+
+
 
     func getCurrentDateTimeString() -> String {
         let dateFormatter = DateFormatter()
@@ -783,84 +734,21 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         return dateFormatter.string(from: Date())
     }
 
-//    func saveFormData() {
-//        uploadPhotosAndGetUrls { photoUrls in
-//            print("Starting to save form data...")
-//
-//            guard let userParent = UserSession.shared.userParent else {
-//                print("Error: User parent not found.")
-//                return
-//            }
-//            guard let formName = self.form?.name else {
-//                print("Error: Form name not found.")
-//                return
-//            }
-//
-//            print("User Parent: \(userParent)")
-//            print("Form Name: \(formName)")
-//
-//            let sanitizedFormName = self.sanitizeFirebaseKey(formName)
-//            let dateString = self.getCurrentDateTimeString()
-//            guard let uid = Auth.auth().currentUser?.uid else {
-//                print("Error: User ID not found.")
-//                return
-//            }
-//
-//            print("Sanitized Form Name: \(sanitizedFormName)")
-//            print("Date String: \(dateString)")
-//            print("User ID: \(uid)")
-//
-//            let basePath = "completedForms/\(userParent)/\(sanitizedFormName)/\(dateString)/\(uid)"
-//            let ref = Database.database().reference(withPath: basePath)
-//
-//            let answers = self.gatherAnswers()
-//
-//            print("Gathered answers: \(answers)")
-//
-//            let additionalData: [String: Any] = [
-//                "plantNo": (answers["additional1"] as? [String: Any])?["answer"] as? String ?? "",
-//                "opHours": (answers["additional2"] as? [String: Any])?["answer"] as? String ?? "",
-//                "spotter": (answers["additional3"] as? [String: Any])?["answer"] as? String ?? "",
-//                "location": self.locationAnswer ?? ((answers["additional4"] as? [String: Any])?["answer"] as? String ?? ""),
-//                "others": (answers["additional5"] as? [String: Any])?["answer"] as? String ?? "",
-//                "photoUrls": photoUrls
-//            ]
-//
-//            print("Additional data to be saved: \(additionalData)")
-//
-//            ref.child("answers").setValue(answers) { error, _ in
-//                if let error = error {
-//                    print("Error saving answers: \(error.localizedDescription)")
-//                    self.showAlert(title: "Error", message: "Failed to save the form: \(error.localizedDescription)")
-//                } else {
-//                    print("Answers saved successfully.")
-//                    ref.child("additionalData").setValue(additionalData) { additionalError, _ in
-//                        if let additionalError = additionalError {
-//                            print("Error saving additional data: \(additionalError.localizedDescription)")
-//                            self.showAlert(title: "Error", message: "Error submitting additional data: \(additionalError.localizedDescription)")
-//                        } else {
-//                            print("Additional data saved successfully.")
-//                            self.showAlert(title: "Success", message: "Form submitted successfully.") {
-//                                self.navigationController?.popViewController(animated: true)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
-    
+
+
+  
     func saveFormData() {
         uploadPhotosAndGetUrls { photoUrls in
             print("Starting to save form data...")
 
             guard let userParent = UserSession.shared.userParent else {
                 print("Error: User parent not found.")
+                self.stopSavingData()
                 return
             }
             guard let formName = self.form?.name else {
                 print("Error: Form name not found.")
+                self.stopSavingData()
                 return
             }
 
@@ -871,6 +759,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             let dateString = self.getCurrentDateTimeString()
             guard let uid = Auth.auth().currentUser?.uid else {
                 print("Error: User ID not found.")
+                self.stopSavingData()
                 return
             }
 
@@ -880,20 +769,18 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
             let basePath = "completedForms/\(userParent)/\(sanitizedFormName)/\(dateString)/\(uid)"
             let ref = Database.database().reference(withPath: basePath)
-
+            
             let answers = self.gatherAnswers()
-
             print("Gathered answers: \(answers)")
 
-            // Build the data structure to be saved to Firebase
             let firebaseAnswers = answers.mapValues { answerData -> [String: Any] in
                 guard let answerDict = answerData as? [String: Any] else {
-                    return [:] // Handle the case where answerData is not the expected dictionary type
+                    return [:]
                 }
 
                 var questionData: [String: Any] = [
                     "questionType": answerDict["type"] as? String ?? "",
-                    "questionText": answerDict["text"] as? String ?? "", // Include questionText
+                    "questionText": answerDict["text"] as? String ?? "",
                     "answer": answerDict["answer"] ?? ""
                 ]
 
@@ -903,7 +790,6 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
                 return questionData
             }
-
 
             let additionalData: [String: Any] = [
                 "plantNo": (answers["additional1"] as? [String: Any])?["answer"] as? String ?? "",
@@ -917,20 +803,45 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             print("Firebase answers to be saved: \(firebaseAnswers)")
             print("Additional data to be saved: \(additionalData)")
 
-            ref.child("answers").setValue(firebaseAnswers) { error, _ in
-                if let error = error {
-                    print("Error saving answers: \(error.localizedDescription)")
-                    self.showAlert(title: "Error", message: "Failed to save the form: \(error.localizedDescription)")
-                } else {
-                    print("Answers saved successfully.")
-                    ref.child("additionalData").setValue(additionalData) { additionalError, _ in
-                        if let additionalError = additionalError {
-                            print("Error saving additional data: \(additionalError.localizedDescription)")
-                            self.showAlert(title: "Error", message: "Error submitting additional data: \(additionalError.localizedDescription)")
-                        } else {
-                            print("Additional data saved successfully.")
-                            self.showAlert(title: "Success", message: "Form submitted successfully.") {
-                                self.navigationController?.popViewController(animated: true)
+            // Set 'isComplete' to false initially
+            ref.child("isComplete").setValue(false) { isCompleteError, _ in
+                if let isCompleteError = isCompleteError {
+                    print("Error setting 'isComplete' flag: \(isCompleteError.localizedDescription)")
+                    self.showAlert(title: "Error", message: "Failed to start saving the form.")
+                    self.stopSavingData()
+                    return
+                }
+
+                // Save answers to Firebase
+                ref.child("answers").setValue(firebaseAnswers) { error, _ in
+                    if let error = error {
+                        print("Error saving answers: \(error.localizedDescription)")
+                        self.showAlert(title: "Error", message: "Failed to save the form: \(error.localizedDescription)")
+                        self.stopSavingData()
+                    } else {
+                        print("Answers saved successfully.")
+                        // Save additional data after answers
+                        ref.child("additionalData").setValue(additionalData) { additionalError, _ in
+                            if let additionalError = additionalError {
+                                print("Error saving additional data: \(additionalError.localizedDescription)")
+                                self.showAlert(title: "Error", message: "Error submitting additional data: \(additionalError.localizedDescription)")
+                                self.stopSavingData()
+                            } else {
+                                print("Additional data saved successfully.")
+                                // Set 'isComplete' to true after everything else is saved
+                                ref.child("isComplete").setValue(true) { completeError, _ in
+                                    if let completeError = completeError {
+                                        print("Error setting 'isComplete' to true: \(completeError.localizedDescription)")
+                                        self.showAlert(title: "Error", message: "Failed to complete form submission.")
+                                        self.stopSavingData()
+                                    } else {
+                                        print("Form submission complete.")
+                                        self.showAlert(title: "Success", message: "Form submitted successfully.") {
+                                            self.stopSavingData() // Re-enable everything once completed
+                                            self.navigationController?.popViewController(animated: true)
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -938,6 +849,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             }
         }
     }
+
 
     func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)

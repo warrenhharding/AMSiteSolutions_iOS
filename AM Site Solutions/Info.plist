@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your permission to share your location for both Timesheets and GA2 Forms.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>We need your permission to take photographs to add to your reports.</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -17,7 +13,23 @@
 			</array>
 		</dict>
 	</array>
-	<key>UIApplicationSceneManifest</key>
+    
+    <!-- Ensuring the app is iPhone only -->
+    <key>UIDeviceFamily</key>
+    <array>
+        <integer>1</integer> <!-- iPhone -->
+    </array>
+    
+    <!-- Supported orientations for iPhone only -->
+    <key>UISupportedInterfaceOrientations</key>
+        <array>
+            <string>UIInterfaceOrientationPortrait</string> <!-- Supports portrait only -->
+        </array>
+    
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>Enable notifications to optionally receive updates from the app. You can manage notification preferences in your device settings.</string>
+	
+    <key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
@@ -36,5 +48,8 @@
 			</array>
 		</dict>
 	</dict>
+	
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

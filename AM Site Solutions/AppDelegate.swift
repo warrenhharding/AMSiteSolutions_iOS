@@ -35,6 +35,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // 5. Make the window visible
         window?.makeKeyAndVisible()
         
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+            if
+         granted {
+                print("Notification permission granted.")
+                // You can register for remote notifications here if needed
+            } else {
+                print("Notification permission denied.")
+                // Handle the case where the user denies permission
+            }
+        }
+        
+//        FirebaseConfiguration.shared.setLoggerLevel(.debug)
+
+        
 //         Create your UIWindow
 //        self.window = UIWindow(frame: UIScreen.main.bounds)
         

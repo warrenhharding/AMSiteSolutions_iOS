@@ -10,51 +10,62 @@ import UIKit
 
 class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
 
+    private var userType: String
+
+    // Custom initializer to accept userType
+    init(userType: String) {
+        self.userType = userType
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set the navigation bar appearance for all UINavigationControllers
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = ColorScheme.amBlue // Replace with your actual primary color
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white] // Customize title color if needed
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
+        UINavigationBar.appearance().tintColor = .white // Customize the tint color for back button, etc.
 
-        // Create instance of OperatorViewController and embed it in a UINavigationController
-//        let operatorVC = OperatorViewController()
+
+        // Create instance of OperatorViewController
         let operatorVC = OperatorViewController()
         let operatorNav = UINavigationController(rootViewController: operatorVC)
         operatorNav.tabBarItem = UITabBarItem(title: "Operator", image: UIImage(systemName: "person"), tag: 0)
 
-        // Create instance of SettingsViewController and embed it in a UINavigationController
-        let settingsVC = SettingsViewController()
-        let settingsNav = UINavigationController(rootViewController: settingsVC)
-        settingsNav.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 1)
+        // Create instance of TimesheetViewController
+        let timesheetVC = TimesheetViewController()
+        let timesheetNav = UINavigationController(rootViewController: timesheetVC)
+        timesheetNav.tabBarItem = UITabBarItem(title: "Timesheet", image: UIImage(systemName: "clock"), tag: 1)
 
-        // Add the navigation controllers to the tab bar
-        viewControllers = [operatorNav, settingsNav]
-        
-        // Set the delegate to self
-        self.delegate = self
-        
-        // Customize Tab Bar
+        // Add the Operator and Timesheet tabs to the Tab Bar
+        var viewControllers = [operatorNav, timesheetNav]
+
+        // If user is admin, add the Settings tab
+        if userType == "admin" || userType == "amAdmin" {
+            let settingsVC = SettingsViewController()
+            let settingsNav = UINavigationController(rootViewController: settingsVC)
+            settingsNav.tabBarItem = UITabBarItem(title: "Admin", image: UIImage(systemName: "gear"), tag: 2)
+            viewControllers.append(settingsNav)
+        }
+
+        // Set the view controllers
+        self.viewControllers = viewControllers
+
+        // Customize Tab Bar appearance
         tabBar.backgroundColor = .systemGray6
         tabBar.tintColor = ColorScheme.amBlue
         tabBar.unselectedItemTintColor = ColorScheme.amPink
 
-        // Debugging prints
-        print("Operator VC is embedded in Navigation Controller: \(operatorVC.navigationController != nil)")
-        print("Settings VC is embedded in Navigation Controller: \(settingsVC.navigationController != nil)")
-    }
-    
-    // UITabBarControllerDelegate method
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        if let navController = viewController as? UINavigationController,
-           navController.viewControllers.first is OperatorVC {
-            navController.popToRootViewController(animated: false)
-        }
-        return true
-    }
-    
-    // Ensuring the Dashboard is shown every time it is selected
-    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        if item.tag == 0, let dashboardNavController = viewControllers?.first as? UINavigationController {
-            dashboardNavController.popToRootViewController(animated: false)
-        }
+        self.delegate = self
     }
 }
-
-

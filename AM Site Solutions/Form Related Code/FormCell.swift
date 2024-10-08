@@ -20,7 +20,7 @@ class FormCell: UICollectionViewCell {
         }
     }
 
-    private let iconImageView: UIImageView = {
+    let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false

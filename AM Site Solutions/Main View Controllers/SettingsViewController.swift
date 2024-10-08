@@ -23,6 +23,8 @@ class SettingsViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
+        title = "Admin"
+        
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.spacing = 10

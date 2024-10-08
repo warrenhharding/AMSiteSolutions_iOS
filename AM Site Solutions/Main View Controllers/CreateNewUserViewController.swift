@@ -326,32 +326,6 @@ class CreateNewUserViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
 
 
-    
-//    @objc func submitButtonTapped() {
-//        print("Submit Button Tapped")
-//        guard let firstName = firstNameTextField.text, !firstName.isEmpty else {
-//            showAlert(message: "Please enter a first name.")
-//            return
-//        }
-//        
-//        guard let surname = surnameTextField.text, !surname.isEmpty else {
-//            showAlert(message: "Please enter a surname.")
-//            return
-//        }
-//        
-//        guard let phoneNumber = phoneNumberTextField.text, isValidPhoneNumber(phoneNumber) else {
-//            showAlert(message: "Please enter a valid phone number.")
-//            return
-//        }
-//        
-//        let userType = userTypes[userTypePicker.selectedRow(inComponent: 0)]
-//        if userType == "Please Select" {
-//            showAlert(message: "Please select a user type.")
-//            return
-//        }
-//        
-//        createUser(firstName: firstName, surname: surname, phoneNumber: formatPhoneNumber(phoneNumber), userType: userType)
-//    }
 
     
     @objc func submitButtonTapped() {
