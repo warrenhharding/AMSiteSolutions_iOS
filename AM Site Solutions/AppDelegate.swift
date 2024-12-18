@@ -7,13 +7,15 @@
 
 import UIKit
 import Firebase
+import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     var window: UIWindow?
+    let selectedLanguageKey = "selectedLanguage"
+//    var availableLanguages: [Language] = []
+    
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -46,23 +48,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-//        FirebaseConfiguration.shared.setLoggerLevel(.debug)
+        let userDefaults = UserDefaults.standard
+        if userDefaults.string(forKey: selectedLanguageKey) == nil {
+            userDefaults.set("en", forKey: selectedLanguageKey)
+        }
+        
+        
+        // Load translations based on the selected language
+        TranslationManager.shared.loadTranslations { success in
+            if success {
+                print("Translations loaded successfully for the selected language.")
+                NotificationCenter.default.post(name: .translationsLoaded, object: nil)
+            } else {
+                print("Failed to load translations. Falling back to hardcoded defaults.")
+            }
+        }
 
-        
-//         Create your UIWindow
-//        self.window = UIWindow(frame: UIScreen.main.bounds)
-        
-        // Load LoginViewController from storyboard
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        guard let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController else {
-//            fatalError("Unable to instantiate LoginViewController from storyboard")
-//        }
-        
-//         Set as root view controller
-//        window?.rootViewController = loginViewController
-//        window?.makeKeyAndVisible()
-
-        
+        fetchSupportedLanguages()
+                
         return true
     }
 
@@ -79,7 +82,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+      Messaging.messaging().apnsToken = deviceToken
+      print("APNs token received: \(deviceToken)") // Add this line
+    }
+    
+    func fetchSupportedLanguages() {
+            let ref = Database.database().reference(withPath: "supportedLanguages")
+            ref.observeSingleEvent(of: .value) { snapshot in
+                guard let languagesArray = snapshot.value as? [[String: String]] else {
+                    print("Invalid data format for supportedLanguages")
+                    return
+                }
+                
+                LanguageManager.shared.availableLanguages = languagesArray.compactMap { dict in
+                    if let code = dict["code"], let name = dict["name"] {
+                        return Language(code: code, name: name)
+                    }
+                    return nil
+                }
+                
+                // Notify the app that languages have been loaded
+                NotificationCenter.default.post(name: .languagesLoaded, object: nil)
+            } withCancel: { error in
+                print("Failed to fetch supportedLanguages: \(error.localizedDescription)")
+            }
+        }
 
 
+}
+
+extension Notification.Name {
+    static let languagesLoaded = Notification.Name("languagesLoaded")
 }
 

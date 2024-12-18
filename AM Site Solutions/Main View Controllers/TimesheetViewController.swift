@@ -45,7 +45,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Timesheet"
+        title = TranslationManager.shared.getTranslation(for: "timesheetTab.timeTabTitle")
     
         setupUI()
         setupLocationManager()
@@ -60,7 +60,18 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
         loadTimesheetData()
         checkOngoingSession()
         updateButtonStates()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTranslations), name: .languageChanged, object: nil)
     }
+    
+    
+    @objc func reloadTranslations() {
+        navigationItem.title = TranslationManager.shared.getTranslation(for: "timesheetTab.timeTabTitle")
+        startButton.setTitle(TranslationManager.shared.getTranslation(for: "timesheetTab.clockOnButton"), for: .normal)
+        stopButton.setTitle(TranslationManager.shared.getTranslation(for: "timesheetTab.clockOffButton"), for: .normal)
+        submitButton.setTitle(TranslationManager.shared.getTranslation(for: "timesheetTab.submitTimesheetButton"), for: .normal)
+    }
+
     
 
     
@@ -73,13 +84,14 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
         
         // Start Button
         startButton = CustomButton(type: .system)
-        startButton.setTitle("Clock On", for: .normal)
+//        startButton.setTitle("Clock On", for: .normal)
+        startButton.setTitle(TranslationManager.shared.getTranslation(for: "timesheetTab.clockOnButton"), for: .normal)
         startButton.addTarget(self, action: #selector(startWorkSession), for: .touchUpInside)
         view.addSubview(startButton)
         
         // Stop Button
         stopButton = CustomButton(type: .system)
-        stopButton.setTitle("Clock Off", for: .normal)
+        stopButton.setTitle(TranslationManager.shared.getTranslation(for: "timesheetTab.clockOffButton"), for: .normal)
         stopButton.addTarget(self, action: #selector(stopWorkSession), for: .touchUpInside)
         stopButton.isEnabled = false
         view.addSubview(stopButton)
@@ -98,7 +110,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
         
         // Submit Button
         submitButton = CustomButton(type: .system)
-        submitButton.setTitle("Submit Timesheet", for: .normal)
+        submitButton.setTitle(TranslationManager.shared.getTranslation(for: "timesheetTab.submitTimesheetButton"), for: .normal)
         submitButton.addTarget(self, action: #selector(submitTimesheet), for: .touchUpInside)
         view.addSubview(submitButton)
         
@@ -171,28 +183,6 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
     
     // MARK: - Permissions and Location Manager Setup
 
-//    func checkPermissionsAndInitializeLocation() {
-//        locationManager = CLLocationManager()
-//        locationManager.delegate = self
-//
-//        if CLLocationManager.locationServicesEnabled() {
-//            let status = locationManager.authorizationStatus  // Use the instance property for iOS 14+
-//
-//            switch status {
-//            case .notDetermined:
-//                locationManager.requestWhenInUseAuthorization()
-//            case .restricted, .denied:
-//                handleLocationPermissionDenied()  // Call when permission is denied
-//            case .authorizedWhenInUse, .authorizedAlways:
-//                locationManager.startUpdatingLocation()
-//            @unknown default:
-//                showAlert(title: "Unknown Error", message: "An unknown error occurred with location permissions.")
-//            }
-//        } else {
-//            showAlert(title: "Location Services Disabled", message: "Please enable location services in your device settings.")
-//        }
-//    }
-    
     func checkPermissionsAndInitializeLocation() {
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -208,52 +198,11 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.startUpdatingLocation()
         @unknown default:
-            showAlert(title: "Unknown Error", message: "An unknown error occurred with location permissions.")
+            showAlert(title: TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetErrorHeading"), message: TranslationManager.shared.getTranslation(for: "timesheetTab.unknownErrorText"))
         }
     }
     
-//    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-//        switch manager.authorizationStatus {
-//        case .authorizedWhenInUse, .authorizedAlways:
-//            if CLLocationManager.locationServicesEnabled() {
-//                locationManager.startUpdatingLocation()
-//            } else {
-//                showAlert(title: "Location Services Disabled", message: "Please enable location services in your device settings.")
-//            }
-//        case .denied, .restricted:
-//            handleLocationPermissionDenied()  // Handle permission denied
-//        case .notDetermined:
-//            // The user has not granted permission yet; handle this appropriately if needed
-//            break
-//        @unknown default:
-//            showAlert(title: "Unknown Error", message: "An unknown error occurred with location permissions.")
-//        }
-//    }
-    
-//    // Delegate method that is triggered when the authorization status changes
-//    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-//        switch manager.authorizationStatus {
-//        case .authorizedWhenInUse, .authorizedAlways:
-//            if CLLocationManager.locationServicesEnabled() {
-//                // Location services are enabled and authorized; proceed with fetching the location
-//                locationManager.startUpdatingLocation()
-//            } else {
-//                // Location services are disabled, show an alert
-//                showAlert(title: "Location Services Disabled", message: "Please enable location services in your device settings.")
-//                locationCompletion?("None")  // Provide a fallback
-//            }
-//        case .denied, .restricted:
-//            handleLocationPermissionDenied()  // Handle permission denied
-//            locationCompletion?("None")  // Provide a fallback
-//        case .notDetermined:
-//            // The user has not granted permission yet; no need to act until they do
-//            break
-//        @unknown default:
-//            showAlert(title: "Unknown Error", message: "An unknown error occurred with location permissions.")
-//            locationCompletion?("None")  // Provide a fallback
-//        }
-//    }
-    
+
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         handleAuthorizationStatus()
     }
@@ -271,7 +220,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
             // No action needed; permission request is in progress
             break
         @unknown default:
-            showAlert(title: "Unknown Error", message: "An unknown error occurred with location permissions.")
+            showAlert(title: TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetErrorHeding"), message: TranslationManager.shared.getTranslation(for: "timesheetTab.unknownErrorText"))
             locationCompletion?("None")  // Provide a fallback
         }
     }
@@ -288,7 +237,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
         case .notDetermined:
             break
         @unknown default:
-            showAlert(title: "Unknown Error", message: "An unknown error occurred with location permissions.")
+            showAlert(title: TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetErrorHeding"), message: TranslationManager.shared.getTranslation(for: "timesheetTab.unknownErrorText"))
         }
     }
 
@@ -357,7 +306,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
                                 .child(lastSession.key)
                                 .updateChildValues(updates) { error, _ in
                                     if let error = error {
-                                        self.showError("Failed to end outdated work session: \(error.localizedDescription)")
+                                        self.showError("\(TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetFailedOutdatedWorkSession")) \(error.localizedDescription)")
                                     } else {
                                         print("Session ended at 23:59 of the previous day")
                                         self.isWorking = false
@@ -443,7 +392,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
             guard let sessionID = self.currentSessionID else {
                 print("\(Date()): Error: currentSessionID is nil")
                 self.hideSpinner()
-                self.showError("Failed to start work session. No session ID.")
+                self.showError(TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetNoSessionId"))
                 return
             }
             
@@ -459,7 +408,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
                     self.hideSpinner()
                     if let error = error {
                         print("Error saving start work session: \(error.localizedDescription)")
-                        self.showError("Failed to start work session.")
+                        self.showError(TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetFailedToStart"))
                     } else {
                         print("Successfully started work session with ID: \(sessionID)")
                         self.isWorking = true
@@ -509,7 +458,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
                     self.hideSpinner()
                     if let error = error {
                         print("\(Date()): Error saving stop work session: \(error.localizedDescription)")
-                        self.showError("Failed to stop work session.")
+                        self.showError(TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetFailedToStop"))
                     } else {
                         print("\(Date()): Successfully stopped work session with ID: \(sessionID)")
                         self.isWorking = false
@@ -525,7 +474,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
     // MARK: - Submit Timesheet
     @objc func submitTimesheet() {
         guard !isWorking else {
-            showError("Please stop the current session before submitting the timesheet.")
+            showError(TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetErrorText"))
             return
         }
         
@@ -542,9 +491,9 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
             self.hideSpinner()
             
             if let error = error {
-                self.showError("Failed to submit timesheet: \(error.localizedDescription)")
+                self.showError("\(TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetFailedToSubmit")) \(error.localizedDescription)")
             } else {
-                self.showConfirmation("Timesheet submitted successfully.")
+                self.showConfirmation(TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetSubmitSuccess"))
             }
         }
     }
@@ -553,7 +502,7 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
     func updateUIForStartWork(startTime: Double) {
         startButton.isEnabled = false
         stopButton.isEnabled = true
-        startTimeLabel.text = "Started at: \(formatTime(startTime))"
+        startTimeLabel.text = "\(TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetProgressLabel")) \(formatTime(startTime))"
         startTimeLabel.isHidden = false
     }
     
@@ -574,14 +523,14 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func showError(_ message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let alert = UIAlertController(title: TranslationManager.shared.getTranslation(for: "common.errorHeader"), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.okButton"), style: .default))
         present(alert, animated: true)
     }
     
     func showConfirmation(_ message: String) {
-        let alert = UIAlertController(title: "Success", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let alert = UIAlertController(title: TranslationManager.shared.getTranslation(for: "timesheetTab.successHeader"), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.okButton"), style: .default))
         present(alert, animated: true)
     }
 
@@ -632,36 +581,6 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
 
     
     // MARK: - Location Helper
-
-    
-//    func getLocation(completion: @escaping (String?) -> Void) {
-//        guard CLLocationManager.locationServicesEnabled() else {
-//            completion("None")
-//            return
-//        }
-//
-//        // Check authorization status
-//        if locationManager.authorizationStatus == .denied {
-//            completion("None")
-//            return
-//        }
-//
-//        // If we have a last known location and it was fetched less than 10 minutes ago, use it
-//        if let lastLocation = lastLocation, let lastLocationFetchTime = lastLocationFetchTime {
-//            let tenMinutesAgo = Date().addingTimeInterval((-10 / 20) * 60)
-//            if lastLocationFetchTime > tenMinutesAgo {
-//                print("Last location was 30 seconds ago...")
-//                // If location was fetched within the last 10 minutes, use the cached location
-//                handleLocation(lastLocation, completion: completion)
-//                return
-//            }
-//        }
-//
-//        // Otherwise, request a new location
-//        locationManager.delegate = self
-//        self.locationCompletion = completion  // Assign the completion closure safely
-//        locationManager.requestLocation()  // Request a new location
-//    }
     
     func getLocation(completion: @escaping (String?) -> Void) {
         self.locationCompletion = completion  // Save the completion handler to be called later
@@ -756,40 +675,12 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
         let alert = UIAlertController(title: "Location Permission Required",
                                       message: "We need access to your location to track your timesheet. Please enable location services in Settings.",
                                       preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
+        alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.settings"), style: .default, handler: { _ in
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.cancelButton"), style: .cancel))
         present(alert, animated: true)
     }
-
-
-//    private func handleLocation(_ location: CLLocation, completion: ((String?) -> Void)?) {
-//        // Use the coordinates first to provide a quick response
-//        let locationString = "\(location.coordinate.latitude), \(location.coordinate.longitude)"
-//        completion?(locationString)  // Safely call the closure if it exists
-//
-//        // Optionally, perform reverse geocoding in the background
-//        let geocoder = CLGeocoder()
-//        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
-//            if let placemark = placemarks?.first {
-//                var addressString = ""
-//                if let name = placemark.name {
-//                    addressString += name
-//                }
-//                if let locality = placemark.locality {
-//                    addressString += ", \(locality)"
-//                }
-//                if let country = placemark.country {
-//                    addressString += ", \(country)"
-//                }
-//
-//                print("Address retrieved: \(addressString)")
-//                completion?(addressString)  // Safely call the closure if it exists
-//            }
-//        }
-//    }
-
 
 
     // MARK: - Error Handling
@@ -799,14 +690,14 @@ class TimesheetViewController: UIViewController, UITableViewDataSource, UITableV
 
     func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.okButton"), style: .default))
         present(alert, animated: true)
     }
     
     
     func showInformUser(_ message: String) {
-        let alert = UIAlertController(title: "Notice", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        let alert = UIAlertController(title: TranslationManager.shared.getTranslation(for: "timesheetTab.timesheetNoticeHeader"), message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.okButton"), style: .default))
         present(alert, animated: true)
     }
 

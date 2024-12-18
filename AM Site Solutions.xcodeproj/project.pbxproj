@@ -23,7 +23,8 @@
 		F63957452C885C0E00069BA7 /* ManageUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957442C885C0D00069BA7 /* ManageUsersViewController.swift */; };
 		F63957472C88868300069BA7 /* TimesheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957462C88868300069BA7 /* TimesheetViewController.swift */; };
 		F63957492C88D82C00069BA7 /* TimesheetEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957482C88D82C00069BA7 /* TimesheetEntryCell.swift */; };
-		F665F9A32CAD83BA0021BA3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F665F9A22CAD83BA0021BA3D /* GoogleService-Info.plist */; };
+		F6928B742D13217B00393F7A /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6928B732D13217B00393F7A /* Language.swift */; };
+		F6928B762D13236800393F7A /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6928B752D13236800393F7A /* LanguageManager.swift */; };
 		F69AAA272C87844D0082A14E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA262C87844D0082A14E /* AppDelegate.swift */; };
 		F69AAA292C87844D0082A14E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA282C87844D0082A14E /* SceneDelegate.swift */; };
 		F69AAA2B2C87844D0082A14E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA2A2C87844D0082A14E /* ViewController.swift */; };
@@ -34,6 +35,9 @@
 		F69AAA3D2C8785010082A14E /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3C2C8785010082A14E /* Form.swift */; };
 		F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3E2C8785550082A14E /* FormCell.swift */; };
 		F69AAA412C8785930082A14E /* ColourScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA402C8785930082A14E /* ColourScheme.swift */; };
+		F6EA4CE42CFEFF94003FA735 /* TranslationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA4CE32CFEFF94003FA735 /* TranslationManager.swift */; };
+		F6EA4CE62CFF1954003FA735 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6EA4CE52CFF1954003FA735 /* GoogleService-Info.plist */; };
+		F6EE438C2CD4E10E00136953 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F6EE438A2CD4E10E00136953 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,7 +60,8 @@
 		F63957462C88868300069BA7 /* TimesheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesheetViewController.swift; sourceTree = "<group>"; };
 		F63957482C88D82C00069BA7 /* TimesheetEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesheetEntryCell.swift; sourceTree = "<group>"; };
 		F665F99D2CAC3AE50021BA3D /* AM Site Solutions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AM Site Solutions.entitlements"; sourceTree = "<group>"; };
-		F665F9A22CAD83BA0021BA3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F6928B732D13217B00393F7A /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		F6928B752D13236800393F7A /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
 		F69AAA232C87844D0082A14E /* AM Site Solutions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AM Site Solutions.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F69AAA262C87844D0082A14E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F69AAA282C87844D0082A14E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +74,12 @@
 		F69AAA3C2C8785010082A14E /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		F69AAA3E2C8785550082A14E /* FormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCell.swift; sourceTree = "<group>"; };
 		F69AAA402C8785930082A14E /* ColourScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourScheme.swift; sourceTree = "<group>"; };
+		F6EA4CE32CFEFF94003FA735 /* TranslationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationManager.swift; sourceTree = "<group>"; };
+		F6EA4CE52CFF1954003FA735 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F6EE438B2CD4E10E00136953 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F6EE438D2CD4E22B00136953 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Main.strings"; sourceTree = "<group>"; };
+		F6EE438E2CD4E22E00136953 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		F6EE438F2CD4E23000136953 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				F63957252C878F4A00069BA7 /* LoginViewController.swift */,
+				F6EA4CE32CFEFF94003FA735 /* TranslationManager.swift */,
 				F63957422C88465A00069BA7 /* CreateNewUserViewController.swift */,
 				F639572B2C879DFF00069BA7 /* OperatorViewController.swift */,
 				F639572D2C87A03A00069BA7 /* FormViewController.swift */,
@@ -135,6 +147,8 @@
 				F639572F2C87A05D00069BA7 /* CustomButton.swift */,
 				F639573E2C8843B700069BA7 /* CustomTextField.swift */,
 				F63957402C88442000069BA7 /* CustomPickerView.swift */,
+				F6928B732D13217B00393F7A /* Language.swift */,
+				F6928B752D13236800393F7A /* LanguageManager.swift */,
 			);
 			name = "Utilities and Reusables";
 			path = ..;
@@ -173,7 +187,8 @@
 				F69AAA2F2C87844F0082A14E /* Assets.xcassets */,
 				F69AAA312C87844F0082A14E /* LaunchScreen.storyboard */,
 				F69AAA342C87844F0082A14E /* Info.plist */,
-				F665F9A22CAD83BA0021BA3D /* GoogleService-Info.plist */,
+				F6EA4CE52CFF1954003FA735 /* GoogleService-Info.plist */,
+				F6EE438A2CD4E10E00136953 /* Localizable.strings */,
 			);
 			path = "AM Site Solutions";
 			sourceTree = "<group>";
@@ -222,6 +237,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"pt-PT",
 			);
 			mainGroup = F69AAA1A2C87844C0082A14E;
 			productRefGroup = F69AAA242C87844D0082A14E /* Products */;
@@ -238,8 +254,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6EE438C2CD4E10E00136953 /* Localizable.strings in Resources */,
 				F69AAA302C87844F0082A14E /* Assets.xcassets in Resources */,
-				F665F9A32CAD83BA0021BA3D /* GoogleService-Info.plist in Resources */,
+				F6EA4CE62CFF1954003FA735 /* GoogleService-Info.plist in Resources */,
 				F69AAA332C87844F0082A14E /* Base in Resources */,
 				F69AAA2E2C87844D0082A14E /* Base in Resources */,
 			);
@@ -298,16 +315,19 @@
 				F63957302C87A05D00069BA7 /* CustomButton.swift in Sources */,
 				F69AAA3B2C8784D20082A14E /* OperatorVC.swift in Sources */,
 				F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */,
+				F6928B762D13236800393F7A /* LanguageManager.swift in Sources */,
 				F63957342C87A0A400069BA7 /* OkNotOkView.swift in Sources */,
 				F63957492C88D82C00069BA7 /* TimesheetEntryCell.swift in Sources */,
 				F63957322C87A08400069BA7 /* InputQuestionView.swift in Sources */,
 				F63957282C8791D600069BA7 /* MainTabBarController.swift in Sources */,
 				F639572A2C8791FC00069BA7 /* SettingsViewController.swift in Sources */,
+				F6928B742D13217B00393F7A /* Language.swift in Sources */,
 				F63957472C88868300069BA7 /* TimesheetViewController.swift in Sources */,
 				F69AAA2B2C87844D0082A14E /* ViewController.swift in Sources */,
 				F639573F2C8843B700069BA7 /* CustomTextField.swift in Sources */,
 				F63957362C87A0CB00069BA7 /* CustomRadioButton.swift in Sources */,
 				F639572C2C879DFF00069BA7 /* OperatorViewController.swift in Sources */,
+				F6EA4CE42CFEFF94003FA735 /* TranslationManager.swift in Sources */,
 				F639572E2C87A03A00069BA7 /* FormViewController.swift in Sources */,
 				F69AAA3D2C8785010082A14E /* Form.swift in Sources */,
 				F63957432C88465A00069BA7 /* CreateNewUserViewController.swift in Sources */,
@@ -326,6 +346,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F69AAA2D2C87844D0082A14E /* Base */,
+				F6EE438D2CD4E22B00136953 /* pt-PT */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -334,8 +355,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				F69AAA322C87844F0082A14E /* Base */,
+				F6EE438E2CD4E22E00136953 /* pt-PT */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F6EE438A2CD4E10E00136953 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F6EE438B2CD4E10E00136953 /* en */,
+				F6EE438F2CD4E23000136953 /* pt-PT */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -346,6 +377,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -409,6 +441,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -468,7 +501,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "AM Site Solutions/AM Site Solutions.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = L6NR8J48K3;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -485,12 +518,12 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salzburg101.AM-Site-Solutions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -511,7 +544,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "AM Site Solutions/AM Site Solutions.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = L6NR8J48K3;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -528,12 +561,12 @@
 				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salzburg101.AM-Site-Solutions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

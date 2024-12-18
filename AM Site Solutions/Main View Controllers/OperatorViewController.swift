@@ -13,25 +13,33 @@ import CoreLocation
 class OperatorViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
   
     var forms: [Form] = []
+    var englishForms: [Form] = []
     var collectionView: UICollectionView!
     private let updateFarmButton = UIBarButtonItem()
     var shouldRedownloadImages = false
     private let storageRef = Storage.storage().reference()
+    
+//    var availableLanguages: [String] = ["en", "de", "pt-BR"]
+    let pickerView = UIPickerView()
+    let toolbar = UIToolbar()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-//        navigationController?.title = "Select Your Equipment"
-//        title = "Select Your Equipment"
-        navigationItem.title = "Select Your Equipment"
+        navigationItem.title = TranslationManager.shared.getTranslation(for: "operatorTab.opHeader")
                 
         // Setup the navigation bar
         setupNavigationBar()
         
         // Setup collection view
         setupCollectionView()
+        
+        setupLanguagePicker()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(translationsLoaded), name: .translationsLoaded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTranslations), name: .languageChanged, object: nil)
         
         // Layout constraints
         NSLayoutConstraint.activate([
@@ -41,7 +49,6 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-//        fetchForms()
         checkDownloadImagesFlag()
     }
     
@@ -58,6 +65,64 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+    }
+    
+    @objc func translationsLoaded() {
+        print("Translations loaded, setting up UI.")
+        
+    }
+    
+    @objc func reloadTranslations() {
+        navigationItem.title = TranslationManager.shared.getTranslation(for: "operatorTab.opHeader")
+        self.fetchForms()
+    }
+    
+    private func setupLanguagePicker() {
+        // Picker View
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerView.backgroundColor = .white
+        pickerView.isHidden = true
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pickerView)
+
+        // Toolbar
+        toolbar.barStyle = .default
+        toolbar.isTranslucent = true
+        toolbar.tintColor = ColorScheme.amBlue
+        toolbar.sizeToFit()
+        toolbar.isHidden = true
+
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+        toolbar.setItems([flexibleSpace, doneButton], animated: false)
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(toolbar)
+        
+        let tabBarHeight = tabBarController?.tabBar.frame.height ?? 0
+
+        // Layout
+        NSLayoutConstraint.activate([
+            toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            toolbar.bottomAnchor.constraint(equalTo: pickerView.topAnchor),
+            toolbar.heightAnchor.constraint(equalToConstant: 44),
+
+            pickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pickerView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -tabBarHeight),
+            pickerView.heightAnchor.constraint(equalToConstant: 216)
+        ])
+    }
+    
+    @objc private func languageSelectorTapped() {
+        toolbar.isHidden = false
+        pickerView.isHidden = false
+    }
+
+    @objc private func doneButtonTapped() {
+        toolbar.isHidden = true
+        pickerView.isHidden = true
     }
     
 
@@ -144,31 +209,74 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
         view.addSubview(collectionView)
     }
     
+
     @objc func menuButtonTapped() {
+        // Create the alert controller
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        let toggleLocationAction = UIAlertAction(title: isLocationEnabled() ? "Disable Location" : "Enable Location", style: .default) { _ in
+        // Dynamically fetch translations
+        let toggleLocationAction = UIAlertAction(
+            title: isLocationEnabled()
+                ? TranslationManager.shared.getTranslation(for: "operatorTab.menuDisableLocation")
+                : TranslationManager.shared.getTranslation(for: "operatorTab.menuEnableLocation"),
+            style: .default
+        ) { _ in
             self.toggleLocation()
         }
-
-        let logoutAction = UIAlertAction(title: "Logout", style: .destructive) { _ in
+        
+        let changeLanguageAction = UIAlertAction(
+            title: TranslationManager.shared.getTranslation(for: "operatorTab.menuChangeLanguage"),
+            style: .default
+        ) { _ in
+            self.changeLanguage()
+        }
+        
+        let logoutAction = UIAlertAction(
+            title: TranslationManager.shared.getTranslation(for: "operatorTab.menuLogout"),
+            style: .destructive
+        ) { _ in
             self.logoutUser()
         }
 
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(
+            title: TranslationManager.shared.getTranslation(for: "common.cancelButton"),
+            style: .cancel,
+            handler: nil
+        )
 
+        // Add actions to the alert
         alertController.addAction(toggleLocationAction)
+        alertController.addAction(changeLanguageAction)
         alertController.addAction(logoutAction)
         alertController.addAction(cancelAction)
 
+        // Present the alert
         present(alertController, animated: true, completion: nil)
     }
+    
+//    private func logoutUser() {
+//        do {
+//            try Auth.auth().signOut()
+//            let loginVC = LoginViewController()
+//            navigationController?.setViewControllers([loginVC], animated: true)
+//        } catch {
+//            print("Error signing out: \(error)")
+//        }
+//    }
     
     private func logoutUser() {
         do {
             try Auth.auth().signOut()
-            let loginVC = LoginViewController()
-            navigationController?.setViewControllers([loginVC], animated: true)
+
+            let loginViewController = LoginViewController()
+
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+               let window = sceneDelegate.window {
+                window.rootViewController = loginViewController
+                window.makeKeyAndVisible()
+            } else {
+                print("Error: Unable to find SceneDelegate or UIWindow")
+            }
         } catch {
             print("Error signing out: \(error)")
         }
@@ -189,10 +297,17 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
     private func isLocationEnabled() -> Bool {
         return CLLocationManager.locationServicesEnabled()
     }
+    
+    
+    private func changeLanguage() {
+        toolbar.isHidden = false
+        pickerView.isHidden = false
+    }
+    
+
 
    
-    
-//    // Fetch forms from Firebase
+    // Method to handle just English - different layout of the forms node in firebase.
 //    func fetchForms() {
 //        let ref = Database.database().reference().child("forms")
 //        ref.observeSingleEvent(of: .value, with: { snapshot in
@@ -227,47 +342,124 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
 //                }
 //            }
 //            self.collectionView.reloadData()
-//            self.fetchAllIcons()
+//            self.fetchAllIcons() // Fetch icons after forms are loaded
+//        })
+//    }
+    
+    
+    // Method to handle multiple languages.
+//    func fetchForms() {
+//        let ref = Database.database().reference().child("forms_new")
+//        let selectedLanguage = TranslationManager.shared.getSelectedLanguage() // Retrieve selected language
+//        print("selectedLanguage = \(selectedLanguage)")
+//
+//        ref.observeSingleEvent(of: .value, with: { snapshot in
+//            self.forms.removeAll()
+//
+//            for child in snapshot.children {
+//                if let snapshot = child as? DataSnapshot,
+//                   let dict = snapshot.value as? [String: Any] {
+//
+//                    let isDisplayed = dict["isDisplayed"] as? Bool ?? true
+//
+//                    if let nameDict = dict["name"] as? [String: String],
+//                       let formName = nameDict[selectedLanguage],
+//                       let iconName = dict["iconName"] as? String,
+//                       let questionsArray = dict["questions"] as? [[String: Any]] {
+//
+//                        var questions: [Question] = []
+//                        for questionDict in questionsArray {
+//                            if let id = questionDict["id"] as? String,
+//                               let translations = questionDict["translations"] as? [String: String],
+//                               let text = translations[selectedLanguage], // Fetch the question text in the selected language
+//                               let typeString = questionDict["type"] as? String,
+//                               let type = QuestionType(rawValue: typeString) {
+//                                let question = Question(id: id, text: text, type: type)
+//                                questions.append(question)
+//                            }
+//                        }
+//
+//                        let form = Form(id: snapshot.key, name: formName, iconName: iconName, questions: questions)
+//                        print("form: \(form)")
+//
+//                        if isDisplayed {
+//                            self.forms.append(form)
+//                        }
+//                    }
+//                }
+//            }
+//            self.collectionView.reloadData()
+//            self.fetchAllIcons() // Fetch icons after forms are loaded
 //        })
 //    }
     
     func fetchForms() {
-        let ref = Database.database().reference().child("forms")
+        let ref = Database.database().reference().child("forms_new")
+        let selectedLanguage = TranslationManager.shared.getSelectedLanguage()
+        print("selectedLanguage = \(selectedLanguage)")
+
         ref.observeSingleEvent(of: .value, with: { snapshot in
             self.forms.removeAll()
+            self.englishForms.removeAll() // Clear the English forms array
+
             for child in snapshot.children {
                 if let snapshot = child as? DataSnapshot,
                    let dict = snapshot.value as? [String: Any] {
                     
+                    print("dict: \(dict)")
+
                     let isDisplayed = dict["isDisplayed"] as? Bool ?? true
-                    
-                    if let name = dict["name"] as? String,
+
+                    if let nameDict = dict["name"] as? [String: String],
+                       let formName = nameDict[selectedLanguage],
+                       let englishName = nameDict["en"], // Get English name
                        let iconName = dict["iconName"] as? String,
                        let questionsArray = dict["questions"] as? [[String: Any]] {
-                        
+
                         var questions: [Question] = []
+                        var englishQuestions: [Question] = [] // Initialize englishQuestions here
+                        
+                        print("formName: \(formName)")
+
                         for questionDict in questionsArray {
                             if let id = questionDict["id"] as? String,
-                               let text = questionDict["text"] as? String,
+                               let translations = questionDict["translations"] as? [String: String],
+                               let text = translations[selectedLanguage],
+                               let englishText = translations["en"], // Get English question text
                                let typeString = questionDict["type"] as? String,
                                let type = QuestionType(rawValue: typeString) {
+
                                 let question = Question(id: id, text: text, type: type)
                                 questions.append(question)
+
+                                // Create English question
+                                let englishQuestion = Question(id: id, text: englishText, type: type)
+
+                                // Add to English questions array
+                                englishQuestions.append(englishQuestion)
                             }
                         }
-                        
-                        let form = Form(id: snapshot.key, name: name, iconName: iconName, questions: questions)
-                        
+
+                        let form = Form(id: snapshot.key, name: formName, iconName: iconName, questions: questions)
+//                        print("form: \(form)")
                         if isDisplayed {
                             self.forms.append(form)
+                        }
+
+                        // Create English form
+                        let englishForm = Form(id: snapshot.key, name: englishName, iconName: iconName, questions: englishQuestions)
+//                        print("englishForm: \(englishForm)")
+                        if isDisplayed {
+                            self.englishForms.append(englishForm)
                         }
                     }
                 }
             }
             self.collectionView.reloadData()
-            self.fetchAllIcons() // Fetch icons after forms are loaded
+            self.fetchAllIcons()
         })
     }
+
 
 
     // Fetch all icons for forms
@@ -277,35 +469,7 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
         }
     }
 
-//    // Fetch individual icons, force redownload if required
-//    func fetchIcon(iconName: String) {
-//        let localFileURL = getDocumentsDirectory().appendingPathComponent(iconName)
-//        
-//        // Check if the icon exists and if we should redownload
-//        if !FileManager.default.fileExists(atPath: localFileURL.path) || shouldRedownloadImages {
-//            // Download the icon from Firebase Storage
-//            let iconRef = storageRef.child("icons/\(iconName)")
-//            iconRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-//                if let error = error {
-//                    print("Failed to download icon: \(error.localizedDescription)")
-//                    return
-//                }
-//                if let data = data {
-//                    do {
-//                        // Save the icon to local storage
-//                        try data.write(to: localFileURL)
-//                        print("Downloaded and saved icon: \(iconName)")
-//                    } catch {
-//                        print("Failed to save icon: \(error.localizedDescription)")
-//                    }
-//                }
-//            }
-//        } else {
-//            // Icon already exists locally and no need to redownload
-//            print("Icon \(iconName) already exists in local storage")
-//        }
-//    }
-    
+
     // Fetch individual icons, force redownload if required
     func fetchIcon(iconName: String) {
         let localFileURL = getDocumentsDirectory().appendingPathComponent(iconName)
@@ -351,13 +515,7 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return forms.count
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FormCell", for: indexPath) as! FormCell
-//        cell.form = forms[indexPath.item]
-//        return cell
-//    }
-    
+        
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FormCell", for: indexPath) as! FormCell
         let form = forms[indexPath.item]
@@ -382,9 +540,115 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let form = forms[indexPath.item]
+        let englishForm = englishForms[indexPath.item]
         let formVC = FormViewController()
         formVC.form = form
+        formVC.englishForm = englishForm
         navigationController?.pushViewController(formVC, animated: true)
     }
 }
 
+
+extension OperatorViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return LanguageManager.shared.availableLanguages.count
+    }
+
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        switch availableLanguages[row] {
+//        case "en": return "English"
+//        case "de": return "Deutsch"
+//        case "pt-BR": return "Português (Brasil)"
+//        default: return availableLanguages[row]
+//        }
+//    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return LanguageManager.shared.availableLanguages[row].name
+    }
+
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        // Get the selected language code
+//        let selectedLanguage = availableLanguages[row]
+//        
+//        // Update the language label with the corresponding name
+//        switch selectedLanguage {
+//        case "en":
+//            updateDoneButtonTitle("Done")
+//        case "de":
+//            updateDoneButtonTitle("Fertig") // German for "Done"
+//        case "pt-BR":
+//            updateDoneButtonTitle("Concluído") // Brazilian Portuguese for "Done"
+//        default:
+//            updateDoneButtonTitle("Done")
+//        }
+//
+//        // Change the app's language
+//        TranslationManager.shared.changeLanguage(to: selectedLanguage) { success in
+//            if success {
+//                NotificationCenter.default.post(name: .languageChanged, object: nil)
+//            }
+//        }
+//    }
+    
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        let selectedLanguage = LanguageManager.shared.availableLanguages[row].code
+//        let selectedLanguageName = LanguageManager.shared.availableLanguages[row].name
+//
+//        // Update the Done button title based on the selected language
+//        switch selectedLanguage {
+//        case "en":
+//            updateDoneButtonTitle("Done")
+//        case "de":
+//            updateDoneButtonTitle("Fertig") // German for "Done"
+//        case "pt-BR":
+//            updateDoneButtonTitle("Concluído") // Brazilian Portuguese for "Done"
+//        default:
+//            updateDoneButtonTitle("Done")
+//        }
+//
+//        // Change the app's language
+//        TranslationManager.shared.changeLanguage(to: selectedLanguage) { success in
+//            if success {
+//                NotificationCenter.default.post(name: .languageChanged, object: nil)
+//            }
+//        }
+//    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let selectedLanguage = LanguageManager.shared.availableLanguages[row].code
+        let selectedLanguageName = LanguageManager.shared.availableLanguages[row].name
+
+        // Update the label immediately
+//        languageLabel.text = selectedLanguageName
+        
+        print("selectedLanguage: \(selectedLanguage)")
+        print("selectedLanguageName: \(selectedLanguageName)")
+//        print("languageLabel.text: \(languageLabel.text)")
+        
+        // Change the app's language asynchronously
+        TranslationManager.shared.changeLanguage(to: selectedLanguage) { success in
+            if success {
+                // Fetch the updated translation for "Done" after the language change is complete
+                let doneLabel = TranslationManager.shared.getTranslation(for: "common.done")
+                self.updateDoneButtonTitle(doneLabel)
+                
+                print("Updated Done label: \(doneLabel)")
+                
+                // Notify observers that the language has changed
+                NotificationCenter.default.post(name: .languageChanged, object: nil)
+            }
+        }
+    }
+
+    // Helper method to update the "Done" button's title
+    private func updateDoneButtonTitle(_ title: String) {
+        if let doneButton = toolbar.items?.last {
+            doneButton.title = title
+        }
+    }
+}

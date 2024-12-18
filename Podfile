@@ -11,6 +11,7 @@ target 'AM Site Solutions' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'
   pod 'Firebase/Functions'
+  pod 'FirebaseMessaging'
   pod 'GoogleSignIn'
 
   # Pods for AMSiteSolutions

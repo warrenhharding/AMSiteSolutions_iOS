@@ -112,7 +112,7 @@ class InputQuestionView: UIView, UITextFieldDelegate {
         }
         print("Full state of allQuestions:")
         for question in parentVC.allQuestions {
-            print("  Question ID: \(question.id), Answer: \(question.answer ?? "nil")")
+//            print("  Question ID: \(question.id), Answer: \(question.answer ?? "nil")")
         }
     }
 }

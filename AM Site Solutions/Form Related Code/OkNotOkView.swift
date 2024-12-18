@@ -241,9 +241,9 @@ class OkNotOkView: UIView {
                let questionId = question?.id,
                let index = parentVC.allQuestions.firstIndex(where: { $0.id == questionId }) {
                 parentVC.allQuestions[index].answer = answer
-                print("Updated allQuestions with ID \(questionId) to \(answer)")
+//                print("Updated allQuestions with ID \(questionId) to \(answer)")
             } else {
-                print("Failed to update allQuestions for ID \(question?.id ?? "nil")")
+//                print("Failed to update allQuestions for ID \(question?.id ?? "nil")")
             }
         }
         printFullAllQuestionsState()
@@ -256,9 +256,9 @@ class OkNotOkView: UIView {
            let questionId = question?.id,
            let index = parentVC.allQuestions.firstIndex(where: { $0.id == questionId }) {
             parentVC.allQuestions[index].comment = textField.text
-            print("Updated comment in allQuestions with ID \(questionId) to \(textField.text ?? "")")
+//            print("Updated comment in allQuestions with ID \(questionId) to \(textField.text ?? "")")
         } else {
-            print("Failed to update comment in allQuestions for ID \(question?.id ?? "nil")")
+//            print("Failed to update comment in allQuestions for ID \(question?.id ?? "nil")")
         }
         
         printFullAllQuestionsState()
@@ -278,7 +278,7 @@ class OkNotOkView: UIView {
         }
         print("Full state of allQuestions:")
         for question in parentVC.allQuestions {
-            print("  Question ID: \(question.id), Answer: \(question.answer ?? "nil"), Comment: \(question.comment ?? "nil")")
+//            print("  Question ID: \(question.id), Answer: \(question.answer ?? "nil"), Comment: \(question.comment ?? "nil")")
         }
     }
 }

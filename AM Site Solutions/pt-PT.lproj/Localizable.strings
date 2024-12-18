@@ -1,0 +1,10 @@
+/* 
+  Localizable.strings
+  AM Site Solutions
+
+  Created by Warren Harding on 01/11/2024.
+  
+*/
+
+"greeting" = "Olá";
+"submit_button" = "Enviar";

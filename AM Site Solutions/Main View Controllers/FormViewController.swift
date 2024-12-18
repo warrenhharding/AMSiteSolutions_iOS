@@ -25,6 +25,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
     var formStackView: UIStackView!
    
     var form: Form?
+    var englishForm: Form?
 //    var tableView: UITableView!
     var submitButton: CustomButton!
     var addPhotoButton: CustomButton!
@@ -66,6 +67,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
                
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTranslations), name: .languageChanged, object: nil)
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -91,6 +93,11 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         scrollView.scrollIndicatorInsets = contentInsets
     }
 
+    @objc func reloadTranslations() {
+//        navigationItem.title = TranslationManager.shared.getTranslation(for: "operatorTab.opHeader")
+//        self.fetchForms()
+    }
+    
     
     func setupSpinner() {
         spinner = UIActivityIndicatorView(style: .large)
@@ -156,7 +163,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
         // Create a label for the instruction text
         instructionLabel = UILabel()
-        instructionLabel?.text = "Tap on a photo to delete."
+        instructionLabel?.text = TranslationManager.shared.getTranslation(for: "formScreen.tapToDelete")
         instructionLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         instructionLabel?.textColor = .gray
         instructionLabel?.textAlignment = .left
@@ -193,12 +200,13 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
     func setupButtons() {
         // Create and configure the "Add Photo" button
         addPhotoButton = CustomButton(type: .system)
-        addPhotoButton.setTitle("Add Photo", for: .normal)
+        addPhotoButton.setTitle(TranslationManager.shared.getTranslation(for: "formScreen.addPhotoButton"), for: .normal)
         addPhotoButton.addTarget(self, action: #selector(addPhotoTapped), for: .touchUpInside)
         
         // Create and configure the "Submit" button
         submitButton = CustomButton(type: .system)
-        submitButton.setTitle("Submit", for: .normal)
+//        submitButton.setTitle("Submit", for: .normal)
+        submitButton.setTitle(NSLocalizedString(TranslationManager.shared.getTranslation(for: "common.submitButton"), comment: "Button title for submit action"), for: .normal)
         submitButton.addTarget(self, action: #selector(submitForm), for: .touchUpInside)
         
         // Add the buttons to the formStackView
@@ -219,19 +227,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             formStackView.addArrangedSubview(questionView)
         }
     }
-    
-//    func createQuestionView(for question: FormQuestion) -> UIView {
-//        switch question.type {
-//        case .input:
-//            let inputQuestionView = InputQuestionView()
-//            inputQuestionView.question = question
-//            return inputQuestionView
-//        case .okNotOkNa:
-//            let okNotOkView = OkNotOkView()
-//            okNotOkView.question = question
-//            return okNotOkView
-//        }
-//    }
+
     
     func createQuestionView(for question: FormQuestion) -> UIView {
         switch question.type {
@@ -274,7 +270,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
     func setupSubmitButton() {
         submitButton = CustomButton()
-        submitButton.setTitle("Submit", for: .normal)
+        submitButton.setTitle(TranslationManager.shared.getTranslation(for: "common.submitButton"), for: .normal)
         view.addSubview(submitButton)
 
         submitButton.translatesAutoresizingMaskIntoConstraints = false
@@ -287,7 +283,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
     func setupAddPhotoButton() {
         addPhotoButton = CustomButton(type: .system)
-        addPhotoButton.setTitle("Add Photo", for: .normal)
+        addPhotoButton.setTitle(TranslationManager.shared.getTranslation(for: "formScreen.addPhotoButton"), for: .normal)
         view.addSubview(addPhotoButton)
 
         addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
@@ -312,18 +308,16 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
     }
     
     func setupNavigationBar() {
-        let retryLocationItem = UIBarButtonItem(title: "Retry Location", style: .plain, target: self, action: #selector(retryLocationPermission))
+        let retryLocationItem = UIBarButtonItem(title: TranslationManager.shared.getTranslation(for: "formScreen.retryLocation"), style: .plain, target: self, action: #selector(retryLocationPermission))
         navigationItem.rightBarButtonItem = retryLocationItem
     }
 
     func loadQuestions() {
         // Initial predefined questions
         let initialQuestions = [
-            FormQuestion(id: "additional1", text: "Plant No / Reg No:", type: .input),
-            FormQuestion(id: "additional2", text: "Operation Hours on Clock", type: .input),
-//            FormQuestion(id: "additional3", text: "Fire Extinguisher in Place?", type: .input),
-            FormQuestion(id: "additional3", text: "Location / Site", type: .input),
-//            FormQuestion(id: "additional5", text: "Others", type: .input)
+            FormQuestion(id: "additional1", text: TranslationManager.shared.getTranslation(for: "formScreen.plantNo"), type: .input),
+            FormQuestion(id: "additional2", text: TranslationManager.shared.getTranslation(for: "formScreen.operationHours"), type: .input),
+            FormQuestion(id: "additional3", text: TranslationManager.shared.getTranslation(for: "formScreen.locationSite"), type: .input),
         ]
 
         // Append initial questions to allQuestions
@@ -354,25 +348,26 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         if photoUris.count < allowedPhotos {
             showImagePickerOptions()
         } else {
-            showAlert(title: "Limit Reached", message: "You can only add up to \(allowedPhotos) photos.")
+//            showAlert(title: TranslationManager.shared.getTranslation(for: "formScreen.limitReached"), message: "You can only add up to \(allowedPhotos) photos.")
+            showAlert(title: TranslationManager.shared.getTranslation(for: "formScreen.limitReached"), message: "\(TranslationManager.shared.getTranslation(for: "formScreen.onlyAddXPhotos"))\(allowedPhotos)\(TranslationManager.shared.getTranslation(for: "formScreen.finishPhotos"))")
         }
     }
     
     func showImagePickerOptions() {
-        let alertController = UIAlertController(title: "Add Photo", message: "Choose an option", preferredStyle: .actionSheet)
-        alertController.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+        let alertController = UIAlertController(title: TranslationManager.shared.getTranslation(for: "formScreen.addPhotoButton"), message: TranslationManager.shared.getTranslation(for: "formScreen.chooseOption"), preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "formScreen.takePhotoButton"), style: .default, handler: { _ in
             self.openCamera()
         }))
-        alertController.addAction(UIAlertAction(title: "Choose from Gallery", style: .default, handler: { _ in
+        alertController.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "formScreen.chooseFromGalleryButton"), style: .default, handler: { _ in
             self.openGallery()
         }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alertController.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.cancelButton"), style: .cancel, handler: nil))
         present(alertController, animated: true, completion: nil)
     }
     
     func openCamera() {
         guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
-            showAlert(title: "Error", message: "Camera is not available on this device.")
+            showAlert(title: TranslationManager.shared.getTranslation(for: "common.errorHeader"), message: TranslationManager.shared.getTranslation(for: "formScreen.cameraNotAvailable"))
             return
         }
         let imagePicker = UIImagePickerController()
@@ -542,10 +537,10 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             case .authorizedWhenInUse, .authorizedAlways:
                 locationManager.startUpdatingLocation()
             @unknown default:
-                showAlert(title: "Unknown Error", message: "An unknown error occurred with location permissions.")
+                showAlert(title: TranslationManager.shared.getTranslation(for: "common.anUnknownError"), message: TranslationManager.shared.getTranslation(for: "formScreen.errorLocationPermissions"))
             }
         } else {
-            showAlert(title: "Location Services Disabled", message: "Please enable location services in your device settings.")
+            showAlert(title: TranslationManager.shared.getTranslation(for: "formScreen.locationServicesDisabled"), message: "Please enable location services in your device settings.")
         }
     }
 
@@ -559,7 +554,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         case .notDetermined:
             break
         @unknown default:
-            showAlert(title: "Unknown Error", message: "An unknown error occurred with location permissions.")
+            showAlert(title: TranslationManager.shared.getTranslation(for: "common.anUnknownError"), message: TranslationManager.shared.getTranslation(for: "formScreen.errorLocationPermissions"))
         }
     }
 
@@ -596,8 +591,8 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
     }
 
     func showLocationManualEntryAlert() {
-        let alert = UIAlertController(title: "Location Required", message: "You declined location permissions. Please enter the location manually.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        let alert = UIAlertController(title: TranslationManager.shared.getTranslation(for: "formScreen.locationRequired"), message: TranslationManager.shared.getTranslation(for: "formScreen.enterLocationManually"), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.okButton"), style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
 
@@ -615,12 +610,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         }
     }
 
-    
-//    func startSavingData() {
-//        spinner.startAnimating()
-//        view.isUserInteractionEnabled = false  // Disable user interaction
-//    }
-    
+        
     func startSavingData() {
         spinner.startAnimating()
         view.isUserInteractionEnabled = false  // Disable user interaction
@@ -629,11 +619,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         self.navigationController?.navigationBar.isUserInteractionEnabled = false
     }
     
-//    func stopSavingData() {
-//        spinner.stopAnimating()
-//        view.isUserInteractionEnabled = true  // Re-enable user interaction
-//    }
-    
+   
     func stopSavingData() {
         spinner.stopAnimating()
         view.isUserInteractionEnabled = true  // Re-enable user interaction
@@ -644,7 +630,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
     
     @objc func submitForm() {
         guard allQuestionsAnswered() else {
-            showAlert(title: "Incomplete Form", message: "Please answer all questions before submitting.")
+            showAlert(title: TranslationManager.shared.getTranslation(for: "formScreen.incompleteForm"), message: TranslationManager.shared.getTranslation(for: "formScreen.answerAllQuestions"))
             return
         }
         
@@ -737,10 +723,121 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
 
   
+//    func saveFormData() {
+//        uploadPhotosAndGetUrls { photoUrls in
+//            print("Starting to save form data...")
+//
+//            guard let userParent = UserSession.shared.userParent else {
+//                print("Error: User parent not found.")
+//                self.stopSavingData()
+//                return
+//            }
+//            guard let formName = self.form?.name else {
+//                print("Error: Form name not found.")
+//                self.stopSavingData()
+//                return
+//            }
+//
+//            print("User Parent: \(userParent)")
+//            print("Form Name: \(formName)")
+//
+//            let sanitizedFormName = self.sanitizeFirebaseKey(formName)
+//            let dateString = self.getCurrentDateTimeString()
+//            guard let uid = Auth.auth().currentUser?.uid else {
+//                print("Error: User ID not found.")
+//                self.stopSavingData()
+//                return
+//            }
+//
+//            print("Sanitized Form Name: \(sanitizedFormName)")
+//            print("Date String: \(dateString)")
+//            print("User ID: \(uid)")
+//
+//            let basePath = "completedForms/\(userParent)/\(sanitizedFormName)/\(dateString)/\(uid)"
+//            let ref = Database.database().reference(withPath: basePath)
+//            
+//            let answers = self.gatherAnswers()
+//            print("Gathered answers: \(answers)")
+//
+//            let firebaseAnswers = answers.mapValues { answerData -> [String: Any] in
+//                guard let answerDict = answerData as? [String: Any] else {
+//                    return [:]
+//                }
+//
+//                var questionData: [String: Any] = [
+//                    "questionType": answerDict["type"] as? String ?? "",
+//                    "questionText": answerDict["text"] as? String ?? "",
+//                    "answer": answerDict["answer"] ?? ""
+//                ]
+//
+//                if let comment = answerDict["comment"] as? String {
+//                    questionData["comment"] = comment
+//                }
+//
+//                return questionData
+//            }
+//
+//            let additionalData: [String: Any] = [
+//                "plantNo": (answers["additional1"] as? [String: Any])?["answer"] as? String ?? "",
+//                "opHours": (answers["additional2"] as? [String: Any])?["answer"] as? String ?? "",
+//                "spotter": (answers["additional3"] as? [String: Any])?["answer"] as? String ?? "",
+//                "location": self.locationAnswer ?? ((answers["additional4"] as? [String: Any])?["answer"] as? String ?? ""),
+//                "others": (answers["additional5"] as? [String: Any])?["answer"] as? String ?? "",
+//                "photoUrls": photoUrls
+//            ]
+//
+//            print("Firebase answers to be saved: \(firebaseAnswers)")
+//            print("Additional data to be saved: \(additionalData)")
+//
+//            // Set 'isComplete' to false initially
+//            ref.child("isComplete").setValue(false) { isCompleteError, _ in
+//                if let isCompleteError = isCompleteError {
+//                    print("Error setting 'isComplete' flag: \(isCompleteError.localizedDescription)")
+//                    self.showAlert(title: "Error", message: "Failed to start saving the form.")
+//                    self.stopSavingData()
+//                    return
+//                }
+//
+//                // Save answers to Firebase
+//                ref.child("answers").setValue(firebaseAnswers) { error, _ in
+//                    if let error = error {
+//                        print("Error saving answers: \(error.localizedDescription)")
+//                        self.showAlert(title: "Error", message: "Failed to save the form: \(error.localizedDescription)")
+//                        self.stopSavingData()
+//                    } else {
+//                        print("Answers saved successfully.")
+//                        // Save additional data after answers
+//                        ref.child("additionalData").setValue(additionalData) { additionalError, _ in
+//                            if let additionalError = additionalError {
+//                                print("Error saving additional data: \(additionalError.localizedDescription)")
+//                                self.showAlert(title: "Error", message: "Error submitting additional data: \(additionalError.localizedDescription)")
+//                                self.stopSavingData()
+//                            } else {
+//                                print("Additional data saved successfully.")
+//                                // Set 'isComplete' to true after everything else is saved
+//                                ref.child("isComplete").setValue(true) { completeError, _ in
+//                                    if let completeError = completeError {
+//                                        print("Error setting 'isComplete' to true: \(completeError.localizedDescription)")
+//                                        self.showAlert(title: "Error", message: "Failed to complete form submission.")
+//                                        self.stopSavingData()
+//                                    } else {
+//                                        print("Form submission complete.")
+//                                        self.showAlert(title: "Success", message: "Form submitted successfully.") {
+//                                            self.stopSavingData() // Re-enable everything once completed
+//                                            self.navigationController?.popViewController(animated: true)
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
     func saveFormData() {
-        uploadPhotosAndGetUrls { photoUrls in
-            print("Starting to save form data...")
-
+        uploadPhotosAndGetUrls { [self] photoUrls in
             guard let userParent = UserSession.shared.userParent else {
                 print("Error: User parent not found.")
                 self.stopSavingData()
@@ -752,9 +849,6 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
                 return
             }
 
-            print("User Parent: \(userParent)")
-            print("Form Name: \(formName)")
-
             let sanitizedFormName = self.sanitizeFirebaseKey(formName)
             let dateString = self.getCurrentDateTimeString()
             guard let uid = Auth.auth().currentUser?.uid else {
@@ -762,83 +856,84 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
                 self.stopSavingData()
                 return
             }
-
-            print("Sanitized Form Name: \(sanitizedFormName)")
-            print("Date String: \(dateString)")
-            print("User ID: \(uid)")
+            
+            print("englishForm: \(englishForm)")
 
             let basePath = "completedForms/\(userParent)/\(sanitizedFormName)/\(dateString)/\(uid)"
             let ref = Database.database().reference(withPath: basePath)
             
             let answers = self.gatherAnswers()
-            print("Gathered answers: \(answers)")
+            let displayedLanguage = TranslationManager.shared.getSelectedLanguage()
 
-            let firebaseAnswers = answers.mapValues { answerData -> [String: Any] in
-                guard let answerDict = answerData as? [String: Any] else {
-                    return [:]
-                }
+            var firebaseAnswers = [String: Any]()
+            let dispatchGroup = DispatchGroup()
+
+            for (key, answerData) in answers {
+                guard let answerDict = answerData as? [String: Any] else { continue }
 
                 var questionData: [String: Any] = [
                     "questionType": answerDict["type"] as? String ?? "",
-                    "questionText": answerDict["text"] as? String ?? "",
                     "answer": answerDict["answer"] ?? ""
                 ]
+                
+                // Find English version of the question
+                if let questionText = answerDict["text"] as? String {
+                    questionData["questionText_\(displayedLanguage)"] = questionText
+                    if let englishText = englishForm?.questions.first(where: { $0.id == key })?.text {
+                        questionData["questionText"] = englishText
+                    }
 
-                if let comment = answerDict["comment"] as? String {
-                    questionData["comment"] = comment
                 }
-
-                return questionData
+                
+                // Translate and save the comment
+                if let comment = answerDict["comment"] as? String {
+                    questionData["comment_\(displayedLanguage)"] = comment
+                    dispatchGroup.enter()
+                    TranslationManager.shared.translateTextUsingCloudFunction(comment, sourceLanguage: displayedLanguage, targetLanguage: "en") { translatedComment in
+                        print("Translated comment: \(translatedComment)")
+                        questionData["comment"] = translatedComment
+                        firebaseAnswers[key] = questionData // Moved inside the closure
+                        dispatchGroup.leave()
+                    }
+                } else {
+                    firebaseAnswers[key] = questionData // Added to handle no comment case
+                }
             }
 
-            let additionalData: [String: Any] = [
-                "plantNo": (answers["additional1"] as? [String: Any])?["answer"] as? String ?? "",
-                "opHours": (answers["additional2"] as? [String: Any])?["answer"] as? String ?? "",
-                "spotter": (answers["additional3"] as? [String: Any])?["answer"] as? String ?? "",
-                "location": self.locationAnswer ?? ((answers["additional4"] as? [String: Any])?["answer"] as? String ?? ""),
-                "others": (answers["additional5"] as? [String: Any])?["answer"] as? String ?? "",
-                "photoUrls": photoUrls
-            ]
+            dispatchGroup.notify(queue: .main) {
+                let additionalData: [String: Any] = [
+                    "plantNo": (answers["additional1"] as? [String: Any])?["answer"] as? String ?? "",
+                    "opHours": (answers["additional2"] as? [String: Any])?["answer"] as? String ?? "",
+                    "spotter": (answers["additional3"] as? [String: Any])?["answer"] as? String ?? "",
+                    "location": self.locationAnswer ?? ((answers["additional4"] as? [String: Any])?["answer"] as? String ?? ""),
+                    "others": (answers["additional5"] as? [String: Any])?["answer"] as? String ?? "",
+                    "photoUrls": photoUrls
+                ]
 
-            print("Firebase answers to be saved: \(firebaseAnswers)")
-            print("Additional data to be saved: \(additionalData)")
-
-            // Set 'isComplete' to false initially
-            ref.child("isComplete").setValue(false) { isCompleteError, _ in
-                if let isCompleteError = isCompleteError {
-                    print("Error setting 'isComplete' flag: \(isCompleteError.localizedDescription)")
-                    self.showAlert(title: "Error", message: "Failed to start saving the form.")
-                    self.stopSavingData()
-                    return
-                }
-
-                // Save answers to Firebase
-                ref.child("answers").setValue(firebaseAnswers) { error, _ in
-                    if let error = error {
-                        print("Error saving answers: \(error.localizedDescription)")
-                        self.showAlert(title: "Error", message: "Failed to save the form: \(error.localizedDescription)")
+                ref.child("isComplete").setValue(false) { isCompleteError, _ in
+                    if let isCompleteError = isCompleteError {
+                        print("Error setting 'isComplete' flag: \(isCompleteError.localizedDescription)")
                         self.stopSavingData()
-                    } else {
-                        print("Answers saved successfully.")
-                        // Save additional data after answers
-                        ref.child("additionalData").setValue(additionalData) { additionalError, _ in
-                            if let additionalError = additionalError {
-                                print("Error saving additional data: \(additionalError.localizedDescription)")
-                                self.showAlert(title: "Error", message: "Error submitting additional data: \(additionalError.localizedDescription)")
-                                self.stopSavingData()
-                            } else {
-                                print("Additional data saved successfully.")
-                                // Set 'isComplete' to true after everything else is saved
-                                ref.child("isComplete").setValue(true) { completeError, _ in
-                                    if let completeError = completeError {
-                                        print("Error setting 'isComplete' to true: \(completeError.localizedDescription)")
-                                        self.showAlert(title: "Error", message: "Failed to complete form submission.")
-                                        self.stopSavingData()
-                                    } else {
-                                        print("Form submission complete.")
-                                        self.showAlert(title: "Success", message: "Form submitted successfully.") {
-                                            self.stopSavingData() // Re-enable everything once completed
-                                            self.navigationController?.popViewController(animated: true)
+                        return
+                    }
+
+                    ref.child("answers").setValue(firebaseAnswers) { error, _ in
+                        if let error = error {
+                            print("Error saving answers: \(error.localizedDescription)")
+                            self.stopSavingData()
+                        } else {
+                            ref.child("additionalData").setValue(additionalData) { additionalError, _ in
+                                if let additionalError = additionalError {
+                                    print("Error saving additional data: \(additionalError.localizedDescription)")
+                                    self.stopSavingData()
+                                } else {
+                                    ref.child("isComplete").setValue(true) { completeError, _ in
+                                        if let completeError = completeError {
+                                            print("Error setting 'isComplete' to true: \(completeError.localizedDescription)")
+                                        } else {
+                                            self.showAlert(title: "Success", message: "Form submitted successfully.") {
+                                                self.navigationController?.popViewController(animated: true)
+                                            }
                                         }
                                     }
                                 }
@@ -850,10 +945,86 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
         }
     }
 
+//
+//    func translateText(_ text: String, targetLanguage: String, completion: @escaping (String) -> Void) {
+//        let url = "https://translation.googleapis.com/language/translate/v2"
+//        guard let requestURL = URL(string: url) else {
+//            print("Error: Invalid URL")
+//            completion(text)
+//            return
+//        }
+//    
+//        var request = URLRequest(url: URL(string: url)!)
+//        request.httpMethod = "POST"
+////        let apiKey = "YOUR_GOOGLE_TRANSLATE_API_KEY"
+//        let apiKey = "AIzaSyC-QU88K6vxP1WtGHBPtSIlWccSZolNyac"
+//        
+//        let body: [String: Any] = [
+//            "q": text,
+//            "target": "en",
+//            "key": apiKey
+//        ]
+//        
+//        do {
+//            let jsonData = try JSONSerialization.data(withJSONObject: body, options: [])
+//            request.httpBody = jsonData
+//        } catch {
+//            print("Error: Failed to serialize JSON body: \(error.localizedDescription)")
+//            completion(text)
+//            return
+//        }
+//        
+//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+//        
+//        print("Sending translation request with body: \(body)")
+//        
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            if let error = error {
+//                print("Translation error: \(error.localizedDescription)")
+//                completion(text) // Fallback to original text
+//                return
+//            }
+//            
+//            if let httpResponse = response as? HTTPURLResponse {
+//                print("Translation API HTTP status code: \(httpResponse.statusCode)")
+//            } else {
+//                print("Translation API response is not an HTTPURLResponse")
+//            }
+//            
+//            guard let data = data else {
+//                print("Error: No data received from translation API")
+//                completion(text)
+//                return
+//            }
+//            
+//            do {
+//                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+//                    print("Translation API response JSON: \(json)")
+//                    if let data = json["data"] as? [String: Any],
+//                       let translations = data["translations"] as? [[String: Any]],
+//                       let translatedText = translations.first?["translatedText"] as? String {
+//                        print("Translated text: \(translatedText)")
+//                        completion(translatedText)
+//                    } else {
+//                        print("Error: Missing expected fields in translation response")
+//                        completion(text) // Fallback to original text
+//                    }
+//                } else {
+//                    print("Error: Failed to parse JSON response")
+//                    completion(text) // Fallback to original text
+//                }
+//            } catch {
+//                print("Error parsing translation response: \(error.localizedDescription)")
+//                completion(text) // Fallback to original text
+//            }
+//        }.resume()
+//    }
+
+
 
     func showAlert(title: String, message: String, completion: (() -> Void)? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default) { _ in
+        alertController.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.okButton"), style: .default) { _ in
             completion?()
         })
         present(alertController, animated: true, completion: nil)

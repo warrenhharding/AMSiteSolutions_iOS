@@ -40,12 +40,12 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         // Create instance of OperatorViewController
         let operatorVC = OperatorViewController()
         let operatorNav = UINavigationController(rootViewController: operatorVC)
-        operatorNav.tabBarItem = UITabBarItem(title: "Operator", image: UIImage(systemName: "person"), tag: 0)
+        operatorNav.tabBarItem = UITabBarItem(title: TranslationManager.shared.getTranslation(for: "operatorTab.opTabTitle"), image: UIImage(systemName: "person"), tag: 0)
 
         // Create instance of TimesheetViewController
         let timesheetVC = TimesheetViewController()
         let timesheetNav = UINavigationController(rootViewController: timesheetVC)
-        timesheetNav.tabBarItem = UITabBarItem(title: "Timesheet", image: UIImage(systemName: "clock"), tag: 1)
+        timesheetNav.tabBarItem = UITabBarItem(title: TranslationManager.shared.getTranslation(for: "timesheetTab.timeTabTitle"), image: UIImage(systemName: "clock"), tag: 1)
 
         // Add the Operator and Timesheet tabs to the Tab Bar
         var viewControllers = [operatorNav, timesheetNav]
@@ -54,7 +54,7 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         if userType == "admin" || userType == "amAdmin" {
             let settingsVC = SettingsViewController()
             let settingsNav = UINavigationController(rootViewController: settingsVC)
-            settingsNav.tabBarItem = UITabBarItem(title: "Admin", image: UIImage(systemName: "gear"), tag: 2)
+            settingsNav.tabBarItem = UITabBarItem(title: TranslationManager.shared.getTranslation(for: "adminTab.adminTabTitle"), image: UIImage(systemName: "gear"), tag: 2)
             viewControllers.append(settingsNav)
         }
 
@@ -67,5 +67,31 @@ class MainTabBarController: UITabBarController, UITabBarControllerDelegate {
         tabBar.unselectedItemTintColor = ColorScheme.amPink
 
         self.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTranslations), name: .languageChanged, object: nil)
     }
+    
+    
+    @objc func reloadTranslations() {
+        // Update the tab bar item titles with the latest translations
+        if let viewControllers = self.viewControllers {
+            for (index, viewController) in viewControllers.enumerated() {
+                if let navController = viewController as? UINavigationController {
+                    switch index {
+                    case 0: // Operator Tab
+                        navController.tabBarItem.title = TranslationManager.shared.getTranslation(for: "operatorTab.opTabTitle")
+                    case 1: // Timesheet Tab
+                        navController.tabBarItem.title = TranslationManager.shared.getTranslation(for: "timesheetTab.timeTabTitle")
+                    case 2: // Admin Tab (if present)
+                        if userType == "admin" || userType == "amAdmin" {
+                            navController.tabBarItem.title = TranslationManager.shared.getTranslation(for: "adminTab.adminTabTitle")
+                        }
+                    default:
+                        break
+                    }
+                }
+            }
+        }
+    }
+
 }

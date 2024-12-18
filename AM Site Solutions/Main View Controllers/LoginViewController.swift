@@ -9,7 +9,6 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseFunctions
-//import SnapKit
 
 
 class UserSession {
@@ -22,30 +21,58 @@ class UserSession {
 }
 
 
-
 class LoginViewController: UIViewController {
 
     // UI elements
+    let languageStackView = UIStackView()
+    let globeImageView = UIImageView()
+    let languageLabel = UILabel()
+    
+    let languageSelectorButton = CustomButton(type: .system)
     let logoImageView = UIImageView()
     let phoneNumberLabel = UILabel()
     let phoneNumberTextField = UITextField()
     let submitButton = CustomButton(type: .system)
     let termsButton = UIButton(type: .system)
+    
+//    var availableLanguages: [String] = ["en", "de", "pt-BR"]
+//    var availableLanguages: [Language] = []
+    let pickerView = UIPickerView()
+    let toolbar = UIToolbar()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("Inside the LoginViewController")
-        setupUI()
+//        setupUI()
         // Temporarily disable checkLoggedInStatus()
         checkLoggedInStatus()
+        
         // Add tap gesture recognizer to termsButton to open Safari
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(openTermsAndConditions))
         termsButton.addGestureRecognizer(tapGestureRecognizer)
         
+        setupLanguagePicker()
+        
+        setupDismissKeyboardGesture()
+        
+        // Check if translations are already loaded
+        if TranslationManager.shared.isTranslationsLoaded {
+            print("Translations already loaded, setting up UI immediately.")
+            setupUI()
+        } else {
+            print("Waiting for translations to load.")
+            NotificationCenter.default.addObserver(self, selector: #selector(translationsLoaded), name: .translationsLoaded, object: nil)
+        }
+        
         // Add observers for keyboard notifications
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+//        NotificationCenter.default.addObserver(self, selector: #selector(translationsLoaded), name: .translationsLoaded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadTranslations), name: .languageChanged, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(languagesDidLoad), name: .languagesLoaded, object: nil)
         
         // Check if a user is already logged in
         if let user = Auth.auth().currentUser {
@@ -67,6 +94,190 @@ class LoginViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc func languagesDidLoad() {
+        // Update your UI here
+        updateLanguageSelector()
+        pickerView.reloadAllComponents()
+    }
+    
+    private func setupLanguagePicker() {
+        // Picker View
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        pickerView.backgroundColor = .white
+        pickerView.isHidden = true
+        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(pickerView)
+
+        // Toolbar
+        toolbar.barStyle = .default
+        toolbar.isTranslucent = true
+        toolbar.tintColor = ColorScheme.amBlue
+        toolbar.sizeToFit()
+        toolbar.isHidden = true
+
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+        toolbar.setItems([flexibleSpace, doneButton], animated: false)
+        toolbar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(toolbar)
+
+        // Layout
+        NSLayoutConstraint.activate([
+            toolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            toolbar.bottomAnchor.constraint(equalTo: pickerView.topAnchor),
+            toolbar.heightAnchor.constraint(equalToConstant: 44),
+
+            pickerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pickerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pickerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            pickerView.heightAnchor.constraint(equalToConstant: 216)
+        ])
+    }
+    
+    @objc private func languageSelectorTapped() {
+        toolbar.isHidden = false
+        pickerView.isHidden = false
+    }
+
+    @objc private func doneButtonTapped() {
+        toolbar.isHidden = true
+        pickerView.isHidden = true
+    }
+    
+    
+    
+    func setupLanguageSelector() {
+        // Configure the globe icon
+        globeImageView.image = UIImage(systemName: "globe") // SF Symbol for globe
+        globeImageView.tintColor = ColorScheme.amBlue
+        globeImageView.contentMode = .scaleAspectFit
+        globeImageView.translatesAutoresizingMaskIntoConstraints = false
+
+        // Configure the language label
+        languageLabel.text = TranslationManager.shared.getTranslation(for: "common.selectLanguage")
+        languageLabel.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
+        languageLabel.textColor = ColorScheme.amBlue
+        languageLabel.translatesAutoresizingMaskIntoConstraints = false
+
+        // Stack View for Globe and Label
+        let selectorStackView = UIStackView(arrangedSubviews: [globeImageView, languageLabel])
+        selectorStackView.axis = .horizontal
+        selectorStackView.spacing = 6 // Reduced spacing for closer alignment
+        selectorStackView.alignment = .center
+        selectorStackView.translatesAutoresizingMaskIntoConstraints = false
+
+        // Add a background container with rounded edges
+        let backgroundContainer = UIView()
+        backgroundContainer.backgroundColor = UIColor.systemGray6
+        backgroundContainer.layer.cornerRadius = 16
+        backgroundContainer.translatesAutoresizingMaskIntoConstraints = false
+
+        // Add a transparent button for the tap area
+        let tapAreaButton = UIButton(type: .system)
+        tapAreaButton.addTarget(self, action: #selector(languageSelectorTapped), for: .touchUpInside)
+        tapAreaButton.translatesAutoresizingMaskIntoConstraints = false
+
+        // Add subviews
+        view.addSubview(backgroundContainer)
+        backgroundContainer.addSubview(selectorStackView)
+        backgroundContainer.addSubview(tapAreaButton)
+
+        // Constraints for the background container
+        NSLayoutConstraint.activate([
+            backgroundContainer.bottomAnchor.constraint(equalTo: logoImageView.topAnchor, constant: -20), // Move closer to the logo
+            backgroundContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            backgroundContainer.widthAnchor.constraint(equalTo: selectorStackView.widthAnchor, constant: 32), // Add 16 points padding on each side (left & right)
+            backgroundContainer.heightAnchor.constraint(equalToConstant: 40)
+        ])
+
+        // Constraints for the selector stack view
+        NSLayoutConstraint.activate([
+            selectorStackView.centerYAnchor.constraint(equalTo: backgroundContainer.centerYAnchor),
+            selectorStackView.centerXAnchor.constraint(equalTo: backgroundContainer.centerXAnchor)
+        ])
+
+        // Tap area matches the container
+        NSLayoutConstraint.activate([
+            tapAreaButton.leadingAnchor.constraint(equalTo: backgroundContainer.leadingAnchor),
+            tapAreaButton.trailingAnchor.constraint(equalTo: backgroundContainer.trailingAnchor),
+            tapAreaButton.topAnchor.constraint(equalTo: backgroundContainer.topAnchor),
+            tapAreaButton.bottomAnchor.constraint(equalTo: backgroundContainer.bottomAnchor)
+        ])
+    }
+    
+//    func updateLanguageSelector() {
+//        let currentLanguage = TranslationManager.shared.getSelectedLanguage()
+//        switch currentLanguage {
+//        case "en":
+//            languageLabel.text = "English"
+//        case "de":
+//            languageLabel.text = "Deutsch"
+//        case "pt-BR":
+//            languageLabel.text = "Português (Brasil)"
+//        default:
+//            languageLabel.text = "English"
+//        }
+//    }
+    
+    func updateLanguageSelector() {
+        let currentLanguage = TranslationManager.shared.getSelectedLanguage()
+        if let language = LanguageManager.shared.availableLanguages.first(where: { $0.code == currentLanguage }) {
+            languageLabel.text = language.name
+        } else {
+            languageLabel.text = "English"
+        }
+    }
+    
+    
+    @objc func translationsLoaded() {
+        print("Translations loaded, setting up UI.")
+        setupUI()
+    }
+    
+    @objc func reloadTranslations() {
+        phoneNumberLabel.text = TranslationManager.shared.getTranslation(for: "loginScreen.phoneNoLabel")
+        phoneNumberTextField.placeholder = TranslationManager.shared.getTranslation(for: "loginScreen.phoneNoPrompt")
+        submitButton.setTitle(TranslationManager.shared.getTranslation(for: "common.submitButton"), for: .normal)
+        let termsText = TranslationManager.shared.getTranslation(for: "loginScreen.termsText")
+        let attributedString = NSMutableAttributedString(string: termsText)
+        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: termsText.count))
+        termsButton.setAttributedTitle(attributedString, for: .normal)
+        updateLanguageSelector()
+    }
+    
+    func showLanguagePicker() {
+        let alert = UIAlertController(title: "Select Language", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "English", style: .default, handler: { _ in
+            TranslationManager.shared.changeLanguage(to: "en") { success in
+                if success {
+                    NotificationCenter.default.post(name: .languageChanged, object: nil)
+                }
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Español", style: .default, handler: { _ in
+            TranslationManager.shared.changeLanguage(to: "es") { success in
+                if success {
+                    NotificationCenter.default.post(name: .languageChanged, object: nil)
+                }
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
+
+    
+    
+    func setupDismissKeyboardGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     
@@ -93,79 +304,7 @@ class LoginViewController: UIViewController {
     }
     
     
-//    func setupUI() {
-//        print("Starting setupUI")
-//        
-//        // Logo
-//        logoImageView.image = UIImage(named: "AppLogo") // Set your logo image here
-//        logoImageView.contentMode = .scaleAspectFit
-//        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        // Phone Number Label
-//        phoneNumberLabel.text = "Phone Number"
-//        phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        // Phone Number Text Field
-//        phoneNumberTextField.placeholder = "Enter your phone number"
-//        phoneNumberTextField.borderStyle = .roundedRect
-//        phoneNumberTextField.keyboardType = .phonePad
-//        phoneNumberTextField.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        // Submit Button
-//        submitButton.setTitle("Submit", for: .normal)
-//        submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
-//        submitButton.backgroundColor = ColorScheme.amPink
-//        submitButton.setTitleColor(.white, for: .normal)
-//        submitButton.layer.cornerRadius = 8
-//        submitButton.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        // Terms Button
-//        let termsText = "Terms and Conditions"
-//        let attributedString = NSMutableAttributedString(string: termsText)
-//        attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: termsText.count))
-//        termsButton.setAttributedTitle(attributedString, for: .normal)
-//        termsButton.setTitleColor(ColorScheme.amBlue, for: .normal)
-//        termsButton.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        // Add subviews
-//        view.addSubview(logoImageView)
-//        view.addSubview(phoneNumberLabel)
-//        view.addSubview(phoneNumberTextField)
-//        view.addSubview(submitButton)
-////        view.addSubview(termsButton)
-//        
-//        // Auto Layout Constraints
-//        NSLayoutConstraint.activate([
-//            // Logo ImageView Constraints
-//            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 130),
-//            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            logoImageView.widthAnchor.constraint(equalToConstant: 400),
-//            logoImageView.heightAnchor.constraint(equalToConstant: 200),
-//            
-//            // Phone Number Label Constraints
-//            phoneNumberLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 80),
-//            phoneNumberLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-//            phoneNumberLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-//            
-//            // Phone Number TextField Constraints
-//            phoneNumberTextField.topAnchor.constraint(equalTo: phoneNumberLabel.bottomAnchor, constant: 12),
-//            phoneNumberTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-//            phoneNumberTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-//            phoneNumberTextField.heightAnchor.constraint(equalToConstant: 40),
-//            
-//            // Submit Button Constraints
-//            submitButton.topAnchor.constraint(equalTo: phoneNumberTextField.bottomAnchor, constant: 30),
-//            submitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-//            submitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-//            submitButton.heightAnchor.constraint(equalToConstant: 44),
-//            
-////            // Terms Button Constraints
-////            termsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-////            termsButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-//        ])
-//        
-//        print("Finishing setupUI")
-//    }
+
     
     func setupUI() {
         print("Starting setupUI")
@@ -176,17 +315,20 @@ class LoginViewController: UIViewController {
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         
         // Phone Number Label
-        phoneNumberLabel.text = "Phone Number"
+//        phoneNumberLabel.text = "Phone Number"
+        phoneNumberLabel.text = TranslationManager.shared.getTranslation(for: "loginScreen.phoneNoLabel")
         phoneNumberLabel.translatesAutoresizingMaskIntoConstraints = false
         
         // Phone Number Text Field
-        phoneNumberTextField.placeholder = "Enter your phone number"
+//        phoneNumberTextField.placeholder = "Enter your phone number"
+        phoneNumberTextField.placeholder = TranslationManager.shared.getTranslation(for: "loginScreen.phoneNoPrompt")
         phoneNumberTextField.borderStyle = .roundedRect
         phoneNumberTextField.keyboardType = .phonePad
         phoneNumberTextField.translatesAutoresizingMaskIntoConstraints = false
         
         // Submit Button
-        submitButton.setTitle("Submit", for: .normal)
+//        submitButton.setTitle("Submit", for: .normal)
+        submitButton.setTitle(TranslationManager.shared.getTranslation(for: "common.submitButton"), for: .normal)
         submitButton.addTarget(self, action: #selector(submitButtonTapped), for: .touchUpInside)
         submitButton.backgroundColor = ColorScheme.amPink
         submitButton.setTitleColor(.white, for: .normal)
@@ -194,7 +336,8 @@ class LoginViewController: UIViewController {
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         
         // Terms Button
-        let termsText = "Terms and Conditions"
+//        let termsText = "Terms and Conditions"
+        let termsText = TranslationManager.shared.getTranslation(for: "loginScreen.termsText")
         let attributedString = NSMutableAttributedString(string: termsText)
         attributedString.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: 0, length: termsText.count))
         termsButton.setAttributedTitle(attributedString, for: .normal)
@@ -211,19 +354,40 @@ class LoginViewController: UIViewController {
         view.addSubview(logoImageView)
         view.addSubview(stackView)
         
+        // Call setupLanguageSelector() here to add the selector
+        setupLanguageSelector()
+        
+//        // Auto Layout Constraints
+//        NSLayoutConstraint.activate([
+//            // Logo ImageView Constraints
+//            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+//            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
+//            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor, multiplier: 0.5),
+//            
+//            // Stack View Constraints
+//            stackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 40),
+//            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+//            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+//            
+//            // Adjust the height of the text field and button
+//            phoneNumberTextField.heightAnchor.constraint(equalToConstant: 40),
+//            submitButton.heightAnchor.constraint(equalToConstant: 44)
+//        ])
+
         // Auto Layout Constraints
         NSLayoutConstraint.activate([
             // Logo ImageView Constraints
-            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120), // Lowered further
             logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor, multiplier: 0.5),
-            
+
             // Stack View Constraints
-            stackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 40),
+            stackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 60), // More space below the logo
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-            
+
             // Adjust the height of the text field and button
             phoneNumberTextField.heightAnchor.constraint(equalToConstant: 40),
             submitButton.heightAnchor.constraint(equalToConstant: 44)
@@ -233,8 +397,20 @@ class LoginViewController: UIViewController {
     }
 
 
+//    @objc func languageSelectorTapped() {
+//        let languagePickerVC = LanguagePickerViewController()
+//        languagePickerVC.availableLanguages = TranslationManager.shared.availableLanguages
+//        languagePickerVC.selectedLanguageHandler = { selectedLanguage in
+//            TranslationManager.shared.changeLanguage(to: selectedLanguage) { success in
+//                if success {
+//                    NotificationCenter.default.post(name: .languageChanged, object: nil)
+//                }
+//            }
+//        }
+//        languagePickerVC.modalPresentationStyle = .pageSheet
+//        present(languagePickerVC, animated: true)
+//    }
 
-    
  
     @objc func submitButtonTapped() {
         // Safely unwrap the phone number text field's text
@@ -245,7 +421,7 @@ class LoginViewController: UIViewController {
         
         // Validate phone number
         if !isValidPhoneNumber(phoneNumber) {
-            displayErrorAlert(message: "Please enter a valid Irish phone number (starting with 085, 086, 087) or an international number.")
+            displayErrorAlert(message: "Please enter a valid Irish phone number (starting with 083, 085, 086, 087, 089) or an international number.")
             return
         }
         
@@ -279,12 +455,6 @@ class LoginViewController: UIViewController {
             self.showVerificationCodeInputAlert()
         }
     }
-
-//    // Validate phone number format
-//    private func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
-//        // Check if it's a valid Irish number or international number
-//        return phoneNumber.hasPrefix("+353") || phoneNumber.hasPrefix("085") || phoneNumber.hasPrefix("086") || phoneNumber.hasPrefix("087") || phoneNumber.hasPrefix("089")
-//    }
     
     // Validate phone number format
     private func isValidPhoneNumber(_ phoneNumber: String) -> Bool {
@@ -318,7 +488,7 @@ class LoginViewController: UIViewController {
         if phoneNumber.hasPrefix("+353") {
             // Already formatted with country code
             return phoneNumber
-        } else if phoneNumber.hasPrefix("085") || phoneNumber.hasPrefix("086") || phoneNumber.hasPrefix("087") || phoneNumber.hasPrefix("089") {
+        } else if phoneNumber.hasPrefix("085") || phoneNumber.hasPrefix("086") || phoneNumber.hasPrefix("087") || phoneNumber.hasPrefix("089") || phoneNumber.hasPrefix("083") {
             // Irish number without country code, add +353
             return "+353" + String(phoneNumber.dropFirst())
         } else if phoneNumber.hasPrefix("08") {
@@ -531,6 +701,96 @@ class LoginViewController: UIViewController {
     }
     
 }
+
+
+
+
+extension LoginViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return LanguageManager.shared.availableLanguages.count
+    }
+
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        switch availableLanguages[row] {
+//        case "en": return "English"
+//        case "de": return "Deutsch"
+//        case "pt-BR": return "Português (Brasil)"
+//        default: return availableLanguages[row]
+//        }
+//    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return LanguageManager.shared.availableLanguages[row].name
+    }
+
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        // Get the selected language code
+//        let selectedLanguage = availableLanguages[row]
+//        
+//        // Update the language label with the corresponding name
+//        switch selectedLanguage {
+//        case "en":
+//            languageLabel.text = "English"
+//            updateDoneButtonTitle("Done")
+//        case "de":
+//            languageLabel.text = "Deutsch"
+//            updateDoneButtonTitle("Fertig") // German for "Done"
+//        case "pt-BR":
+//            languageLabel.text = "Português (Brasil)"
+//            updateDoneButtonTitle("Concluído") // Brazilian Portuguese for "Done"
+//        default:
+//            languageLabel.text = selectedLanguage
+//            updateDoneButtonTitle("Done")
+//        }
+//
+//        // Change the app's language
+//        TranslationManager.shared.changeLanguage(to: selectedLanguage) { success in
+//            if success {
+//                NotificationCenter.default.post(name: .languageChanged, object: nil)
+//            }
+//        }
+//    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let selectedLanguage = LanguageManager.shared.availableLanguages[row].code
+        let selectedLanguageName = LanguageManager.shared.availableLanguages[row].name
+
+        // Update the label immediately
+        languageLabel.text = selectedLanguageName
+        
+        print("selectedLanguage: \(selectedLanguage)")
+        print("selectedLanguageName: \(selectedLanguageName)")
+        print("languageLabel.text: \(languageLabel.text)")
+        
+        // Change the app's language asynchronously
+        TranslationManager.shared.changeLanguage(to: selectedLanguage) { success in
+            if success {
+                // Fetch the updated translation for "Done" after the language change is complete
+                let doneLabel = TranslationManager.shared.getTranslation(for: "common.done")
+                self.updateDoneButtonTitle(doneLabel)
+                
+                print("Updated Done label: \(doneLabel)")
+                
+                // Notify observers that the language has changed
+                NotificationCenter.default.post(name: .languageChanged, object: nil)
+            }
+        }
+    }
+    
+    
+
+    // Helper method to update the "Done" button's title
+    private func updateDoneButtonTitle(_ title: String) {
+        if let doneButton = toolbar.items?.last {
+            doneButton.title = title
+        }
+    }
+}
+
 
 
 
