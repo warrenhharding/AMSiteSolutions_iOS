@@ -10,6 +10,13 @@ import UIKit
 
 @available(iOS 15.0, *)
 class CustomButton: UIButton {
+    
+    // A custom background color property that updates the configuration.
+    var customBackgroundColor: UIColor = ColorScheme.amBlue {
+        didSet {
+            self.configuration?.baseBackgroundColor = customBackgroundColor
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -35,8 +35,8 @@ class LoginViewController: UIViewController {
     let submitButton = CustomButton(type: .system)
     let termsButton = UIButton(type: .system)
     
-//    var availableLanguages: [String] = ["en", "de", "pt-BR"]
-//    var availableLanguages: [Language] = []
+    let spinner = UIActivityIndicatorView(style: .large)
+    
     let pickerView = UIPickerView()
     let toolbar = UIToolbar()
 
@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         print("Inside the LoginViewController")
-//        setupUI()
+
         // Temporarily disable checkLoggedInStatus()
         checkLoggedInStatus()
         
@@ -55,6 +55,17 @@ class LoginViewController: UIViewController {
         setupLanguagePicker()
         
         setupDismissKeyboardGesture()
+        
+        // Configure spinner
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        spinner.color = .gray
+        view.addSubview(spinner)
+
+        // Center spinner
+        NSLayoutConstraint.activate([
+            spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
         
         // Check if translations are already loaded
         if TranslationManager.shared.isTranslationsLoaded {
@@ -209,19 +220,6 @@ class LoginViewController: UIViewController {
         ])
     }
     
-//    func updateLanguageSelector() {
-//        let currentLanguage = TranslationManager.shared.getSelectedLanguage()
-//        switch currentLanguage {
-//        case "en":
-//            languageLabel.text = "English"
-//        case "de":
-//            languageLabel.text = "Deutsch"
-//        case "pt-BR":
-//            languageLabel.text = "Português (Brasil)"
-//        default:
-//            languageLabel.text = "English"
-//        }
-//    }
     
     func updateLanguageSelector() {
         let currentLanguage = TranslationManager.shared.getSelectedLanguage()
@@ -357,24 +355,6 @@ class LoginViewController: UIViewController {
         // Call setupLanguageSelector() here to add the selector
         setupLanguageSelector()
         
-//        // Auto Layout Constraints
-//        NSLayoutConstraint.activate([
-//            // Logo ImageView Constraints
-//            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
-//            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            logoImageView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
-//            logoImageView.heightAnchor.constraint(equalTo: logoImageView.widthAnchor, multiplier: 0.5),
-//            
-//            // Stack View Constraints
-//            stackView.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 40),
-//            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-//            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
-//            
-//            // Adjust the height of the text field and button
-//            phoneNumberTextField.heightAnchor.constraint(equalToConstant: 40),
-//            submitButton.heightAnchor.constraint(equalToConstant: 44)
-//        ])
-
         // Auto Layout Constraints
         NSLayoutConstraint.activate([
             // Logo ImageView Constraints
@@ -397,19 +377,6 @@ class LoginViewController: UIViewController {
     }
 
 
-//    @objc func languageSelectorTapped() {
-//        let languagePickerVC = LanguagePickerViewController()
-//        languagePickerVC.availableLanguages = TranslationManager.shared.availableLanguages
-//        languagePickerVC.selectedLanguageHandler = { selectedLanguage in
-//            TranslationManager.shared.changeLanguage(to: selectedLanguage) { success in
-//                if success {
-//                    NotificationCenter.default.post(name: .languageChanged, object: nil)
-//                }
-//            }
-//        }
-//        languagePickerVC.modalPresentationStyle = .pageSheet
-//        present(languagePickerVC, animated: true)
-//    }
 
  
     @objc func submitButtonTapped() {
@@ -424,6 +391,10 @@ class LoginViewController: UIViewController {
             displayErrorAlert(message: "Please enter a valid Irish phone number (starting with 083, 085, 086, 087, 089) or an international number.")
             return
         }
+        
+        // Show spinner
+        spinner.startAnimating()
+        view.isUserInteractionEnabled = false
         
         // Format phone number with country code
         let phoneNumberWithCountryCode = formatPhoneNumber(phoneNumber)
@@ -461,7 +432,7 @@ class LoginViewController: UIViewController {
         var isValid = false
 
         // Check if the number starts with the Irish international code or an Irish mobile number prefix
-        if phoneNumber.hasPrefix("+3538") || phoneNumber.range(of: "^08[3567]\\d{7}$", options: .regularExpression) != nil {
+        if phoneNumber.hasPrefix("+3538") || phoneNumber.range(of: "^08[35679]\\d{7}$", options: .regularExpression) != nil {
             // If it starts with '08', transform it to the international format
             if phoneNumber.hasPrefix("08") {
                 let formattedNumber = phoneNumber.replacingOccurrences(of: "^08", with: "+3538", options: .regularExpression)
@@ -534,6 +505,10 @@ class LoginViewController: UIViewController {
             return
         }
         
+        // Show spinner
+        spinner.startAnimating()
+        view.isUserInteractionEnabled = false // Disable user interaction
+        
         // Log the verificationID to ensure it's correct
         print("Retrieved verificationID: \(verificationID)")
         print("Verification code: \(verificationCode)")
@@ -567,8 +542,17 @@ class LoginViewController: UIViewController {
     
     // Fetch user details from Realtime Database
     private func fetchUserDetails(user: User) {
+        // Show spinner
+        spinner.startAnimating()
+        view.isUserInteractionEnabled = false // Disable user interaction
+        
         let ref = Database.database().reference().child("users/\(user.uid)")
         ref.observeSingleEvent(of: .value) { (snapshot: DataSnapshot, prevChildKey: String?) in
+
+           // Hide spinner
+           self.spinner.stopAnimating()
+           self.view.isUserInteractionEnabled = true // Re-enable user interaction
+            
             guard let userData = snapshot.value as? [String: Any] else {
                 self.displayErrorAlert(message: "User data not found.")
                 print("Error: User data snapshot is not a dictionary.")
@@ -675,6 +659,10 @@ class LoginViewController: UIViewController {
 
     // Display generic error alert
     private func displayErrorAlert(message: String) {
+        // Hide spinner
+        spinner.stopAnimating()
+        view.isUserInteractionEnabled = true // Re-enable user interaction
+        
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
@@ -713,47 +701,10 @@ extension LoginViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return LanguageManager.shared.availableLanguages.count
     }
-
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        switch availableLanguages[row] {
-//        case "en": return "English"
-//        case "de": return "Deutsch"
-//        case "pt-BR": return "Português (Brasil)"
-//        default: return availableLanguages[row]
-//        }
-//    }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return LanguageManager.shared.availableLanguages[row].name
     }
-
-//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        // Get the selected language code
-//        let selectedLanguage = availableLanguages[row]
-//        
-//        // Update the language label with the corresponding name
-//        switch selectedLanguage {
-//        case "en":
-//            languageLabel.text = "English"
-//            updateDoneButtonTitle("Done")
-//        case "de":
-//            languageLabel.text = "Deutsch"
-//            updateDoneButtonTitle("Fertig") // German for "Done"
-//        case "pt-BR":
-//            languageLabel.text = "Português (Brasil)"
-//            updateDoneButtonTitle("Concluído") // Brazilian Portuguese for "Done"
-//        default:
-//            languageLabel.text = selectedLanguage
-//            updateDoneButtonTitle("Done")
-//        }
-//
-//        // Change the app's language
-//        TranslationManager.shared.changeLanguage(to: selectedLanguage) { success in
-//            if success {
-//                NotificationCenter.default.post(name: .languageChanged, object: nil)
-//            }
-//        }
-//    }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let selectedLanguage = LanguageManager.shared.availableLanguages[row].code

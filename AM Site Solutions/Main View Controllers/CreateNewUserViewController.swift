@@ -375,7 +375,7 @@ class CreateNewUserViewController: UIViewController, UIPickerViewDelegate, UIPic
         }
         
         guard let phoneNumber = phoneNumberTextField.text, isValidPhoneNumber(phoneNumber) else {
-            showAlert(message: TranslationManager.shared.getTranslation(for: "newUserScreen.pleaseEnteerValidPhoneNo"))
+            showAlert(message: TranslationManager.shared.getTranslation(for: "newUserScreen.pleaseEnterValidPhoneNo"))
             return
         }
         
@@ -394,8 +394,40 @@ class CreateNewUserViewController: UIViewController, UIPickerViewDelegate, UIPic
     }
 
     
+//    func createUser(firstName: String, surname: String, phoneNumber: String, userType: String) {
+//        let userCompany = "Company 1"  // Hardcoded for now
+//        let userParent = UserSession.shared.userParent
+//
+//        let data = [
+//            "firstName": firstName,
+//            "surname": surname,
+//            "phoneNumber": phoneNumber,
+//            "userType": userType,
+//            "userCompany": userCompany,
+//            "userParent": userParent ?? ""
+//        ]
+//
+//        showSpinner()
+//
+//        functions.httpsCallable("createSubUser").call(data) { result, error in
+//            self.hideSpinner()
+//
+//            if let error = error {
+//                print("Error: \(error.localizedDescription)")
+//                self.showAlert(message: "An error occurred. Please try again.")
+//                return
+//            }
+//
+//            if let response = result?.data as? [String: Any], response["success"] as? Bool == true {
+//                self.showAlertWithDismiss(message: "User created successfully!")
+//            } else {
+//                self.showAlert(message: "An unknown error occurred.")
+//            }
+//        }
+//    }
+    
     func createUser(firstName: String, surname: String, phoneNumber: String, userType: String) {
-        let userCompany = "Company 1"  // Hardcoded for now
+        let userCompany = "Company 1"
         let userParent = UserSession.shared.userParent
 
         let data = [
@@ -412,19 +444,36 @@ class CreateNewUserViewController: UIViewController, UIPickerViewDelegate, UIPic
         functions.httpsCallable("createSubUser").call(data) { result, error in
             self.hideSpinner()
 
-            if let error = error {
+            if let error = error as NSError? {
                 print("Error: \(error.localizedDescription)")
-                self.showAlert(message: "An error occurred. Please try again.")
+
+                // Get the detailed message from the Firebase error.
+                if let details = error.userInfo[FunctionsErrorDetailsKey] as? String {
+                    // If Firebase Functions sent a detailed message, use it.
+                    self.showAlert(message: details)
+                } else if let underlyingError = error.userInfo[NSUnderlyingErrorKey] as? NSError,
+                          let authErrorInfo = underlyingError.userInfo["errorInfo"] as? [String: Any],
+                          let message = authErrorInfo["message"] as? String {
+                    // If it's an auth error, extract the 'message' from 'errorInfo'.
+                    self.showAlert(message: message)
+                }
+                else {
+                    // Fallback to a generic error message.
+                    self.showAlert(message: "An error occurred: \(error.localizedDescription)")
+                }
                 return
             }
+            //check for success
+             if let response = result?.data as? [String: Any], let success = response["success"] as? Bool, success == true {
+                 self.showAlertWithDismiss(message: "User created successfully!")
+              } else {
+                self.showAlert(message: "An unknown error occurred. Server returned an unexpected response")
+             }
 
-            if let response = result?.data as? [String: Any], response["success"] as? Bool == true {
-                self.showAlertWithDismiss(message: "User created successfully!")
-            } else {
-                self.showAlert(message: "An unknown error occurred.")
-            }
         }
     }
+    
+    
     
     func updateUser(userID: String, firstName: String, surname: String, phoneNumber: String, userType: String) {
         let userCompany = "Company 1"  // Hardcoded for now

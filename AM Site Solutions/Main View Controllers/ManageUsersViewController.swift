@@ -204,18 +204,31 @@ class ManageUsersViewController: UIViewController, UITableViewDataSource, UITabl
 extension ManageUsersViewController {
     func showUserManagementOptions(userUID: String) {
         let alert = UIAlertController(title: TranslationManager.shared.getTranslation(for: "manageUsersScreen.manageUser"), message: nil, preferredStyle: .actionSheet)
+        
+        // Option 1: Edit User
         alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "manageUsersScreen.editUserButton"), style: .default, handler: { _ in
             let editUserVC = CreateNewUserViewController()  // Reused for editing
             editUserVC.editingUserID = userUID
             editUserVC.isEditingUser = true
-//            self.present(editUserVC, animated: true)
             let navController = UINavigationController(rootViewController: editUserVC)
             self.present(navController, animated: true, completion: nil)
         }))
+        
+        // Option 2: View User Cards
+        alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "adminTab.viewUserCards"), style: .default, handler: { _ in
+            let adminCardsVC = AdminUserCardsViewController()
+            adminCardsVC.userId = userUID  // Pass the selected user's UID
+            self.navigationController?.pushViewController(adminCardsVC, animated: true)
+        }))
+        
+        // Option 3: Delete User
         alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "manageUsersScreen.deleteUserButton"), style: .destructive, handler: { _ in
             self.showDeleteConfirmation(userUID: userUID)
         }))
+        
+        // Option 4: Cancel
         alert.addAction(UIAlertAction(title: TranslationManager.shared.getTranslation(for: "common.cancelButton"), style: .cancel))
+        
         present(alert, animated: true)
     }
 

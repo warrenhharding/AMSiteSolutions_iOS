@@ -19,6 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+//        #if DEBUG // Only set the debug token in debug builds
+//         let providerFactory = AppCheckDebugProviderFactory()
+//         AppCheck.setAppCheckProviderFactory(providerFactory)
+//
+//         // Set the debug token
+//         AppCheck.debugToken = "A81F796F-5F75-4D5C-83D4-92AF96BDE8DE"
+//         #endif
+        
         FirebaseApp.configure()
         
         // 1. Create the window
@@ -65,6 +73,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         fetchSupportedLanguages()
+        
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
+
                 
         return true
     }

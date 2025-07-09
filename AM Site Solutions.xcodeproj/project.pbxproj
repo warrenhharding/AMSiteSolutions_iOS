@@ -23,6 +23,11 @@
 		F63957452C885C0E00069BA7 /* ManageUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957442C885C0D00069BA7 /* ManageUsersViewController.swift */; };
 		F63957472C88868300069BA7 /* TimesheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957462C88868300069BA7 /* TimesheetViewController.swift */; };
 		F63957492C88D82C00069BA7 /* TimesheetEntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63957482C88D82C00069BA7 /* TimesheetEntryCell.swift */; };
+		F674F6842DE067870035AD5A /* MyFolderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F674F6832DE067870035AD5A /* MyFolderViewController.swift */; };
+		F674F6862DE088C80035AD5A /* AddExternalGa1FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F674F6852DE088C80035AD5A /* AddExternalGa1FormViewController.swift */; };
+		F674F6882DE0942C0035AD5A /* AddExpenseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F674F6872DE0942C0035AD5A /* AddExpenseViewController.swift */; };
+		F674F68C2DE0A4660035AD5A /* ExternalGA1FormsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F674F68B2DE0A4660035AD5A /* ExternalGA1FormsListViewController.swift */; };
+		F674F68E2DE0A96B0035AD5A /* ExpenseListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F674F68D2DE0A96B0035AD5A /* ExpenseListViewController.swift */; };
 		F6928B742D13217B00393F7A /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6928B732D13217B00393F7A /* Language.swift */; };
 		F6928B762D13236800393F7A /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6928B752D13236800393F7A /* LanguageManager.swift */; };
 		F69AAA272C87844D0082A14E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA262C87844D0082A14E /* AppDelegate.swift */; };
@@ -35,9 +40,28 @@
 		F69AAA3D2C8785010082A14E /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3C2C8785010082A14E /* Form.swift */; };
 		F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3E2C8785550082A14E /* FormCell.swift */; };
 		F69AAA412C8785930082A14E /* ColourScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA402C8785930082A14E /* ColourScheme.swift */; };
+		F6B1E1FA2D49276E00ED0D74 /* ClockOffDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1E1F92D49276E00ED0D74 /* ClockOffDialogViewController.swift */; };
+		F6B1E2002D4A48FC00ED0D74 /* SignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1E1FF2D4A48FC00ED0D74 /* SignatureViewController.swift */; };
+		F6B1E2022D4A49DD00ED0D74 /* SignatureDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1E2012D4A49DD00ED0D74 /* SignatureDrawView.swift */; };
+		F6C2AE632DFAE1D5002D60D0 /* GA2ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2AE612DFAE1D5002D60D0 /* GA2ListViewController.swift */; };
+		F6C2AE642DFAE1D5002D60D0 /* GA2Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2AE622DFAE1D5002D60D0 /* GA2Report.swift */; };
+		F6C2AE662DFAE586002D60D0 /* TimesheetListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2AE652DFAE586002D60D0 /* TimesheetListViewController.swift */; };
+		F6C2AE682DFAE5A6002D60D0 /* Timesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2AE672DFAE5A6002D60D0 /* Timesheet.swift */; };
 		F6EA4CE42CFEFF94003FA735 /* TranslationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA4CE32CFEFF94003FA735 /* TranslationManager.swift */; };
 		F6EA4CE62CFF1954003FA735 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6EA4CE52CFF1954003FA735 /* GoogleService-Info.plist */; };
 		F6EE438C2CD4E10E00136953 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F6EE438A2CD4E10E00136953 /* Localizable.strings */; };
+		F6F03F1C2D75FBB400DBB266 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F1B2D75FBB400DBB266 /* Card.swift */; };
+		F6F03F1E2D75FBD100DBB266 /* CardsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F1D2D75FBD100DBB266 /* CardsListViewController.swift */; };
+		F6F03F202D75FBF300DBB266 /* AddEditCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F1F2D75FBF300DBB266 /* AddEditCardViewController.swift */; };
+		F6F03F222D75FC4300DBB266 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F212D75FC4300DBB266 /* UIImageExtension.swift */; };
+		F6F03F242D760E7200DBB266 /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F232D760E7200DBB266 /* DatePickerViewController.swift */; };
+		F6F03F262D761DF100DBB266 /* AdminUserCardsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F252D761DF100DBB266 /* AdminUserCardsViewController.swift */; };
+		F6F03F282D761E0700DBB266 /* AdminViewCardDetailsViewController.swift.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F272D761E0700DBB266 /* AdminViewCardDetailsViewController.swift.swift */; };
+		F6F03F2A2D76FD9000DBB266 /* MechanicReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F292D76FD9000DBB266 /* MechanicReportViewController.swift */; };
+		F6F03F2C2D76FDD300DBB266 /* RemediationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F2B2D76FDD300DBB266 /* RemediationViewController.swift */; };
+		F6F03F2E2D76FDFB00DBB266 /* MechanicSignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F2D2D76FDFB00DBB266 /* MechanicSignatureViewController.swift */; };
+		F6F03F302D76FE1800DBB266 /* MechanicReportsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F2F2D76FE1800DBB266 /* MechanicReportsListViewController.swift */; };
+		F6F03F342D883AA300DBB266 /* CertificatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F03F332D883AA300DBB266 /* CertificatesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +84,11 @@
 		F63957462C88868300069BA7 /* TimesheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesheetViewController.swift; sourceTree = "<group>"; };
 		F63957482C88D82C00069BA7 /* TimesheetEntryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesheetEntryCell.swift; sourceTree = "<group>"; };
 		F665F99D2CAC3AE50021BA3D /* AM Site Solutions.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "AM Site Solutions.entitlements"; sourceTree = "<group>"; };
+		F674F6832DE067870035AD5A /* MyFolderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFolderViewController.swift; sourceTree = "<group>"; };
+		F674F6852DE088C80035AD5A /* AddExternalGa1FormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExternalGa1FormViewController.swift; sourceTree = "<group>"; };
+		F674F6872DE0942C0035AD5A /* AddExpenseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddExpenseViewController.swift; sourceTree = "<group>"; };
+		F674F68B2DE0A4660035AD5A /* ExternalGA1FormsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalGA1FormsListViewController.swift; sourceTree = "<group>"; };
+		F674F68D2DE0A96B0035AD5A /* ExpenseListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpenseListViewController.swift; sourceTree = "<group>"; };
 		F6928B732D13217B00393F7A /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		F6928B752D13236800393F7A /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
 		F69AAA232C87844D0082A14E /* AM Site Solutions.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AM Site Solutions.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,12 +103,31 @@
 		F69AAA3C2C8785010082A14E /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		F69AAA3E2C8785550082A14E /* FormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCell.swift; sourceTree = "<group>"; };
 		F69AAA402C8785930082A14E /* ColourScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourScheme.swift; sourceTree = "<group>"; };
+		F6B1E1F92D49276E00ED0D74 /* ClockOffDialogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockOffDialogViewController.swift; sourceTree = "<group>"; };
+		F6B1E1FF2D4A48FC00ED0D74 /* SignatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureViewController.swift; sourceTree = "<group>"; };
+		F6B1E2012D4A49DD00ED0D74 /* SignatureDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureDrawView.swift; sourceTree = "<group>"; };
+		F6C2AE612DFAE1D5002D60D0 /* GA2ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GA2ListViewController.swift; sourceTree = "<group>"; };
+		F6C2AE622DFAE1D5002D60D0 /* GA2Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GA2Report.swift; sourceTree = "<group>"; };
+		F6C2AE652DFAE586002D60D0 /* TimesheetListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesheetListViewController.swift; sourceTree = "<group>"; };
+		F6C2AE672DFAE5A6002D60D0 /* Timesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timesheet.swift; sourceTree = "<group>"; };
 		F6EA4CE32CFEFF94003FA735 /* TranslationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationManager.swift; sourceTree = "<group>"; };
 		F6EA4CE52CFF1954003FA735 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F6EE438B2CD4E10E00136953 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F6EE438D2CD4E22B00136953 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Main.strings"; sourceTree = "<group>"; };
 		F6EE438E2CD4E22E00136953 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		F6EE438F2CD4E23000136953 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F6F03F1B2D75FBB400DBB266 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		F6F03F1D2D75FBD100DBB266 /* CardsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsListViewController.swift; sourceTree = "<group>"; };
+		F6F03F1F2D75FBF300DBB266 /* AddEditCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEditCardViewController.swift; sourceTree = "<group>"; };
+		F6F03F212D75FC4300DBB266 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		F6F03F232D760E7200DBB266 /* DatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
+		F6F03F252D761DF100DBB266 /* AdminUserCardsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminUserCardsViewController.swift; sourceTree = "<group>"; };
+		F6F03F272D761E0700DBB266 /* AdminViewCardDetailsViewController.swift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminViewCardDetailsViewController.swift.swift; sourceTree = "<group>"; };
+		F6F03F292D76FD9000DBB266 /* MechanicReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MechanicReportViewController.swift; sourceTree = "<group>"; };
+		F6F03F2B2D76FDD300DBB266 /* RemediationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemediationViewController.swift; sourceTree = "<group>"; };
+		F6F03F2D2D76FDFB00DBB266 /* MechanicSignatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MechanicSignatureViewController.swift; sourceTree = "<group>"; };
+		F6F03F2F2D76FE1800DBB266 /* MechanicReportsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MechanicReportsListViewController.swift; sourceTree = "<group>"; };
+		F6F03F332D883AA300DBB266 /* CertificatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificatesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +171,24 @@
 				F63957292C8791FC00069BA7 /* SettingsViewController.swift */,
 				F63957442C885C0D00069BA7 /* ManageUsersViewController.swift */,
 				F63957462C88868300069BA7 /* TimesheetViewController.swift */,
+				F6B1E1FF2D4A48FC00ED0D74 /* SignatureViewController.swift */,
+				F6B1E1F92D49276E00ED0D74 /* ClockOffDialogViewController.swift */,
+				F6F03F1D2D75FBD100DBB266 /* CardsListViewController.swift */,
+				F6C2AE612DFAE1D5002D60D0 /* GA2ListViewController.swift */,
+				F6F03F1F2D75FBF300DBB266 /* AddEditCardViewController.swift */,
+				F6F03F252D761DF100DBB266 /* AdminUserCardsViewController.swift */,
+				F6F03F272D761E0700DBB266 /* AdminViewCardDetailsViewController.swift.swift */,
+				F6F03F292D76FD9000DBB266 /* MechanicReportViewController.swift */,
+				F674F6832DE067870035AD5A /* MyFolderViewController.swift */,
+				F6C2AE652DFAE586002D60D0 /* TimesheetListViewController.swift */,
+				F674F6852DE088C80035AD5A /* AddExternalGa1FormViewController.swift */,
+				F674F68B2DE0A4660035AD5A /* ExternalGA1FormsListViewController.swift */,
+				F674F68D2DE0A96B0035AD5A /* ExpenseListViewController.swift */,
+				F674F6872DE0942C0035AD5A /* AddExpenseViewController.swift */,
+				F6F03F2B2D76FDD300DBB266 /* RemediationViewController.swift */,
+				F6F03F2D2D76FDFB00DBB266 /* MechanicSignatureViewController.swift */,
+				F6F03F2F2D76FE1800DBB266 /* MechanicReportsListViewController.swift */,
+				F6F03F332D883AA300DBB266 /* CertificatesViewController.swift */,
 			);
 			path = "Main View Controllers";
 			sourceTree = "<group>";
@@ -132,10 +198,12 @@
 			children = (
 				F63957352C87A0CB00069BA7 /* CustomRadioButton.swift */,
 				F63957332C87A0A400069BA7 /* OkNotOkView.swift */,
+				F6C2AE622DFAE1D5002D60D0 /* GA2Report.swift */,
 				F63957312C87A08400069BA7 /* InputQuestionView.swift */,
 				F69AAA3E2C8785550082A14E /* FormCell.swift */,
 				F69AAA3C2C8785010082A14E /* Form.swift */,
 				F63957482C88D82C00069BA7 /* TimesheetEntryCell.swift */,
+				F6C2AE672DFAE5A6002D60D0 /* Timesheet.swift */,
 			);
 			path = "Form Related Code";
 			sourceTree = "<group>";
@@ -149,6 +217,10 @@
 				F63957402C88442000069BA7 /* CustomPickerView.swift */,
 				F6928B732D13217B00393F7A /* Language.swift */,
 				F6928B752D13236800393F7A /* LanguageManager.swift */,
+				F6B1E2012D4A49DD00ED0D74 /* SignatureDrawView.swift */,
+				F6F03F1B2D75FBB400DBB266 /* Card.swift */,
+				F6F03F212D75FC4300DBB266 /* UIImageExtension.swift */,
+				F6F03F232D760E7200DBB266 /* DatePickerViewController.swift */,
 			);
 			name = "Utilities and Reusables";
 			path = ..;
@@ -205,6 +277,7 @@
 				F69AAA202C87844D0082A14E /* Frameworks */,
 				F69AAA212C87844D0082A14E /* Resources */,
 				055A28F71D43F2928EED08DF /* [CP] Embed Pods Frameworks */,
+				F6F03F322D7F29A900DBB266 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -304,6 +377,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F6F03F322D7F29A900DBB266 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -311,29 +401,53 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6F03F1E2D75FBD100DBB266 /* CardsListViewController.swift in Sources */,
 				F63957452C885C0E00069BA7 /* ManageUsersViewController.swift in Sources */,
+				F674F6882DE0942C0035AD5A /* AddExpenseViewController.swift in Sources */,
+				F6B1E2022D4A49DD00ED0D74 /* SignatureDrawView.swift in Sources */,
+				F6F03F302D76FE1800DBB266 /* MechanicReportsListViewController.swift in Sources */,
+				F6B1E1FA2D49276E00ED0D74 /* ClockOffDialogViewController.swift in Sources */,
 				F63957302C87A05D00069BA7 /* CustomButton.swift in Sources */,
+				F674F6842DE067870035AD5A /* MyFolderViewController.swift in Sources */,
+				F6B1E2002D4A48FC00ED0D74 /* SignatureViewController.swift in Sources */,
 				F69AAA3B2C8784D20082A14E /* OperatorVC.swift in Sources */,
+				F6F03F262D761DF100DBB266 /* AdminUserCardsViewController.swift in Sources */,
 				F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */,
+				F674F68E2DE0A96B0035AD5A /* ExpenseListViewController.swift in Sources */,
+				F6C2AE662DFAE586002D60D0 /* TimesheetListViewController.swift in Sources */,
+				F6F03F2E2D76FDFB00DBB266 /* MechanicSignatureViewController.swift in Sources */,
+				F674F68C2DE0A4660035AD5A /* ExternalGA1FormsListViewController.swift in Sources */,
+				F6C2AE632DFAE1D5002D60D0 /* GA2ListViewController.swift in Sources */,
+				F6C2AE642DFAE1D5002D60D0 /* GA2Report.swift in Sources */,
 				F6928B762D13236800393F7A /* LanguageManager.swift in Sources */,
 				F63957342C87A0A400069BA7 /* OkNotOkView.swift in Sources */,
 				F63957492C88D82C00069BA7 /* TimesheetEntryCell.swift in Sources */,
 				F63957322C87A08400069BA7 /* InputQuestionView.swift in Sources */,
 				F63957282C8791D600069BA7 /* MainTabBarController.swift in Sources */,
+				F6F03F342D883AA300DBB266 /* CertificatesViewController.swift in Sources */,
 				F639572A2C8791FC00069BA7 /* SettingsViewController.swift in Sources */,
 				F6928B742D13217B00393F7A /* Language.swift in Sources */,
+				F6F03F222D75FC4300DBB266 /* UIImageExtension.swift in Sources */,
 				F63957472C88868300069BA7 /* TimesheetViewController.swift in Sources */,
 				F69AAA2B2C87844D0082A14E /* ViewController.swift in Sources */,
 				F639573F2C8843B700069BA7 /* CustomTextField.swift in Sources */,
 				F63957362C87A0CB00069BA7 /* CustomRadioButton.swift in Sources */,
+				F6F03F202D75FBF300DBB266 /* AddEditCardViewController.swift in Sources */,
 				F639572C2C879DFF00069BA7 /* OperatorViewController.swift in Sources */,
 				F6EA4CE42CFEFF94003FA735 /* TranslationManager.swift in Sources */,
+				F6F03F282D761E0700DBB266 /* AdminViewCardDetailsViewController.swift.swift in Sources */,
 				F639572E2C87A03A00069BA7 /* FormViewController.swift in Sources */,
 				F69AAA3D2C8785010082A14E /* Form.swift in Sources */,
 				F63957432C88465A00069BA7 /* CreateNewUserViewController.swift in Sources */,
+				F6F03F2A2D76FD9000DBB266 /* MechanicReportViewController.swift in Sources */,
+				F6F03F242D760E7200DBB266 /* DatePickerViewController.swift in Sources */,
+				F6F03F1C2D75FBB400DBB266 /* Card.swift in Sources */,
+				F6F03F2C2D76FDD300DBB266 /* RemediationViewController.swift in Sources */,
 				F63957262C878F4A00069BA7 /* LoginViewController.swift in Sources */,
+				F674F6862DE088C80035AD5A /* AddExternalGa1FormViewController.swift in Sources */,
 				F69AAA272C87844D0082A14E /* AppDelegate.swift in Sources */,
 				F63957412C88442000069BA7 /* CustomPickerView.swift in Sources */,
+				F6C2AE682DFAE5A6002D60D0 /* Timesheet.swift in Sources */,
 				F69AAA412C8785930082A14E /* ColourScheme.swift in Sources */,
 				F69AAA292C87844D0082A14E /* SceneDelegate.swift in Sources */,
 			);
@@ -500,8 +614,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "AM Site Solutions/AM Site Solutions.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = L6NR8J48K3;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -523,9 +639,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.48;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salzburg101.AM-Site-Solutions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -543,8 +660,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "AM Site Solutions/AM Site Solutions.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = L6NR8J48K3;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -566,9 +684,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.48;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.salzburg101.AM-Site-Solutions";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

@@ -13,23 +13,17 @@
 			</array>
 		</dict>
 	</array>
-    
-    <!-- Ensuring the app is iPhone only -->
-    <key>UIDeviceFamily</key>
-    <array>
-        <integer>1</integer> <!-- iPhone -->
-    </array>
-    
-    <!-- Supported orientations for iPhone only -->
-    <key>UISupportedInterfaceOrientations</key>
-        <array>
-            <string>UIInterfaceOrientationPortrait</string> <!-- Supports portrait only -->
-        </array>
-    
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
 	<key>NSUserNotificationsUsageDescription</key>
 	<string>Enable notifications to optionally receive updates from the app. You can manage notification preferences in your device settings.</string>
-	
-    <key>UIApplicationSceneManifest</key>
+	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
 		<false/>
@@ -48,8 +42,9 @@
 			</array>
 		</dict>
 	</dict>
-	
-    <key>UIViewControllerBasedStatusBarAppearance</key>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>

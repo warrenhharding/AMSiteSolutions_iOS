@@ -16,6 +16,8 @@ class TimesheetEntryCell: UITableViewCell {
     let startLocationLabel = UILabel()
     let stopTimeLabel = UILabel()
     let stopLocationLabel = UILabel()
+    let hireEquipmentLabel = UILabel() // New label for hire equipment details
+    let lunchBreakLabel = UILabel()    // New label for lunch break info
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,11 +25,16 @@ class TimesheetEntryCell: UITableViewCell {
         // Configure labels
         configureLabel(dateLabel, fontSize: 16, isBold: true)
         configureLabel(startTimeLabel)
-        configureLabel(startLocationLabel, wraps: true) // Ensure wrapping for location
+        configureLabel(startLocationLabel, wraps: true)
         configureLabel(stopTimeLabel)
-        configureLabel(stopLocationLabel, wraps: true)  // Ensure wrapping for location
+        configureLabel(stopLocationLabel, wraps: true)
+        configureLabel(hireEquipmentLabel, fontSize: 14, isBold: false, wraps: true)
+        configureLabel(lunchBreakLabel, fontSize: 14, isBold: false, wraps: true)
 
-        // Create vertical stack view for left and right columns
+        hireEquipmentLabel.textColor = UIColor.darkGray
+        lunchBreakLabel.textColor = UIColor.darkGray
+
+        // Create stack views for time and location
         let startStackView = UIStackView(arrangedSubviews: [startTimeLabel, startLocationLabel])
         startStackView.axis = .vertical
         startStackView.spacing = 4
@@ -36,14 +43,19 @@ class TimesheetEntryCell: UITableViewCell {
         stopStackView.axis = .vertical
         stopStackView.spacing = 4
 
-        // Horizontal stack view to hold both start and stop stack views
         let contentStackView = UIStackView(arrangedSubviews: [startStackView, stopStackView])
         contentStackView.axis = .horizontal
         contentStackView.spacing = 16
         contentStackView.distribution = .fillEqually
 
-        // Create a vertical stack view for dateLabel and contentStackView
-        let mainStackView = UIStackView(arrangedSubviews: [dateLabel, contentStackView])
+        // Stack for additional rows (hire equipment & lunch break)
+        let additionalInfoStackView = UIStackView(arrangedSubviews: [hireEquipmentLabel, lunchBreakLabel])
+        additionalInfoStackView.axis = .vertical
+        additionalInfoStackView.spacing = 4
+        additionalInfoStackView.isHidden = true // Hide by default
+
+        // Combine all stacks in the main vertical stack
+        let mainStackView = UIStackView(arrangedSubviews: [dateLabel, contentStackView, additionalInfoStackView])
         mainStackView.axis = .vertical
         mainStackView.spacing = 8
 
@@ -78,11 +90,36 @@ class TimesheetEntryCell: UITableViewCell {
         startLocationLabel.text = entry.startLocation ?? "N/A"
         stopTimeLabel.text = entry.stopTime != nil ? formatTime(entry.stopTime!) : "In Progress"
         stopLocationLabel.text = entry.stopLocation ?? "N/A"
+
+        var additionalInfoVisible = false
+
+        // Configure hire equipment info
+        if entry.hireEquipmentIncluded {
+            let equipment = entry.equipmentType ?? "Missing"
+            let duration = (entry.stopTime != nil) ? entry.lengthOfHire ?? "Missing" : nil
+            hireEquipmentLabel.text = duration != nil ? "Equipment: \(equipment) (\(duration!))" : "Equipment: \(equipment)"
+            hireEquipmentLabel.isHidden = false
+            additionalInfoVisible = true
+        } else {
+            hireEquipmentLabel.isHidden = true
+        }
+
+        // Configure lunch break info
+        if let stopTime = entry.stopTime {
+            lunchBreakLabel.text = (entry.hadLunchBreak ?? false) ? "Inc Lunch Break" : "Exc Lunch Break"
+            lunchBreakLabel.isHidden = false
+            additionalInfoVisible = true
+        } else {
+            lunchBreakLabel.isHidden = true
+        }
+
+        // Show additional info section only if necessary
+        (hireEquipmentLabel.superview as? UIStackView)?.isHidden = !additionalInfoVisible
     }
 
     private func configureLabel(_ label: UILabel, fontSize: CGFloat = 14, isBold: Bool = false, wraps: Bool = false) {
         label.font = isBold ? UIFont.boldSystemFont(ofSize: fontSize) : UIFont.systemFont(ofSize: fontSize)
-        label.numberOfLines = wraps ? 0 : 1  // Allow wrapping for location
+        label.numberOfLines = wraps ? 0 : 1
         label.lineBreakMode = wraps ? .byWordWrapping : .byTruncatingTail
         label.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -90,21 +127,15 @@ class TimesheetEntryCell: UITableViewCell {
     private func formatDate(_ timestamp: TimeInterval) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd MMM yyyy"
-        return formatter.string(from: Date(timeIntervalSince1970: timestamp / 1000)) // Convert from ms to seconds
+        return formatter.string(from: Date(timeIntervalSince1970: timestamp / 1000))
     }
 
     private func formatTime(_ timestamp: TimeInterval) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
-        return formatter.string(from: Date(timeIntervalSince1970: timestamp / 1000)) // Convert from ms to seconds
+        return formatter.string(from: Date(timeIntervalSince1970: timestamp / 1000))
     }
 }
-
-
-
-
-
-
 
 
 
@@ -141,15 +172,20 @@ class TimesheetEntryCell: UITableViewCell {
 //        contentStackView.spacing = 16
 //        contentStackView.distribution = .fillEqually
 //
-//        // Add padding around the content stack view
+//        // Create a vertical stack view for dateLabel and contentStackView
+//        let mainStackView = UIStackView(arrangedSubviews: [dateLabel, contentStackView])
+//        mainStackView.axis = .vertical
+//        mainStackView.spacing = 8
+//
+//        // Add padding around the main stack view
 //        let paddedStackView = UIView()
-//        paddedStackView.addSubview(contentStackView)
-//        contentStackView.translatesAutoresizingMaskIntoConstraints = false
+//        paddedStackView.addSubview(mainStackView)
+//        mainStackView.translatesAutoresizingMaskIntoConstraints = false
 //        NSLayoutConstraint.activate([
-//            contentStackView.topAnchor.constraint(equalTo: paddedStackView.topAnchor, constant: 12),
-//            contentStackView.bottomAnchor.constraint(equalTo: paddedStackView.bottomAnchor, constant: -12),
-//            contentStackView.leadingAnchor.constraint(equalTo: paddedStackView.leadingAnchor, constant: 16),
-//            contentStackView.trailingAnchor.constraint(equalTo: paddedStackView.trailingAnchor, constant: -16)
+//            mainStackView.topAnchor.constraint(equalTo: paddedStackView.topAnchor, constant: 12),
+//            mainStackView.bottomAnchor.constraint(equalTo: paddedStackView.bottomAnchor, constant: -12),
+//            mainStackView.leadingAnchor.constraint(equalTo: paddedStackView.leadingAnchor, constant: 16),
+//            mainStackView.trailingAnchor.constraint(equalTo: paddedStackView.trailingAnchor, constant: -16)
 //        ])
 //
 //        contentView.addSubview(paddedStackView)
@@ -184,163 +220,12 @@ class TimesheetEntryCell: UITableViewCell {
 //    private func formatDate(_ timestamp: TimeInterval) -> String {
 //        let formatter = DateFormatter()
 //        formatter.dateFormat = "dd MMM yyyy"
-//        return formatter.string(from: Date(timeIntervalSince1970: timestamp))
+//        return formatter.string(from: Date(timeIntervalSince1970: timestamp / 1000)) // Convert from ms to seconds
 //    }
 //
 //    private func formatTime(_ timestamp: TimeInterval) -> String {
 //        let formatter = DateFormatter()
 //        formatter.dateFormat = "HH:mm"
-//        return formatter.string(from: Date(timeIntervalSince1970: timestamp))
+//        return formatter.string(from: Date(timeIntervalSince1970: timestamp / 1000)) // Convert from ms to seconds
 //    }
 //}
-
-
-
-
-
-
-
-//import UIKit
-//
-//class TimesheetEntryCell: UITableViewCell {
-//
-//    // Define UI elements
-//    let dateLabel = UILabel()
-//    
-//    // Start time and location
-//    let startTimeImageView = UIImageView(image: UIImage(systemName: "clock"))
-//    let startTimeLabel = UILabel()
-//    let startLocationImageView = UIImageView(image: UIImage(systemName: "location"))
-//    let startLocationLabel = UILabel()
-//    
-//    // Stop time and location
-//    let stopTimeImageView = UIImageView(image: UIImage(systemName: "clock"))
-//    let stopTimeLabel = UILabel()
-//    let stopLocationImageView = UIImageView(image: UIImage(systemName: "location"))
-//    let stopLocationLabel = UILabel()
-//    
-//    // Initialization of the cell
-//    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-//        super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        setupViews()
-//        setupConstraints()
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//    
-//    // MARK: - Setup Views
-//    private func setupViews() {
-//        // Date label
-//        dateLabel.font = UIFont.boldSystemFont(ofSize: 16)
-//        dateLabel.textColor = UIColor.systemBlue
-//        dateLabel.translatesAutoresizingMaskIntoConstraints = false
-//        contentView.addSubview(dateLabel)
-//        
-//        // Start time
-//        startTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-//        startTimeLabel.font = UIFont.systemFont(ofSize: 14)
-//        startTimeImageView.translatesAutoresizingMaskIntoConstraints = false
-//        startTimeImageView.tintColor = UIColor.systemGray
-//        contentView.addSubview(startTimeLabel)
-//        contentView.addSubview(startTimeImageView)
-//        
-//        // Start location
-//        startLocationLabel.translatesAutoresizingMaskIntoConstraints = false
-//        startLocationLabel.font = UIFont.systemFont(ofSize: 14)
-//        startLocationImageView.translatesAutoresizingMaskIntoConstraints = false
-//        startLocationImageView.tintColor = UIColor.systemGray
-//        contentView.addSubview(startLocationLabel)
-//        contentView.addSubview(startLocationImageView)
-//        
-//        // Stop time
-//        stopTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-//        stopTimeLabel.font = UIFont.systemFont(ofSize: 14)
-//        stopTimeImageView.translatesAutoresizingMaskIntoConstraints = false
-//        stopTimeImageView.tintColor = UIColor.systemGray
-//        contentView.addSubview(stopTimeLabel)
-//        contentView.addSubview(stopTimeImageView)
-//        
-//        // Stop location
-//        stopLocationLabel.translatesAutoresizingMaskIntoConstraints = false
-//        stopLocationLabel.font = UIFont.systemFont(ofSize: 14)
-//        stopLocationImageView.translatesAutoresizingMaskIntoConstraints = false
-//        stopLocationImageView.tintColor = UIColor.systemGray
-//        contentView.addSubview(stopLocationLabel)
-//        contentView.addSubview(stopLocationImageView)
-//    }
-//    
-//    // MARK: - Setup Constraints
-//    private func setupConstraints() {
-//        // Date label constraints
-//        NSLayoutConstraint.activate([
-//            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-//            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-//            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-//        ])
-//        
-//        // Start time and location constraints (horizontal stack)
-//        NSLayoutConstraint.activate([
-//            startTimeImageView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 8),
-//            startTimeImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-//            startTimeImageView.widthAnchor.constraint(equalToConstant: 16),
-//            startTimeImageView.heightAnchor.constraint(equalToConstant: 16),
-//            
-//            startTimeLabel.centerYAnchor.constraint(equalTo: startTimeImageView.centerYAnchor),
-//            startTimeLabel.leadingAnchor.constraint(equalTo: startTimeImageView.trailingAnchor, constant: 8),
-//        ])
-//        
-//        NSLayoutConstraint.activate([
-//            startLocationImageView.topAnchor.constraint(equalTo: startTimeImageView.bottomAnchor, constant: 8),
-//            startLocationImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-//            startLocationImageView.widthAnchor.constraint(equalToConstant: 16),
-//            startLocationImageView.heightAnchor.constraint(equalToConstant: 16),
-//            
-//            startLocationLabel.centerYAnchor.constraint(equalTo: startLocationImageView.centerYAnchor),
-//            startLocationLabel.leadingAnchor.constraint(equalTo: startLocationImageView.trailingAnchor, constant: 8),
-//        ])
-//        
-//        // Stop time and location constraints (horizontal stack)
-//        NSLayoutConstraint.activate([
-//            stopTimeImageView.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 8),
-//            stopTimeImageView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 16),
-//            stopTimeImageView.widthAnchor.constraint(equalToConstant: 16),
-//            stopTimeImageView.heightAnchor.constraint(equalToConstant: 16),
-//            
-//            stopTimeLabel.centerYAnchor.constraint(equalTo: stopTimeImageView.centerYAnchor),
-//            stopTimeLabel.leadingAnchor.constraint(equalTo: stopTimeImageView.trailingAnchor, constant: 8),
-//        ])
-//        
-//        NSLayoutConstraint.activate([
-//            stopLocationImageView.topAnchor.constraint(equalTo: stopTimeImageView.bottomAnchor, constant: 8),
-//            stopLocationImageView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 16),
-//            stopLocationImageView.widthAnchor.constraint(equalToConstant: 16),
-//            stopLocationImageView.heightAnchor.constraint(equalToConstant: 16),
-//            
-//            stopLocationLabel.centerYAnchor.constraint(equalTo: stopLocationImageView.centerYAnchor),
-//            stopLocationLabel.leadingAnchor.constraint(equalTo: stopLocationImageView.trailingAnchor, constant: 8),
-//            stopLocationLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-//        ])
-//    }
-//    
-//    // Method to configure the cell
-//    func configure(with entry: TimesheetEntry) {
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "dd MMM yyyy"
-//        dateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: entry.date))
-//        
-//        let timeFormatter = DateFormatter()
-//        timeFormatter.dateFormat = "HH:mm"
-//        startTimeLabel.text = timeFormatter.string(from: Date(timeIntervalSince1970: entry.startTime))
-//        startLocationLabel.text = entry.startLocation ?? "N/A"
-//        
-//        if let stopTime = entry.stopTime {
-//            stopTimeLabel.text = timeFormatter.string(from: Date(timeIntervalSince1970: stopTime))
-//        } else {
-//            stopTimeLabel.text = "In Progress"
-//        }
-//        stopLocationLabel.text = entry.stopLocation ?? "N/A"
-//    }
-//}
-//

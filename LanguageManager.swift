@@ -14,3 +14,4 @@ class LanguageManager {
 
     var availableLanguages: [Language] = []
 }
+
