@@ -47,6 +47,12 @@
 		F6C2AE642DFAE1D5002D60D0 /* GA2Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2AE622DFAE1D5002D60D0 /* GA2Report.swift */; };
 		F6C2AE662DFAE586002D60D0 /* TimesheetListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2AE652DFAE586002D60D0 /* TimesheetListViewController.swift */; };
 		F6C2AE682DFAE5A6002D60D0 /* Timesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C2AE672DFAE5A6002D60D0 /* Timesheet.swift */; };
+		F6C6A5572E4363F600EA2965 /* Machine.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6A5562E4363F600EA2965 /* Machine.swift */; };
+		F6C6A5592E43641700EA2965 /* ManageMachineryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6A5582E43641700EA2965 /* ManageMachineryViewController.swift */; };
+		F6C6A55B2E43674300EA2965 /* FilterChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6A55A2E43674300EA2965 /* FilterChipView.swift */; };
+		F6C6A55D2E43AB2C00EA2965 /* MachineTypeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6A55C2E43AB2C00EA2965 /* MachineTypeDataManager.swift */; };
+		F6C6A55F2E43ABAB00EA2965 /* QRCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6A55E2E43ABAB00EA2965 /* QRCodeScannerViewController.swift */; };
+		F6C6A5612E43ABC000EA2965 /* NewMachineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C6A5602E43ABC000EA2965 /* NewMachineViewController.swift */; };
 		F6EA4CE42CFEFF94003FA735 /* TranslationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA4CE32CFEFF94003FA735 /* TranslationManager.swift */; };
 		F6EA4CE62CFF1954003FA735 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6EA4CE52CFF1954003FA735 /* GoogleService-Info.plist */; };
 		F6EE438C2CD4E10E00136953 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F6EE438A2CD4E10E00136953 /* Localizable.strings */; };
@@ -110,6 +116,12 @@
 		F6C2AE622DFAE1D5002D60D0 /* GA2Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GA2Report.swift; sourceTree = "<group>"; };
 		F6C2AE652DFAE586002D60D0 /* TimesheetListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimesheetListViewController.swift; sourceTree = "<group>"; };
 		F6C2AE672DFAE5A6002D60D0 /* Timesheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timesheet.swift; sourceTree = "<group>"; };
+		F6C6A5562E4363F600EA2965 /* Machine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Machine.swift; sourceTree = "<group>"; };
+		F6C6A5582E43641700EA2965 /* ManageMachineryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageMachineryViewController.swift; sourceTree = "<group>"; };
+		F6C6A55A2E43674300EA2965 /* FilterChipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChipView.swift; sourceTree = "<group>"; };
+		F6C6A55C2E43AB2C00EA2965 /* MachineTypeDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MachineTypeDataManager.swift; sourceTree = "<group>"; };
+		F6C6A55E2E43ABAB00EA2965 /* QRCodeScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewController.swift; sourceTree = "<group>"; };
+		F6C6A5602E43ABC000EA2965 /* NewMachineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMachineViewController.swift; sourceTree = "<group>"; };
 		F6EA4CE32CFEFF94003FA735 /* TranslationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationManager.swift; sourceTree = "<group>"; };
 		F6EA4CE52CFF1954003FA735 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F6EE438B2CD4E10E00136953 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -189,6 +201,12 @@
 				F6F03F2D2D76FDFB00DBB266 /* MechanicSignatureViewController.swift */,
 				F6F03F2F2D76FE1800DBB266 /* MechanicReportsListViewController.swift */,
 				F6F03F332D883AA300DBB266 /* CertificatesViewController.swift */,
+				F6C6A5562E4363F600EA2965 /* Machine.swift */,
+				F6C6A5582E43641700EA2965 /* ManageMachineryViewController.swift */,
+				F6C6A55A2E43674300EA2965 /* FilterChipView.swift */,
+				F6C6A55C2E43AB2C00EA2965 /* MachineTypeDataManager.swift */,
+				F6C6A55E2E43ABAB00EA2965 /* QRCodeScannerViewController.swift */,
+				F6C6A5602E43ABC000EA2965 /* NewMachineViewController.swift */,
 			);
 			path = "Main View Controllers";
 			sourceTree = "<group>";
@@ -401,6 +419,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6C6A5612E43ABC000EA2965 /* NewMachineViewController.swift in Sources */,
+				F6C6A55B2E43674300EA2965 /* FilterChipView.swift in Sources */,
 				F6F03F1E2D75FBD100DBB266 /* CardsListViewController.swift in Sources */,
 				F63957452C885C0E00069BA7 /* ManageUsersViewController.swift in Sources */,
 				F674F6882DE0942C0035AD5A /* AddExpenseViewController.swift in Sources */,
@@ -413,11 +433,14 @@
 				F69AAA3B2C8784D20082A14E /* OperatorVC.swift in Sources */,
 				F6F03F262D761DF100DBB266 /* AdminUserCardsViewController.swift in Sources */,
 				F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */,
+				F6C6A5592E43641700EA2965 /* ManageMachineryViewController.swift in Sources */,
 				F674F68E2DE0A96B0035AD5A /* ExpenseListViewController.swift in Sources */,
 				F6C2AE662DFAE586002D60D0 /* TimesheetListViewController.swift in Sources */,
+				F6C6A55D2E43AB2C00EA2965 /* MachineTypeDataManager.swift in Sources */,
 				F6F03F2E2D76FDFB00DBB266 /* MechanicSignatureViewController.swift in Sources */,
 				F674F68C2DE0A4660035AD5A /* ExternalGA1FormsListViewController.swift in Sources */,
 				F6C2AE632DFAE1D5002D60D0 /* GA2ListViewController.swift in Sources */,
+				F6C6A5572E4363F600EA2965 /* Machine.swift in Sources */,
 				F6C2AE642DFAE1D5002D60D0 /* GA2Report.swift in Sources */,
 				F6928B762D13236800393F7A /* LanguageManager.swift in Sources */,
 				F63957342C87A0A400069BA7 /* OkNotOkView.swift in Sources */,
@@ -450,6 +473,7 @@
 				F6C2AE682DFAE5A6002D60D0 /* Timesheet.swift in Sources */,
 				F69AAA412C8785930082A14E /* ColourScheme.swift in Sources */,
 				F69AAA292C87844D0082A14E /* SceneDelegate.swift in Sources */,
+				F6C6A55F2E43ABAB00EA2965 /* QRCodeScannerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -39,6 +39,7 @@ struct MechanicReport: Codable {
     var reportNumber: Int = 0
     var remediations: [String: Remediation] = [:]
     var signatureUrl: String? = nil
+    var mechanicJobReason: String? = nil
 }
 
 // MARK: - MechanicReportViewController
@@ -60,6 +61,11 @@ class MechanicReportViewController: UIViewController {
     let ga2TextView = UITextView()
     let locationTextField = UITextField()
     let remarksTextView = UITextView()
+    
+    let reasonForWorkLabel = UILabel()
+    let ga2FaultButton = UIButton(type: .system)
+    let routineMaintenanceButton = UIButton(type: .system)
+    var mechanicJobReason: String?
     
     let addRemediationButton = CustomButton(type: .system)
     let remediationTableView = UITableView()
@@ -388,6 +394,19 @@ class MechanicReportViewController: UIViewController {
         remarksTextView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(remarksTextView)
         
+        // Reason for Work
+        reasonForWorkLabel.text = "\(TranslationManager.shared.getTranslation(for: "mechanicReports.reasonForWork")):"
+        reasonForWorkLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(reasonForWorkLabel)
+        
+        configureReasonButton(ga2FaultButton, title: TranslationManager.shared.getTranslation(for: "mechanicReports.ga2Fault"))
+        ga2FaultButton.addTarget(self, action: #selector(reasonButtonTapped(_:)), for: .touchUpInside)
+        contentView.addSubview(ga2FaultButton)
+        
+        configureReasonButton(routineMaintenanceButton, title: TranslationManager.shared.getTranslation(for: "mechanicReports.routineMaintenance"))
+        routineMaintenanceButton.addTarget(self, action: #selector(reasonButtonTapped(_:)), for: .touchUpInside)
+        contentView.addSubview(routineMaintenanceButton)
+        
         // MARK: - Optional Views (Wrapped in Stack Views)
         
         // Remediation Section: "Add Remediation" Button and Remediation TableView
@@ -513,7 +532,20 @@ class MechanicReportViewController: UIViewController {
             locationTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             locationTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            ga2Label.topAnchor.constraint(equalTo: locationTextField.bottomAnchor, constant: 12),
+            // Reason for Work Section
+            reasonForWorkLabel.topAnchor.constraint(equalTo: locationTextField.bottomAnchor, constant: 16),
+            reasonForWorkLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            reasonForWorkLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+
+            ga2FaultButton.topAnchor.constraint(equalTo: reasonForWorkLabel.bottomAnchor, constant: 8),
+            ga2FaultButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            ga2FaultButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+
+            routineMaintenanceButton.topAnchor.constraint(equalTo: ga2FaultButton.bottomAnchor, constant: 8),
+            routineMaintenanceButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            routineMaintenanceButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+                        
+            ga2Label.topAnchor.constraint(equalTo: routineMaintenanceButton.bottomAnchor, constant: 12),
             ga2Label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             ga2Label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
@@ -566,6 +598,51 @@ class MechanicReportViewController: UIViewController {
         
         // Initially hide the photo scroll view if there are no photos.
         photoScrollView.isHidden = true
+    }
+
+    // func configureReasonButton(_ button: UIButton, title: String) {
+    //     button.setTitle(title, for: .normal)
+    //     button.setImage(UIImage(systemName: "circle"), for: .normal)
+    //     button.setImage(UIImage(systemName: "circle.inset.filled"), for: .selected)
+    //     button.tintColor = ColorScheme.amBlue
+    //     button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+    //     button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
+    //     button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+    //     button.translatesAutoresizingMaskIntoConstraints = false
+    //     button.contentHorizontalAlignment = .left
+    // }
+
+    func configureReasonButton(_ button: UIButton, title: String) {
+        button.setTitle(title, for: .normal)
+        button.setImage(UIImage(systemName: "circle"), for: .normal)
+        button.setImage(UIImage(systemName: "circle.inset.filled"), for: .selected)
+        button.tintColor = ColorScheme.amBlue
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        
+        // Allow text to wrap to multiple lines
+        button.titleLabel?.numberOfLines = 0
+        
+        // Prevent the default highlight effect on the text and image
+        button.adjustsImageWhenHighlighted = false
+        button.setTitleColor(button.titleColor(for: .normal), for: .highlighted)
+
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 8)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.contentHorizontalAlignment = .left
+    }
+
+    @objc func reasonButtonTapped(_ sender: UIButton) {
+        hasUnsavedChanges = true
+        if sender == ga2FaultButton {
+            ga2FaultButton.isSelected = true
+            routineMaintenanceButton.isSelected = false
+            mechanicJobReason = "ga2"
+        } else {
+            ga2FaultButton.isSelected = false
+            routineMaintenanceButton.isSelected = true
+            mechanicJobReason = "routine"
+        }
     }
 
 
@@ -622,6 +699,12 @@ class MechanicReportViewController: UIViewController {
             showAlert(title: TranslationManager.shared.getTranslation(for: "common.validationError"), message: TranslationManager.shared.getTranslation(for:"mechanicReports.fillMandatoryFields"))
             return
         }
+
+        guard mechanicJobReason != nil else {
+            hideSpinner()
+            showAlert(title: TranslationManager.shared.getTranslation(for: "common.validationError"), message: TranslationManager.shared.getTranslation(for: "mechanicReports.selectJobReason"))
+            return
+        }
         
         // Check if a signature is present.
         if signatureImage == nil {
@@ -657,6 +740,7 @@ class MechanicReportViewController: UIViewController {
         report.location = locationTextField.text ?? ""
         report.ga2Details = ga2TextView.text
         report.remarks = remarksTextView.text
+        report.mechanicJobReason = mechanicJobReason
         
         // Map remediation items.
         for remediation in remediationItems {
@@ -879,6 +963,14 @@ class MechanicReportViewController: UIViewController {
             self.locationTextField.text = dict["location"] as? String ?? ""
             self.ga2TextView.text = dict["ga2Details"] as? String ?? ""
             self.remarksTextView.text = dict["remarks"] as? String ?? ""
+
+            if let reason = dict["mechanicJobReason"] as? String {
+                if reason == "ga2" {
+                    self.reasonButtonTapped(self.ga2FaultButton)
+                } else if reason == "routine" {
+                    self.reasonButtonTapped(self.routineMaintenanceButton)
+                }
+            }
             
             if let imageUrls = dict["images"] as? [String] {
                 self.existingPhotoUrls = imageUrls
@@ -928,6 +1020,7 @@ class MechanicReportViewController: UIViewController {
             loadedReport.remarks = dict["remarks"] as? String ?? ""
             loadedReport.reportNumber = dict["reportNumber"] as? Int ?? 0
             loadedReport.signatureUrl = dict["signatureUrl"] as? String ?? ""
+            loadedReport.mechanicJobReason = dict["mechanicJobReason"] as? String
             
             // Assign the loaded report to currentReport for later use in edit mode.
             self.currentReport = loadedReport
@@ -957,20 +1050,32 @@ class MechanicReportViewController: UIViewController {
                 "orderIndex": remediation.orderIndex
             ]
         }
-        return [
+        
+        var dict: [String: Any] = [
             "reportId": report.reportId,
             "make": report.make,
             "model": report.model,
             "serialNo": report.serialNo,
             "dateTimestamp": report.dateTimestamp,
             "dateFormatted": report.dateFormatted,
-            "location": report.location,
             "ga2Details": report.ga2Details,
+            "location": report.location,
             "remarks": report.remarks,
             "reportNumber": report.reportNumber,
-            "remediations": remediationDict,
-            "signatureUrl": report.signatureUrl ?? ""
+            "remediations": remediationDict
         ]
+        
+        if let signatureUrl = report.signatureUrl {
+            dict["signatureUrl"] = signatureUrl
+        }
+        
+        // --- THIS IS THE NEW BLOCK TO ADD ---
+        if let mechanicJobReason = report.mechanicJobReason {
+            dict["mechanicJobReason"] = mechanicJobReason
+        }
+        // ------------------------------------
+        
+        return dict
     }
     
     func displayExistingPhotos() {

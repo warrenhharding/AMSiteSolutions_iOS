@@ -26,7 +26,10 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
    
     var form: Form?
     var englishForm: Form?
-//    var tableView: UITableView!
+    
+    var machineId: String?
+    var plantEquipmentNumber: String?
+    
     var submitButton: CustomButton!
     var addPhotoButton: CustomButton!
     var progressBar: UIActivityIndicatorView!
@@ -227,6 +230,8 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             formStackView.addArrangedSubview(questionView)
         }
     }
+    
+    
 
     
     func createQuestionView(for question: FormQuestion) -> UIView {
@@ -235,11 +240,25 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             let inputQuestionView = InputQuestionView()
             inputQuestionView.question = question
             
-            if question.id == "additional2" {
-                // Set keyboard to number pad
+//            if question.id == "additional2" {
+//                // Set keyboard to number pad
+//                inputQuestionView.inputTextField.keyboardType = .numberPad
+//            } else if question.id == "additional1" {
+//                // Ensure uppercase behavior and delegate set
+//                inputQuestionView.inputTextField.autocapitalizationType = .allCharacters
+//                inputQuestionView.inputTextField.delegate = inputQuestionView
+//            }
+            // MARK: - Add this block to make the plant number field read-only
+            // If this is the plant number question AND it was pre-filled via QR scan
+            if question.id == "additional1" && self.plantEquipmentNumber != nil {
+                inputQuestionView.inputTextField.isEnabled = false
+                inputQuestionView.inputTextField.backgroundColor = UIColor.systemGray6 // Visual cue
+                inputQuestionView.inputTextField.textColor = .gray
+            } else if question.id == "additional2" {
+                // Set keyboard to number pad for other specific questions
                 inputQuestionView.inputTextField.keyboardType = .numberPad
             } else if question.id == "additional1" {
-                // Ensure uppercase behavior and delegate set
+                // Ensure uppercase behavior for manual entry
                 inputQuestionView.inputTextField.autocapitalizationType = .allCharacters
                 inputQuestionView.inputTextField.delegate = inputQuestionView
             }
@@ -314,11 +333,22 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
 
     func loadQuestions() {
         // Initial predefined questions
-        let initialQuestions = [
+        var initialQuestions = [
             FormQuestion(id: "additional1", text: TranslationManager.shared.getTranslation(for: "formScreen.plantNo"), type: .input),
             FormQuestion(id: "additional2", text: TranslationManager.shared.getTranslation(for: "formScreen.operationHours"), type: .input),
             FormQuestion(id: "additional3", text: TranslationManager.shared.getTranslation(for: "formScreen.locationSite"), type: .input),
         ]
+        
+        // MARK: - Add this block to pre-fill the plant number
+        // Check if a plantEquipmentNumber was passed from the QR code scan
+        if let plantNumber = self.plantEquipmentNumber, !plantNumber.isEmpty {
+            // Find the index of the 'plantNo' question (which is 'additional1')
+            if let index = initialQuestions.firstIndex(where: { $0.id == "additional1" }) {
+                // Update the answer for that question
+                initialQuestions[index].answer = plantNumber
+                print("Successfully pre-filled plant number: \(plantNumber)")
+            }
+        }
 
         // Append initial questions to allQuestions
         allQuestions.append(contentsOf: initialQuestions)
@@ -789,7 +819,7 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
             }
 
             dispatchGroup.notify(queue: .main) {
-                let additionalData: [String: Any] = [
+                var additionalData: [String: Any] = [
                     "plantNo": (answers["additional1"] as? [String: Any])?["answer"] as? String ?? "",
                     "opHours": (answers["additional2"] as? [String: Any])?["answer"] as? String ?? "",
                     "spotter": (answers["additional3"] as? [String: Any])?["answer"] as? String ?? "",
@@ -797,6 +827,12 @@ class FormViewController: UIViewController, CLLocationManagerDelegate, UIImagePi
                     "others": (answers["additional5"] as? [String: Any])?["answer"] as? String ?? "",
                     "photoUrls": photoUrls
                 ]
+                
+                // Add the machineId to the dictionary if it exists
+                if let machineId = self.machineId, !machineId.isEmpty {
+                    additionalData["machineId"] = machineId
+                }
+
 
                 ref.child("isComplete").setValue(false) { isCompleteError, _ in
                     if let isCompleteError = isCompleteError {

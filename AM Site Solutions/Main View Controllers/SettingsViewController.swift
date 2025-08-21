@@ -13,6 +13,8 @@ class SettingsViewController: UIViewController {
     
     let createNewUserButton = CustomButton(type: .system)
     let manageUsersButton = CustomButton(type: .system)
+    let manageMachineryButton = CustomButton(type: .system)
+    let manageMyCustomersButton = CustomButton(type: .system)
     let stackView = UIStackView()
 
     override func viewDidLoad() {
@@ -38,6 +40,14 @@ class SettingsViewController: UIViewController {
         manageUsersButton.setTitle(TranslationManager.shared.getTranslation(for: "adminTab.manageUsersButton"), for: .normal)
         manageUsersButton.addTarget(self, action: #selector(manageUsersButtonTapped), for: .touchUpInside)
         stackView.addArrangedSubview(manageUsersButton)
+        
+        manageMachineryButton.setTitle(TranslationManager.shared.getTranslation(for: "adminTab.manageMachineryButton"), for: .normal)
+        manageMachineryButton.addTarget(self, action: #selector(manageMachineryButtonTapped), for: .touchUpInside)
+        stackView.addArrangedSubview(manageMachineryButton)
+        
+        manageMyCustomersButton.setTitle(TranslationManager.shared.getTranslation(for: "adminTab.manageMyCustomersButton"), for: .normal)
+        manageMyCustomersButton.addTarget(self, action: #selector(manageMyCustomersButtonTapped), for: .touchUpInside)
+        stackView.addArrangedSubview(manageMyCustomersButton)
 
         view.addSubview(stackView)
         
@@ -58,6 +68,18 @@ class SettingsViewController: UIViewController {
         let manageUsersVC = ManageUsersViewController()
         let navController = UINavigationController(rootViewController: manageUsersVC)
         present(navController, animated: true, completion: nil)
+    }
+    
+    @objc private func manageMachineryButtonTapped() {
+        let manageUsersVC = ManageMachineryViewController()
+        let navController = UINavigationController(rootViewController: manageUsersVC)
+        present(navController, animated: true, completion: nil)
+    }
+    
+    @objc private func manageMyCustomersButtonTapped() {
+//        let manageUsersVC = ManageMyCustomersViewController()
+//        let navController = UINavigationController(rootViewController: manageUsersVC)
+//        present(navController, animated: true, completion: nil)
     }
     
     @objc func reloadTranslations() {

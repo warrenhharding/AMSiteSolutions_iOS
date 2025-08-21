@@ -47,7 +47,7 @@ class CustomButton: UIButton {
         self.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         // Apply corner radius directly to the layer
-        self.layer.cornerRadius = 32
+        self.layer.cornerRadius = 26
         self.layer.masksToBounds = true
     }
 
