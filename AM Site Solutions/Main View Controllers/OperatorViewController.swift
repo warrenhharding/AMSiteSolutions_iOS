@@ -534,6 +534,13 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
             self.openGa1Certs()
         }
         
+        let siteReportAction = UIAlertAction(
+            title: TranslationManager.shared.getTranslation(for: "operatorTab.siteAuditReport"),
+            style: .default
+        ) { _ in
+            self.openSiteReports()
+        }
+        
         let changeLanguageAction = UIAlertAction(
             title: TranslationManager.shared.getTranslation(for: "operatorTab.menuChangeLanguage"),
             style: .default
@@ -571,6 +578,7 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
         alertController.addAction(myCardsAction)
         alertController.addAction(mechanicReportsAction)
         alertController.addAction(ga1CertsAction)
+        alertController.addAction(siteReportAction)
         alertController.addAction(changeLanguageAction)
         alertController.addAction(toggleLocationAction)
         alertController.addAction(logoutAction)
@@ -643,6 +651,11 @@ class OperatorViewController: UIViewController, UICollectionViewDelegate, UIColl
     private func openGa1Certs() {
         let ga1CertsVC = CertificatesViewController()
         navigationController?.pushViewController(ga1CertsVC, animated: true)
+    }
+    
+    private func openSiteReports() {
+        let openSiteReportsVC = SiteAuditReportListViewController()
+        navigationController?.pushViewController(openSiteReportsVC, animated: true)
     }
     
     

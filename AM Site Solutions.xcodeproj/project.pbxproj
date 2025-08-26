@@ -40,6 +40,17 @@
 		F69AAA3D2C8785010082A14E /* Form.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3C2C8785010082A14E /* Form.swift */; };
 		F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA3E2C8785550082A14E /* FormCell.swift */; };
 		F69AAA412C8785930082A14E /* ColourScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69AAA402C8785930082A14E /* ColourScheme.swift */; };
+		F6A76C742E57686300F55706 /* CustomerFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C732E57686300F55706 /* CustomerFormViewController.swift */; };
+		F6A76C772E57689B00F55706 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C752E57689B00F55706 /* Customer.swift */; };
+		F6A76C792E577F4700F55706 /* CustomerSiteFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C782E577F4700F55706 /* CustomerSiteFormViewController.swift */; };
+		F6A76C7B2E577F5600F55706 /* CustomerSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C7A2E577F5600F55706 /* CustomerSite.swift */; };
+		F6A76C7D2E5855D700F55706 /* SubscriberCustomerCustViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C7C2E5855D700F55706 /* SubscriberCustomerCustViewController.swift */; };
+		F6A76C7F2E585F8C00F55706 /* SubscriberCustomerSiteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C7E2E585F8C00F55706 /* SubscriberCustomerSiteViewController.swift */; };
+		F6A76C812E58647300F55706 /* SubscriberCustomerManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C802E58647300F55706 /* SubscriberCustomerManagementViewController.swift */; };
+		F6A76C832E586B2200F55706 /* LogoManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C822E586B2200F55706 /* LogoManagementViewController.swift */; };
+		F6A76C852E589DEC00F55706 /* CreateSiteAuditReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C842E589DEC00F55706 /* CreateSiteAuditReportViewController.swift */; };
+		F6A76C872E5B162900F55706 /* SiteAuditReportListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C862E5B162900F55706 /* SiteAuditReportListViewController.swift */; };
+		F6A76C892E5B8A9D00F55706 /* AnnotateImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A76C882E5B8A9D00F55706 /* AnnotateImageViewController.swift */; };
 		F6B1E1FA2D49276E00ED0D74 /* ClockOffDialogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1E1F92D49276E00ED0D74 /* ClockOffDialogViewController.swift */; };
 		F6B1E2002D4A48FC00ED0D74 /* SignatureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1E1FF2D4A48FC00ED0D74 /* SignatureViewController.swift */; };
 		F6B1E2022D4A49DD00ED0D74 /* SignatureDrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B1E2012D4A49DD00ED0D74 /* SignatureDrawView.swift */; };
@@ -109,6 +120,17 @@
 		F69AAA3C2C8785010082A14E /* Form.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Form.swift; sourceTree = "<group>"; };
 		F69AAA3E2C8785550082A14E /* FormCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormCell.swift; sourceTree = "<group>"; };
 		F69AAA402C8785930082A14E /* ColourScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourScheme.swift; sourceTree = "<group>"; };
+		F6A76C732E57686300F55706 /* CustomerFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerFormViewController.swift; sourceTree = "<group>"; };
+		F6A76C752E57689B00F55706 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		F6A76C782E577F4700F55706 /* CustomerSiteFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSiteFormViewController.swift; sourceTree = "<group>"; };
+		F6A76C7A2E577F5600F55706 /* CustomerSite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSite.swift; sourceTree = "<group>"; };
+		F6A76C7C2E5855D700F55706 /* SubscriberCustomerCustViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriberCustomerCustViewController.swift; sourceTree = "<group>"; };
+		F6A76C7E2E585F8C00F55706 /* SubscriberCustomerSiteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriberCustomerSiteViewController.swift; sourceTree = "<group>"; };
+		F6A76C802E58647300F55706 /* SubscriberCustomerManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriberCustomerManagementViewController.swift; sourceTree = "<group>"; };
+		F6A76C822E586B2200F55706 /* LogoManagementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoManagementViewController.swift; sourceTree = "<group>"; };
+		F6A76C842E589DEC00F55706 /* CreateSiteAuditReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSiteAuditReportViewController.swift; sourceTree = "<group>"; };
+		F6A76C862E5B162900F55706 /* SiteAuditReportListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteAuditReportListViewController.swift; sourceTree = "<group>"; };
+		F6A76C882E5B8A9D00F55706 /* AnnotateImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotateImageViewController.swift; sourceTree = "<group>"; };
 		F6B1E1F92D49276E00ED0D74 /* ClockOffDialogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockOffDialogViewController.swift; sourceTree = "<group>"; };
 		F6B1E1FF2D4A48FC00ED0D74 /* SignatureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureViewController.swift; sourceTree = "<group>"; };
 		F6B1E2012D4A49DD00ED0D74 /* SignatureDrawView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureDrawView.swift; sourceTree = "<group>"; };
@@ -201,12 +223,20 @@
 				F6F03F2D2D76FDFB00DBB266 /* MechanicSignatureViewController.swift */,
 				F6F03F2F2D76FE1800DBB266 /* MechanicReportsListViewController.swift */,
 				F6F03F332D883AA300DBB266 /* CertificatesViewController.swift */,
-				F6C6A5562E4363F600EA2965 /* Machine.swift */,
 				F6C6A5582E43641700EA2965 /* ManageMachineryViewController.swift */,
 				F6C6A55A2E43674300EA2965 /* FilterChipView.swift */,
 				F6C6A55C2E43AB2C00EA2965 /* MachineTypeDataManager.swift */,
 				F6C6A55E2E43ABAB00EA2965 /* QRCodeScannerViewController.swift */,
 				F6C6A5602E43ABC000EA2965 /* NewMachineViewController.swift */,
+				F6A76C802E58647300F55706 /* SubscriberCustomerManagementViewController.swift */,
+				F6A76C7C2E5855D700F55706 /* SubscriberCustomerCustViewController.swift */,
+				F6A76C7E2E585F8C00F55706 /* SubscriberCustomerSiteViewController.swift */,
+				F6A76C732E57686300F55706 /* CustomerFormViewController.swift */,
+				F6A76C782E577F4700F55706 /* CustomerSiteFormViewController.swift */,
+				F6A76C822E586B2200F55706 /* LogoManagementViewController.swift */,
+				F6A76C862E5B162900F55706 /* SiteAuditReportListViewController.swift */,
+				F6A76C842E589DEC00F55706 /* CreateSiteAuditReportViewController.swift */,
+				F6A76C882E5B8A9D00F55706 /* AnnotateImageViewController.swift */,
 			);
 			path = "Main View Controllers";
 			sourceTree = "<group>";
@@ -273,6 +303,7 @@
 				F69AAA3A2C8784D20082A14E /* OperatorVC.swift */,
 				F69AAA282C87844D0082A14E /* SceneDelegate.swift */,
 				F69AAA2A2C87844D0082A14E /* ViewController.swift */,
+				F6A76C762E57689B00F55706 /* Models */,
 				F69AAA2C2C87844D0082A14E /* Main.storyboard */,
 				F69AAA2F2C87844F0082A14E /* Assets.xcassets */,
 				F69AAA312C87844F0082A14E /* LaunchScreen.storyboard */,
@@ -281,6 +312,16 @@
 				F6EE438A2CD4E10E00136953 /* Localizable.strings */,
 			);
 			path = "AM Site Solutions";
+			sourceTree = "<group>";
+		};
+		F6A76C762E57689B00F55706 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F6A76C7A2E577F5600F55706 /* CustomerSite.swift */,
+				F6C6A5562E4363F600EA2965 /* Machine.swift */,
+				F6A76C752E57689B00F55706 /* Customer.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -421,30 +462,38 @@
 			files = (
 				F6C6A5612E43ABC000EA2965 /* NewMachineViewController.swift in Sources */,
 				F6C6A55B2E43674300EA2965 /* FilterChipView.swift in Sources */,
+				F6A76C892E5B8A9D00F55706 /* AnnotateImageViewController.swift in Sources */,
 				F6F03F1E2D75FBD100DBB266 /* CardsListViewController.swift in Sources */,
+				F6A76C812E58647300F55706 /* SubscriberCustomerManagementViewController.swift in Sources */,
 				F63957452C885C0E00069BA7 /* ManageUsersViewController.swift in Sources */,
 				F674F6882DE0942C0035AD5A /* AddExpenseViewController.swift in Sources */,
 				F6B1E2022D4A49DD00ED0D74 /* SignatureDrawView.swift in Sources */,
 				F6F03F302D76FE1800DBB266 /* MechanicReportsListViewController.swift in Sources */,
 				F6B1E1FA2D49276E00ED0D74 /* ClockOffDialogViewController.swift in Sources */,
 				F63957302C87A05D00069BA7 /* CustomButton.swift in Sources */,
+				F6A76C7D2E5855D700F55706 /* SubscriberCustomerCustViewController.swift in Sources */,
+				F6A76C872E5B162900F55706 /* SiteAuditReportListViewController.swift in Sources */,
 				F674F6842DE067870035AD5A /* MyFolderViewController.swift in Sources */,
 				F6B1E2002D4A48FC00ED0D74 /* SignatureViewController.swift in Sources */,
 				F69AAA3B2C8784D20082A14E /* OperatorVC.swift in Sources */,
+				F6A76C772E57689B00F55706 /* Customer.swift in Sources */,
 				F6F03F262D761DF100DBB266 /* AdminUserCardsViewController.swift in Sources */,
 				F69AAA3F2C8785550082A14E /* FormCell.swift in Sources */,
+				F6A76C7B2E577F5600F55706 /* CustomerSite.swift in Sources */,
 				F6C6A5592E43641700EA2965 /* ManageMachineryViewController.swift in Sources */,
 				F674F68E2DE0A96B0035AD5A /* ExpenseListViewController.swift in Sources */,
 				F6C2AE662DFAE586002D60D0 /* TimesheetListViewController.swift in Sources */,
 				F6C6A55D2E43AB2C00EA2965 /* MachineTypeDataManager.swift in Sources */,
 				F6F03F2E2D76FDFB00DBB266 /* MechanicSignatureViewController.swift in Sources */,
 				F674F68C2DE0A4660035AD5A /* ExternalGA1FormsListViewController.swift in Sources */,
+				F6A76C7F2E585F8C00F55706 /* SubscriberCustomerSiteViewController.swift in Sources */,
 				F6C2AE632DFAE1D5002D60D0 /* GA2ListViewController.swift in Sources */,
 				F6C6A5572E4363F600EA2965 /* Machine.swift in Sources */,
 				F6C2AE642DFAE1D5002D60D0 /* GA2Report.swift in Sources */,
 				F6928B762D13236800393F7A /* LanguageManager.swift in Sources */,
 				F63957342C87A0A400069BA7 /* OkNotOkView.swift in Sources */,
 				F63957492C88D82C00069BA7 /* TimesheetEntryCell.swift in Sources */,
+				F6A76C852E589DEC00F55706 /* CreateSiteAuditReportViewController.swift in Sources */,
 				F63957322C87A08400069BA7 /* InputQuestionView.swift in Sources */,
 				F63957282C8791D600069BA7 /* MainTabBarController.swift in Sources */,
 				F6F03F342D883AA300DBB266 /* CertificatesViewController.swift in Sources */,
@@ -455,10 +504,13 @@
 				F69AAA2B2C87844D0082A14E /* ViewController.swift in Sources */,
 				F639573F2C8843B700069BA7 /* CustomTextField.swift in Sources */,
 				F63957362C87A0CB00069BA7 /* CustomRadioButton.swift in Sources */,
+				F6A76C792E577F4700F55706 /* CustomerSiteFormViewController.swift in Sources */,
 				F6F03F202D75FBF300DBB266 /* AddEditCardViewController.swift in Sources */,
 				F639572C2C879DFF00069BA7 /* OperatorViewController.swift in Sources */,
+				F6A76C832E586B2200F55706 /* LogoManagementViewController.swift in Sources */,
 				F6EA4CE42CFEFF94003FA735 /* TranslationManager.swift in Sources */,
 				F6F03F282D761E0700DBB266 /* AdminViewCardDetailsViewController.swift.swift in Sources */,
+				F6A76C742E57686300F55706 /* CustomerFormViewController.swift in Sources */,
 				F639572E2C87A03A00069BA7 /* FormViewController.swift in Sources */,
 				F69AAA3D2C8785010082A14E /* Form.swift in Sources */,
 				F63957432C88465A00069BA7 /* CreateNewUserViewController.swift in Sources */,

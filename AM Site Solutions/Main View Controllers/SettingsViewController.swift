@@ -15,6 +15,7 @@ class SettingsViewController: UIViewController {
     let manageUsersButton = CustomButton(type: .system)
     let manageMachineryButton = CustomButton(type: .system)
     let manageMyCustomersButton = CustomButton(type: .system)
+    let manageMyLogoButton = CustomButton(type: .system)
     let stackView = UIStackView()
 
     override func viewDidLoad() {
@@ -48,6 +49,11 @@ class SettingsViewController: UIViewController {
         manageMyCustomersButton.setTitle(TranslationManager.shared.getTranslation(for: "adminTab.manageMyCustomersButton"), for: .normal)
         manageMyCustomersButton.addTarget(self, action: #selector(manageMyCustomersButtonTapped), for: .touchUpInside)
         stackView.addArrangedSubview(manageMyCustomersButton)
+        
+        manageMyLogoButton.setTitle(TranslationManager.shared.getTranslation(for: "adminTab.manageMyLogoButton"), for: .normal)
+        manageMyLogoButton.addTarget(self, action: #selector(manageMyLogoButtonTapped), for: .touchUpInside)
+        stackView.addArrangedSubview(manageMyLogoButton)
+
 
         view.addSubview(stackView)
         
@@ -77,9 +83,15 @@ class SettingsViewController: UIViewController {
     }
     
     @objc private func manageMyCustomersButtonTapped() {
-//        let manageUsersVC = ManageMyCustomersViewController()
-//        let navController = UINavigationController(rootViewController: manageUsersVC)
-//        present(navController, animated: true, completion: nil)
+        let manageCustomersVC = SubscriberCustomerManagementViewController()
+        let navController = UINavigationController(rootViewController: manageCustomersVC)
+        present(navController, animated: true, completion: nil)
+    }
+    
+    @objc private func manageMyLogoButtonTapped() {
+        let manageLogoVC = LogoManagementViewController()
+        let navController = UINavigationController(rootViewController: manageLogoVC)
+        present(navController, animated: true, completion: nil)
     }
     
     @objc func reloadTranslations() {

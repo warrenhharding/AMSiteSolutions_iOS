@@ -8,6 +8,16 @@
 import UIKit
 
 class CustomTextField: UITextField {
+
+    var shouldCapitalizeWords: Bool = false {
+        didSet {
+            if shouldCapitalizeWords {
+                autocapitalizationType = .words
+            } else {
+                autocapitalizationType = .sentences
+            }
+        }
+    }
     
     private let textPadding = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
     
